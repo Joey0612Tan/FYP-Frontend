@@ -1,0 +1,70 @@
+.ai-response-container {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px;
+    margin: 15px 0;
+    line-height: 1.7;
+    color: #2c3e50;
+    box-shadow: 0 8px 25px rgba(75, 49, 11, 0.08);
+    border: 1px solid #f1e4d5;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-response-container::before {
+    content: '✨ AI Insight';
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #4b310b;
+    color: #fff;
+    font-size: 10px;
+    padding: 4px 12px;
+    border-bottom-left-radius: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.summarizer-style { 
+    border-left-color: #ff69b4 !important; 
+}
+
+.analysis-style { 
+    border-left-color: #4a90e2 !important; 
+}  
+
+.comparison-style { 
+    border-left-color: #f5a623 !important; 
+} 
+
+.ai-response-container b {
+    color: #8e5c12;
+    font-weight: 700;
+}
+
+.ai-response-container ul {
+    margin: 15px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.ai-response-container li {
+    margin-bottom: 12px;
+    padding: 12px 15px;
+    background: #fdfaf7;
+    border-radius: 10px;
+    border-left: 4px solid #ceb9a0;
+    transition: transform 0.2s ease;
+}
+
+.ai-response-container li:hover {
+    transform: scale(1.01);
+    background: #f8f1e9;
+}
+
+@media (max-width: 768px) {
+    .ai-response-container {
+        padding: 15px;
+        font-size: 14px;
+    }
+}
