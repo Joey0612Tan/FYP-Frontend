@@ -258,7 +258,7 @@ document.querySelectorAll('.product-card').forEach(card=>{
         if(e.target.closest('.review-summary') || e.target.closest('.add-compare')) return;
 
         const productId = card.dataset.id;
-        window.location.href = `product_details.php?id=${productId}`;
+        window.location.href = `Product_details.php?id=${productId}`;
     });
 });
 
@@ -315,3 +315,4 @@ function showToast(message) {
 }
 
 </script>
+
