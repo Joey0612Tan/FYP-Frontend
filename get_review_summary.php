@@ -14,7 +14,7 @@ while($row = mysqli_fetch_assoc($result)) {
 if (empty($all_reviews)) {
     echo "No review exists yet.";
 } else {
-    $url = 'http://localhost:5000/summarize_reviews';
+    $url = 'https://fyp-ai-backend.onrender.com/summarize_reviews';
     $data = array('reviews' => $all_reviews);
 
     $options = array(
@@ -30,4 +30,5 @@ if (empty($all_reviews)) {
     $resData = json_decode($response, true);
     echo $resData['summary'];
 }
+
 ?>
