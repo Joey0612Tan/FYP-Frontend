@@ -1,14 +1,19 @@
 <?php
-$servername = "localhost";
-$username = "root"; 
-$password = "root"; 
-$dbname = "fyp"; 
+$host = "mysql-bff3581-fyp-ai-project.d.aivencloud.com";
+$port = "20090"; 
+$user = "avnadmin";
+$pass = "AVNS_XKCyPutVMtlvtPhs03c";
+$db   = "defaultdb";    
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = mysqli_init();
+mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
 
-if ($conn->connect_error) {
-    die("Database connection failed:: " . $conn->connect_error);
+$success = mysqli_real_connect($conn, $host, $user, $pass, $db, $port);
+
+if (!$success) {
+    die("Connect Error: " . mysqli_connect_error());
 }
 
-$conn->set_charset("utf8mb4");
+$db = $conn;
 ?>
+
