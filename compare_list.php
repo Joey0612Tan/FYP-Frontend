@@ -210,7 +210,7 @@ $js_ai_data = json_encode($ai_data_list);
             </div>
 
             <div style="margin-top: 15px;">
-                <a href="product_details.php?id=<?php echo $p['product_id']; ?>" 
+                <a href="Product_details.php?id=<?php echo $p['product_id']; ?>" 
                    style="display: block; padding: 12px; background: #ceb9a0; color: #fff; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 8px;">
                    View Details
                 </a>
@@ -305,4 +305,5 @@ window.addEventListener('click', (e) => {
 </script>
 <?php include('footer.php'); ?>
 </body>
+
 </html>
