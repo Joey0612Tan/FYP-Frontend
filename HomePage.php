@@ -137,56 +137,29 @@ $result = mysqli_query($conn, $sql);
             to { background-position: 200% center; }
         }
 
-        /* 只有当屏幕宽度小于 768px（手机/平板）时，以下代码才会执行 */
         @media (max-width: 768px) {
-            
-            /* 1. 修复 Search Bar 太大的问题 */
-            .search-container, .search-bar-form {
-                display: flex;
-                width: 100% !important;
-                padding: 5px;
-            }
-
-            input[type="text"].search-input {
-                flex: 1; /* 让输入框自动缩放 */
-                font-size: 14px; /* 调小字体，防止撑开高度 */
-                height: 35px;
-            }
-
-            /* 2. 让按钮不再挤在一起 */
-            .nav-buttons, .header-actions {
-                display: flex;
-                gap: 8px; /* 按钮之间的间距 */
-                justify-content: space-around;
-                margin-top: 10px;
-            }
-
-            /* 3. 让 Product Card 变大，且一行显示两个 */
-            /* 假设你的产品容器叫 .product-grid，卡片叫 .product-card */
             .product-grid {
                 display: grid !important;
-                grid-template-columns: 1fr 1fr !important; /* 关键：强制一行两个 */
+                grid-template-columns: 1fr 1fr !important; 
                 gap: 10px !important;
                 padding: 10px;
             }
 
             .product-card {
-                width: 100% !important; /* 让它填满网格列 */
+                width: 100% !important; 
                 margin: 0 !important;
                 padding: 8px;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             }
 
-            /* 调小产品图片的固定高度，适配手机 */
             .product-card img {
                 height: 120px !important; 
                 object-fit: cover;
             }
 
-            /* 调小产品名字字体 */
             .product-name {
                 font-size: 14px !important;
-                height: 40px; /* 固定高度防止排版乱掉 */
+                height: 40px; 
                 overflow: hidden;
             }
         }
@@ -251,3 +224,4 @@ $result = mysqli_query($conn, $sql);
 <?php include('footer.php'); ?>
 </body>
 </html>
+
