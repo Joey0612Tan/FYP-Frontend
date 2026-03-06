@@ -1,6 +1,6 @@
 <?php
 $host = "mysql-bff3581-fyp-ai-project.d.aivencloud.com";
-$port = "20090"; 
+$port = "20090";
 $user = "avnadmin";
 $pass = "AVNS_XKCyPutVMtlvtPhs03c";
 $db   = "defaultdb";    
@@ -16,3 +16,4 @@ if (!$success) {
 
 $db = $conn;
 ?>
+
