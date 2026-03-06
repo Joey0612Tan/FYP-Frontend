@@ -110,52 +110,29 @@
         to { left: 100%; }
     }
 
-    @media (max-width: 768px) {
-    .navbar {
-        display: flex;
-        align-items: center; 
-        justify-content: space-between; 
-        padding: 10px 20px;
-        background: #fff;
-        gap: 15px; 
-    }
-    
-    .logo img {
-        height: 40px; 
-        width: auto;
-    }
-    
-    .search-container {
-        flex-grow: 1; 
-        max-width: 500px; 
-    }
-    
-    .search-container form {
-        display: flex;
-        width: 100%;
-    }
-    
-    .search-container input {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px 0 0 4px; 
-    }
-    
-    .nav-buttons {
-        display: flex;
-        gap: 10px;
-        white-space: nowrap; 
-    }
-    
-    .nav-buttons a {
-        padding: 8px 15px;
-        text-decoration: none;
-        background: #007bff;
-        color: white;
-        border-radius: 4px;
-        font-size: 14px;
-    }
+    @media screen and (max-width: 768px) {
+        .navbar {
+            padding: 8px 10px;
+            gap: 5px;        
+        }
+
+        .navbar-center {
+            display: flex;
+            flex: 1;
+        }
+        .search-input {
+            width: 100%; 
+            font-size: 1rem;
+        }
+           
+        .navbar-right button, .navbar-right a {
+            font-size: 1.1rem; 
+            margin-left: 8px;  
+        }
+        
+        .navbar-left .logo {
+            font-size: 1.8rem; 
+        }
     }
     </style>
 
@@ -242,6 +219,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
