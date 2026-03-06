@@ -110,6 +110,53 @@
         to { left: 100%; }
     }
 
+    @media (max-width: 768px) {
+    .navbar {
+        display: flex;
+        align-items: center; 
+        justify-content: space-between; 
+        padding: 10px 20px;
+        background: #fff;
+        gap: 15px; 
+    }
+    
+    .logo img {
+        height: 40px; 
+        width: auto;
+    }
+    
+    .search-container {
+        flex-grow: 1; 
+        max-width: 500px; 
+    }
+    
+    .search-container form {
+        display: flex;
+        width: 100%;
+    }
+    
+    .search-container input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px; 
+    }
+    
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+        white-space: nowrap; 
+    }
+    
+    .nav-buttons a {
+        padding: 8px 15px;
+        text-decoration: none;
+        background: #007bff;
+        color: white;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    }
     </style>
 
     <div id="ai-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center;">
@@ -195,5 +242,6 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
