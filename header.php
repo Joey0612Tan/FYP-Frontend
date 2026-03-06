@@ -116,9 +116,25 @@
             gap: 5px;        
         }
 
+        .navbar-left .logo {
+            font-size: 2.0rem;
+            line-height: 64px;
+            font-weight: bold;
+            color: #f3eeeeff;
+            text-decoration: none;
+        }
+
         .navbar-center {
             display: flex;
             flex: 1;
+        }
+
+        .search-input {
+            width: 400px;
+            padding: 11px 18px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 1.3rem;
         }
         .search-input {
             width: 100%; 
@@ -219,6 +235,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
