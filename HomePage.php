@@ -24,6 +24,7 @@ $result = mysqli_query($conn, $sql);
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .banner {
             width: 100%;
@@ -224,4 +225,5 @@ $result = mysqli_query($conn, $sql);
 <?php include('footer.php'); ?>
 </body>
 </html>
+
 
