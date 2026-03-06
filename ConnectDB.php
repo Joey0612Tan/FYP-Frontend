@@ -11,11 +11,12 @@ mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
 $success = mysqli_real_connect($conn, $host, $user, $pass, $db, $port);
 
 if (!$success) {
-    die("Connect Error: " . mysqli_connect_error());
+  die("Connect Error: " . mysqli_connect_error());
 }
 
 $db = $conn;
 ?>
+
 
 
 
