@@ -1,28 +1,18 @@
 <?php
-$host = "p:mysql-bff3581-fyp-ai-project.d.aivencloud.com";
-$port = 20090; 
+$host = "mysql-bff3581-fyp-ai-project.d.aivencloud.com";
+$port = "20090"; 
 $user = "avnadmin";
 $pass = "AVNS_XKCyPutVMtlvtPhs03c";
-$db   = "defaultdb";    
+$db   = "defaultdb";    
 
 $conn = mysqli_init();
-mysqli_options($conn, MYSQLI_OPT_CONNECT_TIMEOUT, 10);
+mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
 
-$success = mysqli_real_connect(
-    $conn, 
-    $host, 
-    $user, 
-    $pass, 
-    $db, 
-    $port, 
-    NULL, 
-    MYSQLI_CLIENT_SSL 
-);
+$success = mysqli_real_connect($conn, $host, $user, $pass, $db, $port);
 
 if (!$success) {
-    die("Connect Error: " . mysqli_connect_error());
+    die("Connect Error: " . mysqli_connect_error());
 }
 
-mysqli_set_charset($conn, "utf8mb4");
 $db = $conn;
 ?>
