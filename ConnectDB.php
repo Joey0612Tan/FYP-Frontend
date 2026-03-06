@@ -3,7 +3,7 @@ $host = "mysql-bff3581-fyp-ai-project.d.aivencloud.com";
 $port = "20090";
 $user = "avnadmin";
 $pass = "AVNS_XKCyPutVMtlvtPhs03c";
-$db   = "defaultdb";  
+$db   = "defaultdb";
 
 $conn = mysqli_init();
 mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
@@ -16,5 +16,6 @@ if (!$success) {
 
 $db = $conn;
 ?>
+
 
 
