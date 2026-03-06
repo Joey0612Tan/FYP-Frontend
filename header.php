@@ -118,16 +118,11 @@
         }
 
         .navbar-left .logo {
-            font-size: 2.0rem;
+            font-size: 1.6rem;
             line-height: 64px;
             font-weight: bold;
             color: #f3eeeeff;
             text-decoration: none;
-        }
-
-        .navbar-center {
-            display: flex;
-            flex: 1;
         }
 
         .search-input {
@@ -146,11 +141,7 @@
             font-size: 1.1rem; 
             margin-left: 8px;  
         }
-        
-        .navbar-left .logo {
-            font-size: 1.8rem; 
-        }
-    }
+     }
     </style>
 
     <div id="ai-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center;">
@@ -236,6 +227,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
