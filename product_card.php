@@ -224,10 +224,10 @@
         @media (max-width: 768px) {
             .product-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
             gap: 30px;
             padding: 20px;
-            margin-left: 45px;
+            margin-left: 15px;
             max-width: 600px;
         }
 
@@ -454,5 +454,6 @@ function showToast(message) {
 }
 
 </script>
+
 
 
