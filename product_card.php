@@ -225,6 +225,7 @@
             display: grid;
             gap: 10px;
             padding: 10px;
+            margin-left: 2px;
             grid-template-columns: 1fr 1fr;
         }
 
@@ -234,10 +235,9 @@
             text-align: center;
             background: #fff;
             border-radius: 8px;
-            display: left;
+            display: center;
             align-items: center;
             flex-direction: column;
-            justify-content: space-between;
             width:100%;
             height: 300px; 
             cursor: pointer; 
@@ -451,6 +451,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
