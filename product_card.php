@@ -225,9 +225,9 @@
             .product-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-            gap: 30px;
-            padding: 20px;
-            margin-left: 15px;
+            gap: 10px;
+            padding: 10px;
+            margin-left: 5px;
             max-width: 600px;
         }
 
@@ -255,7 +255,7 @@
 
         .product-card img {
             width: 200px;       
-            height: 20px;    
+            height: 200px;    
             object-fit: cover;
             border-radius: 2.8px;
             margin-bottom: 1px;
@@ -454,6 +454,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
