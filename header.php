@@ -148,10 +148,8 @@
         }
     
         .icon-btn{
-            font-size:14px;
-            width:32px;
-            height:32px;
-            padding:4px;
+            font-size:1.6px;
+            padding:1.8px;
         }
     
         .navbar-right a, .navbar-right button {
@@ -252,6 +250,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
