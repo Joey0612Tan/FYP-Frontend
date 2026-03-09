@@ -122,11 +122,10 @@
     }
 
     @media screen and (max-width: 768px) {
-    /* 1. 强制导航栏容器不换行，且不超出屏幕 */
     .navbar {
         display: flex !important;
         flex-direction: row !important;
-        flex-wrap: nowrap !important; /* 禁止换行 */
+        flex-wrap: nowrap !important; 
         justify-content: space-between !important;
         padding: 5px 8px !important;
         width: 100% !important;
@@ -134,41 +133,43 @@
         overflow: hidden !important;
     }
 
-    /* 2. 中间容器必须能够根据剩余空间缩放 */
+    .logo {
+        font-size: 1.1rem !important; 
+        font-weight: bold;
+        white-space: nowrap;
+        flex-shrink: 0; 
+    }
+        
     .navbar-center {
-        flex: 1 !important; /* 关键：占据剩下所有的空间 */
-        min-width: 0 !important; /* 允许内部元素缩得比内容小 */
+        flex: 1 !important;
+        min-width: 0 !important; 
         margin: 0 5px !important;
     }
 
-    /* 3. 搜索表单强制横向铺满 */
     #searchForm {
         display: flex !important;
         width: 100% !important;
         max-width: 100% !important;
         gap: 3px !important;
-        position: static !important; /* 撤销所有的定位 */
+        position: static !important; 
     }
 
-    /* 4. 搜索输入框：填满中间剩余空间 */
     .search-input {
-        flex: 1 !important; /* 强制它撑开 */
+        flex: 1 !important;
         width: 100% !important;
-        min-width: 30px !important; /* 哪怕只有 30px 也不能消失 */
+        min-width: 30px !important; 
         padding: 6px 10px !important;
         font-size: 14px !important;
         border-radius: 20px !important;
     }
 
-    /* 5. 按钮：保持原样但不许挤压输入框 */
     .search-btn {
-        flex-shrink: 0 !important; /* 关键：禁止按钮被缩小 */
+        flex-shrink: 0 !important; 
         padding: 4px 8px !important;
         font-size: 14px !important;
         width: auto !important;
     }
 
-    /* 6. 右侧图标：缩小间距 */
     .navbar-right {
         display: flex !important;
         gap: 5px !important;
@@ -176,7 +177,7 @@
     }
 
     .navbar-right .hide-text {
-        display: none !important; /* 手机端绝对不能要文字 */
+        display: none !important;
     }
 }
 
@@ -309,6 +310,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
