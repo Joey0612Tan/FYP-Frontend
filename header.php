@@ -128,6 +128,7 @@
         flex-wrap: nowrap !important; 
         justify-content: space-between !important;
         padding: 5px 8px !important;
+        gap: 5px !important;
         width: 100% !important;
         box-sizing: border-box !important;
         overflow: hidden !important;
@@ -171,14 +172,17 @@
     }
 
     .navbar-right {
-        display: flex !important;
-        gap: 5px !important;
-        font-size: 14px !important;
-        flex-shrink: 0 !important;
+        gap: 3px !important; 
     }
 
-    .navbar-right .hide-text {
-        display: none !important;
+    .cart-btn, .compare-btn, .profile-btn {
+        padding: 4px !important;
+        font-size: 1rem !important;
+    }
+
+    .badge {
+        font-size: 0.6rem !important; 
+        padding: 1px 4px !important;
     }
 }
 
@@ -311,6 +315,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
