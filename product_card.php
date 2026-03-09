@@ -229,9 +229,9 @@
         .product-container {
             display: grid !important;
             grid-template-columns: 1fr 1fr !important; 
-            gap: 15px !important; /* 卡片之间的缝隙 */
+            gap: 15px !important; 
             padding: 10px !important;
-            margin: 0 !important; /* 关键：去掉 margin-left */
+            margin: 0 !important; 
             width: 100% !important;
             max-width: 100vw !important;
             box-sizing: border-box !important;
@@ -239,8 +239,8 @@
     
         .product-card {
             width: 100% !important;
-            height: auto !important; /* 手机端内容多，高度 auto 最安全 */
-            min-height: 380px; 
+            height: auto !important; 
+            min-height: 300px; 
             margin: 0 !important;
             padding: 8px !important;
             display: flex !important;
@@ -253,12 +253,11 @@
         .product-card img {
             width: 100% !important;
             height: auto !important;
-            aspect-ratio: 1/1; /* 保持正方形比例 */
+            aspect-ratio: 1/1;
             object-fit: contain !important;
             margin-bottom: 5px;
         }
     
-        /* 5. 文字缩小：防止长标题撑爆卡片 */
         .product-card h3 {
             font-size: 0.9rem !important;
             min-height: 2.2rem !important;
@@ -274,7 +273,7 @@
         }
     
         .product-actions {
-            flex-direction: column !important; /* 按钮一上一下 */
+            flex-direction: column !important; 
             gap: 6px !important;
             width: 100% !important;
         }
@@ -517,6 +516,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
