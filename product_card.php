@@ -221,25 +221,18 @@
         }
 
         @media (max-width: 768px) {
-              .product-container {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;/* 平分两列 */
-        gap: 10px !important;
-        margin: 0 !important;
-        padding: 10px !important;
-        width: 100% !important;
-        box-sizing: border-box;
-    }
-
-    .product-card {
-        width: 100% !important;
-        height: auto !important; /* 放弃固定高度，让内容自己撑开 */
-        margin: 0 !important;
-        border: 1px solid #eee !important;
-        box-shadow: none !important;
-    }
-
-
+        .product-container {
+            gap: 18px !important; 
+            padding: 12px !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+    
+        .product-card {
+            border: 1px solid #eee !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+            background: #fff;
+            padding: 8px !important; 
+        }
             /*
             .product-container {
             display: grid;
@@ -471,6 +464,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
