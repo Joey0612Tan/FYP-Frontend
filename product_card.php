@@ -223,7 +223,7 @@
         @media (max-width: 768px) {
               .product-container {
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important; /* 平分两列 */
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;/* 平分两列 */
         gap: 10px !important;
         margin: 0 !important;
         padding: 10px !important;
@@ -471,6 +471,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
