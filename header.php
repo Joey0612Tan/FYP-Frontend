@@ -118,28 +118,31 @@
         }
 
         .navbar-left .logo {
-            font-size: 1.6rem;
-            line-height: 64px;
-            font-weight: bold;
-            color: #f3eeeeff;
-            text-decoration: none;
+            font-size: 1.5rem !important; 
         }
-
+    
+        .navbar-center {
+            flex: 1;
+            margin: 0 10px; 
+        }
+        
         .search-input {
-            width: 400px;
-            padding: 11px 18px;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            font-size: 1.3rem;
+            width: 100% !important; 
+            padding: 6px 12px !important;
+            font-size: 1rem !important;
         }
-        .search-input {
-            width: 100%; 
-            font-size: 1rem;
+    
+        .navbar-right a, .navbar-right button {
+            font-size: 0 !important;
+            margin-left: 8px !important; 
         }
-           
-        .navbar-right button, .navbar-right a {
-            font-size: 1.1rem; 
-            margin-left: 8px;  
+    
+        .navbar-right a::before, .navbar-right button::before {
+            font-size: 1.4rem !important;
+        }
+        
+        .navbar-right .emoji-icon {
+            font-size: 1.4rem !important;
         }
      }
     </style>
@@ -227,6 +230,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
