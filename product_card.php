@@ -221,54 +221,71 @@
         }
 
         @media (max-width: 768px) {
+        .logo {
+            font-size: 1.1rem !important;
+            white-space: nowrap;
+        }
+
         .product-container {
-        display: grid !important;
-        /* 强制两列，每列平分 50% 空间，缝隙拉开到 15px */
-        grid-template-columns: 1fr 1fr !important; 
-        column-gap: 15px !important; /* 左右间距 */
-        row-gap: 20px !important;    /* 上下间距 */
-        padding: 10px !important;
-        width: 100% !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
-    }
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important; 
+            gap: 15px !important; /* 卡片之间的缝隙 */
+            padding: 10px !important;
+            margin: 0 !important; /* 关键：去掉 margin-left */
+            width: 100% !important;
+            max-width: 100vw !important;
+            box-sizing: border-box !important;
+        }
+    
+        .product-card {
+            width: 100% !important;
+            height: auto !important; /* 手机端内容多，高度 auto 最安全 */
+            min-height: 380px; 
+            margin: 0 !important;
+            padding: 8px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            border: 1px solid #eee !important;
+            box-sizing: border-box !important;
+            overflow: hidden;
+        }
+    
+        .product-card img {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 1/1; /* 保持正方形比例 */
+            object-fit: contain !important;
+            margin-bottom: 5px;
+        }
+    
+        /* 5. 文字缩小：防止长标题撑爆卡片 */
+        .product-card h3 {
+            font-size: 0.9rem !important;
+            min-height: 2.2rem !important;
+            margin: 5px 0 !important;
+        }
+    
+        .product-card p, .seller-rating {
+            font-size: 0.8rem !important;
+        }
+    
+        .product-card .price {
+            font-size: 1.1rem !important;
+        }
+    
+        .product-actions {
+            flex-direction: column !important; /* 按钮一上一下 */
+            gap: 6px !important;
+            width: 100% !important;
+        }
+    
+        .product-actions button {
+            width: 100% !important;
+            font-size: 0.7rem !important;
+            padding: 6px 0 !important;
+            border-radius: 15px !important;
+        }
 
-    /* 3. 强制卡片宽度正常 */
-    .product-card {
-        width: 100% !important; /* 填满那一列的 50% 空间 */
-        min-width: 0 !important; /* 允许它正常缩放，不被内容撑开 */
-        height: auto !important; /* 高度自适应内容，防止重叠 */
-        padding: 10px !important;
-        margin: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        border: 1px solid #eee !important;
-        border-radius: 8px !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 4. 图片自适应：不再写死 150px 宽度 */
-    .product-card img {
-        width: 100% !important;
-        height: auto !important;
-        aspect-ratio: 1/1; /* 保持正方形 */
-        object-fit: contain;
-    }
-
-    /* 5. 按钮垂直排列：防止按钮文字太长挤爆卡片 */
-    .product-actions {
-        display: flex !important;
-        flex-direction: column !important; /* 按钮上下排，最稳妥 */
-        gap: 5px !important;
-        width: 100% !important;
-    }
-
-    .product-actions button {
-        width: 100% !important;
-        font-size: 0.75rem !important;
-        padding: 5px 0 !important;
-    }
-        
             /*
             .product-container {
             display: grid;
@@ -500,6 +517,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
