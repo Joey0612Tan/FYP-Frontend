@@ -122,54 +122,63 @@
     }
 
     @media screen and (max-width: 768px) {
-        .navbar {
-        padding: 5px 10px !important;
+    /* 1. 强制导航栏容器不换行，且不超出屏幕 */
+    .navbar {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important; /* 禁止换行 */
+        justify-content: space-between !important;
+        padding: 5px 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
     }
 
-    .logo {
-        font-size: 14px !important;
-    }
-
+    /* 2. 中间容器必须能够根据剩余空间缩放 */
     .navbar-center {
-        flex: 1 !important;
-        margin: 0 5px !important; /* 彻底删掉那个几百 px 的 margin-left */
-        width: auto !important;
-        min-width: 0 !important; /* 允许它缩小 */
+        flex: 1 !important; /* 关键：占据剩下所有的空间 */
+        min-width: 0 !important; /* 允许内部元素缩得比内容小 */
+        margin: 0 5px !important;
     }
 
-    /* 2. 搜索框归位：从固定宽度改为 100% */
-    .search-input {
-        width: 100% !important; /* 这是关键！ */
-        max-width: none !important;
-        box-sizing: border-box !important; /* 保证 padding 不撑大它 */
-        font-size: 14px !important;
-        height: 35px !important;
-    }
-
-    /* 3. 搜索表单强制不换行 */
+    /* 3. 搜索表单强制横向铺满 */
     #searchForm {
         display: flex !important;
         width: 100% !important;
-        gap: 4px !important;
-        position: relative !important;
-        left: 0 !important; /* 防止它漂移 */
+        max-width: 100% !important;
+        gap: 3px !important;
+        position: static !important; /* 撤销所有的定位 */
     }
 
-    /* 4. 按钮稍微调小，腾出空间 */
+    /* 4. 搜索输入框：填满中间剩余空间 */
+    .search-input {
+        flex: 1 !important; /* 强制它撑开 */
+        width: 100% !important;
+        min-width: 30px !important; /* 哪怕只有 30px 也不能消失 */
+        padding: 6px 10px !important;
+        font-size: 14px !important;
+        border-radius: 20px !important;
+    }
+
+    /* 5. 按钮：保持原样但不许挤压输入框 */
     .search-btn {
-        padding: 0 8px !important;
-        flex-shrink: 0 !important; /* 防止搜索按钮被挤扁 */
-    }
-        
-    .hide-text {
-        display: none !important; /* 手机端必须隐藏文字 */
+        flex-shrink: 0 !important; /* 关键：禁止按钮被缩小 */
+        padding: 4px 8px !important;
+        font-size: 14px !important;
+        width: auto !important;
     }
 
+    /* 6. 右侧图标：缩小间距 */
     .navbar-right {
-        display: flex;
-        gap: 8px;
-        align-items: center;
+        display: flex !important;
+        gap: 5px !important;
+        flex-shrink: 0 !important;
     }
+
+    .navbar-right .hide-text {
+        display: none !important; /* 手机端绝对不能要文字 */
+    }
+}
 
         /*
         .navbar {
@@ -300,6 +309,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
