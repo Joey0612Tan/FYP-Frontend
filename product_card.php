@@ -221,70 +221,59 @@
         }
 
         @media (max-width: 768px) {
-        .logo {
-            font-size: 1.1rem !important;
-            white-space: nowrap;
-        }
-
         .product-container {
-            display: grid !important;
-            grid-template-columns: 1fr 1fr !important; 
-            gap: 15px !important; 
-            padding: 10px !important;
-            margin: 0 !important; 
-            width: 100% !important;
-            max-width: 100vw !important;
-            box-sizing: border-box !important;
-        }
-    
-        .product-card {
-            width: 100% !important;
-            height: auto !important; 
-            min-height: 300px; 
-            margin: 0 !important;
-            padding: 8px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            border: 1px solid #eee !important;
-            box-sizing: border-box !important;
-            overflow: hidden;
-        }
-    
-        .product-card img {
-            width: 100% !important;
-            height: auto !important;
-            aspect-ratio: 1/1;
-            object-fit: contain !important;
-            margin-bottom: 5px;
-        }
-    
-        .product-card h3 {
-            font-size: 0.9rem !important;
-            min-height: 2.2rem !important;
-            margin: 5px 0 !important;
-        }
-    
-        .product-card p, .seller-rating {
-            font-size: 0.8rem !important;
-        }
-    
-        .product-card .price {
-            font-size: 1.1rem !important;
-        }
-    
-        .product-actions {
-            flex-direction: column !important; 
-            gap: 6px !important;
-            width: 100% !important;
-        }
-    
-        .product-actions button {
-            width: 100% !important;
-            font-size: 0.7rem !important;
-            padding: 6px 0 !important;
-            border-radius: 15px !important;
-        }
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important; /* 手机端不需要 50px 的 gap，那太浪费空间了 */
+        padding: 8px !important; /* 减小内边距，给卡片留出宽度 */
+        margin: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
 
+    /* 3. 卡片身材矫正：让它重新变宽 */
+    .product-card {
+        width: 100% !important;
+        height: auto !important; /* 关键！去掉 550px 的固定高度 */
+        min-height: 320px !important; /* 设定一个合理的最小高度即可 */
+        padding: 10px !important;
+        margin: 0 !important;
+        box-sizing: border-box;
+    }
+
+    /* 4. 图片：不要缩成一点点 */
+    .product-card img {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 150px !important; /* 手机端图片不要太高 */
+        object-fit: contain;
+    }
+
+    /* 5. 文字和按钮：防止文字把卡片撑爆 */
+    .product-card h3 {
+        font-size: 0.9rem !important; /* 标题变小 */
+        min-height: auto !important; 
+        line-height: 1.2;
+    }
+
+    .product-card p, .seller-rating, .product-card .price {
+        font-size: 0.85rem !important;
+        margin: 2px 0 !important;
+    }
+
+    /* 按钮垂直排列是拯救宽度的唯一办法 */
+    .product-actions {
+        flex-direction: column !important;
+        gap: 4px !important;
+        margin-top: 8px !important;
+    }
+
+    .product-actions button {
+        width: 100% !important;
+        font-size: 0.7rem !important; /* 字体一定要小，不然按钮会很厚 */
+        padding: 6px 0 !important;
+        white-space: nowrap; /* 强制不换行，哪怕溢出一点点也比细长条好看 */
+    }
             /*
             .product-container {
             display: grid;
@@ -516,6 +505,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
