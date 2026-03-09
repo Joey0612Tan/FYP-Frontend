@@ -83,7 +83,6 @@
         font-weight: 600;
         }
 
-
         .product-card .price {
         font-size: 2rem;
         font-weight: bold;
@@ -224,10 +223,10 @@
         @media (max-width: 768px) {
             .product-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
             gap: 10px;
             padding: 10px;
             margin-left: 5px;
+            grid-template-columns: 1fr 1fr;
         }
 
         .product-card {
@@ -253,8 +252,8 @@
         }
 
         .product-card img {
-            width: 180px;       
-            height: 180px;    
+            width: 150px;       
+            height: 150px;    
             object-fit: cover;
             border-radius: 2.0px;
             margin-bottom: 0.8px;
@@ -453,6 +452,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
