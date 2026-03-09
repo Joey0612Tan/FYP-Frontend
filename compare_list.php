@@ -43,6 +43,7 @@ $js_ai_data = json_encode($ai_data_list);
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .compare-container { 
             max-width: 95%; 
@@ -183,6 +184,14 @@ $js_ai_data = json_encode($ai_data_list);
         }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 50px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 50px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        
+        @media (max-width: 768px) {
+        .compare-container { 
+            max-width: 95%; 
+            margin: 35px auto; 
+            padding: 0 20px; 
+        }
+    }
     </style>
 </head>
 <body>
@@ -307,3 +316,4 @@ window.addEventListener('click', (e) => {
 </body>
 
 </html>
+
