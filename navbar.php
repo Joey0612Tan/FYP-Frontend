@@ -66,15 +66,15 @@ if ($row = $result->fetch_assoc()) {
 
     <div class="navbar-right">
     <a href="cart.php" class="cart-btn">
-        🛒 Cart <span class="badge" id="cart-count"><?php echo $cart_count ?? 0; ?></span>
+        <span class="emoji">🛒</span> <span class="hide-text">Cart</span>
+        <span class="badge"><?php echo $cart_count ?? 0; ?></span>
     </a>
-
     <a href="compare_list.php" class="compare-btn">
-        ⚖️ Compare <span class="badge" id="compare-count"><?php echo $compare_count ?? 0; ?></span>
+        <span class="emoji">⚖️</span> <span class="hide-text">Compare</span>
+        <span class="badge"><?php echo $compare_count ?? 0; ?></span>
     </a>
-
     <button class="profile-btn">
-        👤 Account
+        <span class="emoji">👤</span> <span class="hide-text">Account</span>
     </button>
 </div>
 </nav>
@@ -159,6 +159,7 @@ document.addEventListener('click', function(e) {
     }
 });
 </script>
+
 
 
 
