@@ -225,8 +225,7 @@
             display: grid;
             gap: 10px;
             padding: 10px;
-            margin-left: 5px;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 2fr 1fr;
         }
 
         .product-card {
@@ -239,8 +238,8 @@
             align-items: center;
             flex-direction: column;
             justify-content: space-between;
-            width: 150px;
-            height: 350px; 
+            width:100%;
+            height: 330px; 
             cursor: pointer; 
             transition: border 0.3s, transform 0.2s;
             position: relative;
@@ -452,6 +451,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
