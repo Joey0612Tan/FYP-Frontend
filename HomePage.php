@@ -140,44 +140,113 @@ $result = mysqli_query($conn, $sql);
 
         @media (max-width: 768px) {
             .banner {
-                width: 100%;
-                height: auto;
-                min-height: 200px; 
-                object-fit: cover; 
-            }
-            
-            .product-grid {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important; 
-                gap: 10px !important;
-                padding: 10px;
-            }
-
-            .product-container {
-                display: grid;
-                grid-template-columns: 1fr 1fr; 
-                gap: 10px;
-                padding: 10px;
-            }
-
-            .product-card {
-                width: 100% !important; 
-                margin: 0 !important;
-                padding: 8px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            }
-
-            .product-card img {
-                height: 120px !important; 
-                object-fit: cover;
-            }
-
-            .product-name {
-                font-size: 14px !important;
-                height: 40px; 
-                overflow: hidden;
-            }
+            width: 100%;
+            height: 300; 
+            background: url('https://i.pinimg.com/1200x/86/d5/b9/86d5b9a9c5340a020169f8129f6673af.jpg')
+                        no-repeat center 75% / cover;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
+
+            .banner-text {
+                padding-left: 30px;
+                color: #463a2d;
+            }
+    
+            .banner h1 {
+                font-size: 2.0rem;
+                margin-bottom: 10px;
+            }
+    
+            .banner p {
+                font-size: 1.0rem;
+            }
+    
+            .categories-section {
+            background: #f8f9fa; 
+            padding: 10px 0;  
+            }
+    
+            .section-title {
+            text-align: center;  
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #2d3436;
+            margin-bottom: 40px;
+            letter-spacing: 0.35px;
+            position: relative;
+            }
+    
+            .section-title::after {
+            content: '';
+            display: block;
+            width: 35px;
+            height: 1px;
+            background: #875812;
+            margin: 6px auto;
+            }
+    
+            .categories-grid {
+            display: flex;
+            justify-content: center; 
+            gap: 15px;              
+            flex-wrap: wrap;
+            }
+    
+            .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #2d3436;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+    
+            .category-img-wrapper {
+            width: 60px;           
+            height: 60px;
+            background: #ffffff;    
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            border: 1px solid #eee;
+            }
+    
+            .category-img-wrapper img {
+            width: 35px;
+            height: 35px;
+            transition: transform 0.3s;
+            }
+    
+            .category-item:hover .category-img-wrapper {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            }
+    
+            .category-item:hover .category-img-wrapper img {
+            transform: scale(1.1);
+            }
+    
+            .category-item span {
+            font-size: 0.65rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            }
+    
+            .ai-progress-bar {
+                height: 2px;
+                width: 100%;
+                background: linear-gradient(to right, #ceb9a0 0%, #4b310b 50%, #ceb9a0 100%);
+                background-size: 200% auto;
+                animation: shine 1.5s linear infinite;
+                border-radius: 2px;
+                margin-top: 5px;
+            }
+    
     </style>
 </head>
 
@@ -239,6 +308,7 @@ $result = mysqli_query($conn, $sql);
 <?php include('footer.php'); ?>
 </body>
 </html>
+
 
 
 
