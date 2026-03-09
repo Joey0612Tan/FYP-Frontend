@@ -139,10 +139,24 @@ $result = mysqli_query($conn, $sql);
         }
 
         @media (max-width: 768px) {
+            .banner {
+                width: 100%;
+                height: auto;
+                min-height: 200px; 
+                object-fit: cover; 
+            }
+            
             .product-grid {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important; 
                 gap: 10px !important;
+                padding: 10px;
+            }
+
+            .product-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr; 
+                gap: 10px;
                 padding: 10px;
             }
 
@@ -225,5 +239,6 @@ $result = mysqli_query($conn, $sql);
 <?php include('footer.php'); ?>
 </body>
 </html>
+
 
 
