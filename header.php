@@ -123,6 +123,50 @@
 
     @media screen and (max-width: 768px) {
         .navbar {
+        padding: 5px 10px !important;
+    }
+
+    .logo {
+        font-size: 14px !important;
+    }
+
+    .hide-text {
+        display: none !important; /* 手机端必须隐藏文字 */
+    }
+
+    .navbar-right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    /* 修复产品卡片重叠 */
+    .product-container {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important; /* 平分两列 */
+        gap: 10px !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .product-card {
+        width: 100% !important;
+        height: auto !important; /* 放弃固定高度，让内容自己撑开 */
+        margin: 0 !important;
+        border: 1px solid #eee !important;
+        box-shadow: none !important;
+    }
+
+    .product-card img {
+        width: 100% !important;
+        height: 120px !important; /* 缩小图片高度 */
+        object-fit: contain;
+    }
+}
+        /*
+        .navbar {
             padding: 8px 10px;
             gap: 5px;        
         }
@@ -164,7 +208,7 @@
         .navbar-right .emoji-icon {
             font-size: 1.4rem !important;
         }
-     }
+     }*/
     </style>
 
     <div id="ai-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center;">
@@ -250,6 +294,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
