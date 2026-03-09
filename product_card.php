@@ -228,7 +228,6 @@
             gap: 10px;
             padding: 10px;
             margin-left: 5px;
-            max-width: 600px;
         }
 
         .product-card {
@@ -242,7 +241,7 @@
             flex-direction: column;
             justify-content: space-between;
             width: 100%;
-            height: 300px; 
+            height: 380px; 
             cursor: pointer; 
             transition: border 0.3s, transform 0.2s;
             position: relative;
@@ -454,6 +453,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
