@@ -173,6 +173,7 @@
     .navbar-right {
         display: flex !important;
         gap: 5px !important;
+        font-size: 14px !important;
         flex-shrink: 0 !important;
     }
 
@@ -310,6 +311,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
