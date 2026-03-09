@@ -173,14 +173,18 @@
 
     .navbar-right {
         display: flex !important;
-        gap: 2px !important; /* 几乎没有间距 */
+        gap: 2px !important; 
         flex-shrink: 0 !important;
     }
 
     .navbar-right a, .navbar-right button {
-        padding: 2px 4px !important; /* 极小的内边距 */
-        font-size: 0.9rem !important; /* 缩小图标 */
+        padding: 2px 4px !important;
+        font-size: 0.9rem !important; 
         min-width: auto !important;
+    }
+
+    .hide-text {
+        display: none !important;
     }
 
     .cart-btn, .compare-btn, .profile-btn {
@@ -323,6 +327,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
