@@ -224,27 +224,29 @@
         .product-container {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important; /* 平分两列 */
-        gap: 12px !important;     /* 适中的间距 */
+        gap: 12px !important;     /* 适中的卡片间距 */
         padding: 10px !important; /* 四周留白一致 */
-        margin: 0 auto !important; /* 强制水平居中 */
-        width: 100% !important;   /* 撑满屏幕 */
+        
+        /* 核心修复：强制取消所有偏移并居中 */
+        margin-left: 0 !important; 
+        margin-right: 0 !important;
+        margin: 10px auto !important; 
+        
+        width: 100% !important;
         max-width: 100vw !important;
-        margin-left: 0 !important; /* 覆盖掉电脑端的 90px */
         box-sizing: border-box !important;
     }
 
-    /* 3. 卡片身材矫正：不再是火腿肠 */
+    /* --- 2. 矫正卡片身材（不再细长） --- */
     .product-card {
         width: 100% !important;
-        height: auto !important;    /* 核心：去掉固定高度 */
-        min-height: 340px !important; 
+        height: auto !important;    /* 撤销电脑端 550px 的高度 */
+        min-height: 350px !important; 
         padding: 8px !important;
         margin: 0 !important;
-        border-radius: 10px !important;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+        border: 1px solid #eee !important;
         box-sizing: border-box !important;
     }
-
     /* 图片适配 */
     .product-card img {
         width: 100% !important;
@@ -516,6 +518,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
