@@ -223,30 +223,48 @@
         @media (max-width: 768px) {
         .product-container {
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important; /* 手机端不需要 50px 的 gap，那太浪费空间了 */
-        padding: 8px !important; /* 减小内边距，给卡片留出宽度 */
-        margin: 0 !important;
-        width: 100% !important;
-        box-sizing: border-box;
+        grid-template-columns: 1fr 1fr !important; /* 平分两列 */
+        gap: 12px !important;     /* 适中的间距 */
+        padding: 10px !important; /* 四周留白一致 */
+        margin: 0 auto !important; /* 强制水平居中 */
+        width: 100% !important;   /* 撑满屏幕 */
+        max-width: 100vw !important;
+        margin-left: 0 !important; /* 覆盖掉电脑端的 90px */
+        box-sizing: border-box !important;
     }
 
-    /* 3. 卡片身材矫正：让它重新变宽 */
+    /* 3. 卡片身材矫正：不再是火腿肠 */
     .product-card {
         width: 100% !important;
-        height: auto !important; /* 关键！去掉 550px 的固定高度 */
-        min-height: 320px !important; /* 设定一个合理的最小高度即可 */
-        padding: 10px !important;
+        height: auto !important;    /* 核心：去掉固定高度 */
+        min-height: 340px !important; 
+        padding: 8px !important;
         margin: 0 !important;
-        box-sizing: border-box;
+        border-radius: 10px !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+        box-sizing: border-box !important;
     }
 
-    /* 4. 图片：不要缩成一点点 */
+    /* 图片适配 */
     .product-card img {
         width: 100% !important;
         height: auto !important;
-        max-height: 150px !important; /* 手机端图片不要太高 */
-        object-fit: contain;
+        max-height: 140px !important;
+        object-fit: contain !important;
+    }
+
+    /* 4. 按钮优化：垂直排列防止撑宽 */
+    .product-actions {
+        flex-direction: column !important;
+        gap: 4px !important;
+        width: 100% !important;
+    }
+
+    .product-actions button {
+        width: 100% !important;
+        font-size: 0.7rem !important;
+        padding: 5px 0 !important;
+        border-radius: 15px !important;
     }
 
     /* 5. 文字和按钮：防止文字把卡片撑爆 */
@@ -259,13 +277,6 @@
     .product-card p, .seller-rating, .product-card .price {
         font-size: 0.85rem !important;
         margin: 2px 0 !important;
-    }
-
-    /* 按钮垂直排列是拯救宽度的唯一办法 */
-    .product-actions {
-        flex-direction: column !important;
-        gap: 4px !important;
-        margin-top: 8px !important;
     }
 
     .product-actions button {
@@ -505,6 +516,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
