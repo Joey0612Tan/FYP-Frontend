@@ -240,8 +240,8 @@
             align-items: center;
             flex-direction: column;
             justify-content: space-between;
-            width: 100%;
-            height: 380px; 
+            width: 150px;
+            height: 350px; 
             cursor: pointer; 
             transition: border 0.3s, transform 0.2s;
             position: relative;
@@ -253,21 +253,21 @@
         }
 
         .product-card img {
-            width: 200px;       
-            height: 200px;    
+            width: 180px;       
+            height: 180px;    
             object-fit: cover;
-            border-radius: 2.8px;
-            margin-bottom: 1px;
+            border-radius: 2.0px;
+            margin-bottom: 0.8px;
             flex-shrink: 0;
         }
 
         .product-card h3 {
-            font-size: 1.3rem;  
+            font-size: 1.0rem;  
             font-weight: bold;
             margin: 1px 0 5px;
             color: #333;
             -webkit-line-clamp: 2;
-            min-height: 2.5rem;
+            min-height: 2.0rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;         
             -webkit-box-orient: vertical;   
@@ -276,37 +276,37 @@
         }
 
         .product-card p {
-            font-size: 1.0rem;
-            margin: 3px 0;
+            font-size: 0.75rem;
+            margin: 2px 0;
             color: #555; 
         }
 
         .card-actions {
         margin-top: auto; 
-        padding-top: 15px;
+        padding-top: 10px;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 4px;
     }
 
         .seller-rating {
         display: flex;
         justify-content: space-between; 
         align-items: center;
-        width: 180;
-        font-size: 1.0rem;
+        width: 150;
+        font-size: 0.75rem;
         color: #555;
-        margin: 3.5px 0;
+        margin: 3.0px 0;
         }
 
         .rating {
         color: #ecd53aff;
-        font-weight: 400;
+        font-weight: 350;
         }
 
 
         .product-card .price {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: bold;
         color: #E53935; 
         }
@@ -314,24 +314,24 @@
         .product-actions {
         display: flex;
         justify-content: space-between;
-        gap: 18px;
+        gap: 12px;
         margin-top: auto;
         }
 
         .product-actions button {
         flex: 1;
-        padding: 6px 0;
-        font-size: 1.0rem;
-        font-weight: 600;
+        padding: 3px 0;
+        font-size: 0.75rem;
+        font-weight: 350;
         border: none;
-        border-radius: 18px;       
+        border-radius: 10px;       
         cursor: pointer;
         color: #fff;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;                 
+        gap: 3px;                 
         box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
         }
 
@@ -453,6 +453,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
