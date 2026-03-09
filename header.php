@@ -172,7 +172,8 @@
     }
 
     .navbar-right {
-        gap: 3px !important; 
+        gap: 2px !important;
+        flex-shrink: 0 !important;
     }
 
     .navbar-right .hide-text {
@@ -319,6 +320,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
