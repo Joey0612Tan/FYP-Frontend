@@ -221,6 +221,26 @@
         }
 
         @media (max-width: 768px) {
+              .product-container {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important; /* 平分两列 */
+        gap: 10px !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .product-card {
+        width: 100% !important;
+        height: auto !important; /* 放弃固定高度，让内容自己撑开 */
+        margin: 0 !important;
+        border: 1px solid #eee !important;
+        box-shadow: none !important;
+    }
+
+
+            /*
             .product-container {
             display: grid;
             gap: 10px;
@@ -243,7 +263,7 @@
             cursor: pointer; 
             transition: border 0.3s, transform 0.2s;
             position: relative;
-        }
+        } */
 
         .product-card:hover {
         border: 1px solid #947b54ff; 
@@ -451,6 +471,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
