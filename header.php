@@ -106,6 +106,16 @@
         animation: loading-scan 1.5s infinite;
     }
 
+    .icon-btn{
+        font-size:16px;
+        padding:6px 8px;
+        width:36px;
+        height:36px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
     @keyframes loading-scan {
         from { left: -100%; }
         to { left: 100%; }
@@ -130,6 +140,18 @@
             width: 100% !important; 
             padding: 6px 12px !important;
             font-size: 1rem !important;
+        }
+
+        .search-input{
+            width:120px;
+            font-size:14px;
+        }
+    
+        .icon-btn{
+            font-size:14px;
+            width:32px;
+            height:32px;
+            padding:4px;
         }
     
         .navbar-right a, .navbar-right button {
@@ -230,6 +252,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
