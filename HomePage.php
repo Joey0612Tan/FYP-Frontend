@@ -144,7 +144,7 @@ $result = mysqli_query($conn, $sql);
             height: 300; 
             background: url('https://i.pinimg.com/1200x/86/d5/b9/86d5b9a9c5340a020169f8129f6673af.jpg')
                         no-repeat center 75% / cover;
-            display: flex;
+            display: auto;
             align-items: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
@@ -188,7 +188,7 @@ $result = mysqli_query($conn, $sql);
             }
     
             .categories-grid {
-            display: flex;
+            display: auto;
             justify-content: center; 
             gap: 15px;              
             flex-wrap: wrap;
@@ -308,6 +308,7 @@ $result = mysqli_query($conn, $sql);
 <?php include('footer.php'); ?>
 </body>
 </html>
+
 
 
 
