@@ -130,6 +130,37 @@
         font-size: 14px !important;
     }
 
+    .navbar-center {
+        flex: 1 !important;
+        margin: 0 5px !important; /* 彻底删掉那个几百 px 的 margin-left */
+        width: auto !important;
+        min-width: 0 !important; /* 允许它缩小 */
+    }
+
+    /* 2. 搜索框归位：从固定宽度改为 100% */
+    .search-input {
+        width: 100% !important; /* 这是关键！ */
+        max-width: none !important;
+        box-sizing: border-box !important; /* 保证 padding 不撑大它 */
+        font-size: 14px !important;
+        height: 35px !important;
+    }
+
+    /* 3. 搜索表单强制不换行 */
+    #searchForm {
+        display: flex !important;
+        width: 100% !important;
+        gap: 4px !important;
+        position: relative !important;
+        left: 0 !important; /* 防止它漂移 */
+    }
+
+    /* 4. 按钮稍微调小，腾出空间 */
+    .search-btn {
+        padding: 0 8px !important;
+        flex-shrink: 0 !important; /* 防止搜索按钮被挤扁 */
+    }
+        
     .hide-text {
         display: none !important; /* 手机端必须隐藏文字 */
     }
@@ -140,31 +171,6 @@
         align-items: center;
     }
 
-    /* 修复产品卡片重叠 */
-    .product-container {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important; /* 平分两列 */
-        gap: 10px !important;
-        margin: 0 !important;
-        padding: 10px !important;
-        width: 100% !important;
-        box-sizing: border-box;
-    }
-
-    .product-card {
-        width: 100% !important;
-        height: auto !important; /* 放弃固定高度，让内容自己撑开 */
-        margin: 0 !important;
-        border: 1px solid #eee !important;
-        box-shadow: none !important;
-    }
-
-    .product-card img {
-        width: 100% !important;
-        height: 120px !important; /* 缩小图片高度 */
-        object-fit: contain;
-    }
-}
         /*
         .navbar {
             padding: 8px 10px;
@@ -294,6 +300,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
