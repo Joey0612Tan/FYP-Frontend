@@ -175,6 +175,10 @@
         gap: 3px !important; 
     }
 
+    .navbar-right .hide-text {
+        display: none !important; 
+    }
+
     .cart-btn, .compare-btn, .profile-btn {
         padding: 4px !important;
         font-size: 1rem !important;
@@ -315,6 +319,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
