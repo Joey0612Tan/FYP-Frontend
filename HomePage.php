@@ -246,29 +246,6 @@ $result = mysqli_query($conn, $sql);
                 border-radius: 2px;
                 margin-top: 5px;
             }
-
-            .product-container {
-                grid-template-columns: 1fr 1fr; 
-                gap: 10px;
-                padding: 10px;
-            }
-        
-            .product-card {
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-            }
-        
-            .product-card img {
-                width: 100%;
-                height: 150px;
-                object-fit: cover;
-            }
-        
-            .product-card .details {
-                padding: 8px;
-                flex-grow: 1;
-            }
         }
     </style>
 </head>
@@ -331,6 +308,7 @@ $result = mysqli_query($conn, $sql);
 <?php include('footer.php'); ?>
 </body>
 </html>
+
 
 
 
