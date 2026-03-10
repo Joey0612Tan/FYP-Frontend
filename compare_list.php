@@ -121,16 +121,16 @@ $js_ai_data = json_encode($ai_data_list);
 
         .btn-remove-action { 
             display: block; 
-            width: 100%; 
-            padding: 10px; 
+            padding: 12px; 
             background: #ff4d4d; 
             color: #fff; 
             border-radius: 10px; 
             text-decoration: none; 
             font-weight: bold; 
-            margin-top: 10px; 
+            margin-top: 18px; 
             transition: 0.3s;
         }
+        
         .btn-remove-action:hover { 
             background: #cc0000; 
         }
@@ -224,9 +224,10 @@ $js_ai_data = json_encode($ai_data_list);
                    View Details
                 </a>
                 
-                <a href="remove_from_compare.php?id=<?php echo $p['product_id']; ?>" class="btn-remove-action" onclick="return confirm('Remove this product?')">
-                   Remove Product
-                </a>
+                <button type="button" class="btn-remove-action" 
+                        onclick="removeFromCompare(<?php echo $p['product_id']; ?>, this)">
+                    Remove Product
+                </button>
             </div>
         </div>
         <?php endforeach; ?>
@@ -317,7 +318,7 @@ function removeFromCompare(productId, btn) {
         .then(res => res.text())
         .then(data => {
             if (data.trim() === "success") {
-                const card = btn.closest('.product-card');
+                const card = btn.closest('.compare-card');
                 if (card) card.remove();
                 
                 showToast("✅ Removed from compare list!");
@@ -332,5 +333,6 @@ function removeFromCompare(productId, btn) {
 </body>
 
 </html>
+
 
 
