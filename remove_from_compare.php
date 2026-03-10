@@ -9,8 +9,7 @@ if (isset($_GET['id'])) {
     $stmt = $conn->prepare("DELETE FROM compare_list WHERE user_id = ? AND product_id = ?");
     $stmt->bind_param("ii", $user_id, $product_id);
     $stmt->execute();
-    
-    echo "success";
 }
 exit;
 ?>
+
