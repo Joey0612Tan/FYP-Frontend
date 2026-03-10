@@ -314,18 +314,23 @@ window.addEventListener('click', (e) => {
 });
 
 function removeFromCompare(productId, btn) {
+    const card = btn.closest('.compare-card');
+    card.style.opacity = "0.5";
+    btn.disabled = true;
+
     fetch(`remove_from_compare.php?id=${productId}`)
-        .then(res => res.text())
-        .then(data => {
-            if (data.trim() === "success") {
-                const card = btn.closest('.compare-card');
-                if (card) card.remove();
-                
+        .then(response => {
+            if (response.ok) {
+                card.remove();
                 showToast("✅ Removed from compare list!");
+            } else {
+                throw new Error('Server error');
             }
         })
         .catch(err => {
-            showToast("❌ Error occurred.");
+            card.style.opacity = "1";
+            btn.disabled = false;
+            showToast("❌ Failed to remove.");
         });
 }
 </script>
@@ -333,6 +338,7 @@ function removeFromCompare(productId, btn) {
 </body>
 
 </html>
+
 
 
 
