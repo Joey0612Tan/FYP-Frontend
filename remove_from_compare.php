@@ -10,6 +10,5 @@ if (isset($_GET['id'])) {
     $stmt->bind_param("ii", $user_id, $product_id);
     $stmt->execute();
 }
-exit;
+exit; 
 ?>
-
