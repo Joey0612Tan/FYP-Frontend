@@ -467,13 +467,10 @@
 
     <p class="price">RM <?php echo number_format($row['price'], 2); ?></p>
 
-    <div class="product-actions">
-        <button class="review-summary">Summarize Review</button>
-        <button class="add-compare" onclick="window.location.href='add_to_compare.php?id=<?php echo $row['product_id']; ?>'">
-            Add to Compare List
-        </button>
-    </div>
-</div>      
+    <<div class="product-actions">
+    <button class="review-summary">Summarize Review</button>
+    <button type="button" class="add-compare">Add to Compare List</button>
+    </div>      
 
 <div id="review-modal" class="modal">
     <div class="modal-content">
@@ -542,11 +539,13 @@ document.querySelectorAll('.add-compare').forEach(btn => {
             .then(res => res.json())
             .then(data => {
                 showToast(data.status === 'success' ? '✅ ' + data.message : '⚠️ ' + data.message);
+            })
+            .catch(err => {
+                showToast("❌ Connection error");
             });
     });
 });
 
-    
 function showToast(message) {
     const toast = document.getElementById('toast');
     toast.innerText = message;
@@ -557,6 +556,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
