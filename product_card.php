@@ -219,83 +219,56 @@
         transform: translateY(-10px);
         pointer-events: auto;
         }
-
-        @media (max-width: 768px) {
+    
+    @media (max-width: 768px) {
         .product-container {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important; 
-        gap: 12px !important;     
-        padding: 10px !important; 
-        margin-left: 0 !important; 
-        margin-right: 0 !important;
-        margin: 10px auto !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-        box-sizing: border-box !important;
-    }
-
-    .product-card {
-        width: 100% !important;
-        height: auto !important;    
-        min-height: 350px !important; 
-        padding: 8px !important;
-        margin: 0 !important;
-        border: 1px solid #eee !important;
-        box-sizing: border-box !important;
-    }
-            
-    .product-card img {
-        width: 100% !important;
-        height: auto !important;
-        max-height: 140px !important;
-        object-fit: contain !important;
-    }
-
-    .product-actions {
-        flex-direction: column !important;
-        gap: 4px !important;
-        width: 100% !important;
-    }
-
-    .product-actions button {
-        width: 100% !important;
-        font-size: 0.7rem !important;
-        padding: 5px 0 !important;
-        border-radius: 15px !important;
-    }
-
-    .product-card h3 {
-        font-size: 0.9rem !important;
-        min-height: auto !important; 
-        line-height: 1.2;
-    }
-
-    .product-card p, .seller-rating, .product-card .price {
-        font-size: 0.85rem !important;
-        margin: 2px 0 !important;
-    }
-
-    .product-actions button {
-        width: 100% !important;
-        font-size: 0.7rem !important; 
-        padding: 6px 0 !important;
-        white-space: nowrap; 
-    }
-
-    .toast {
-        position: fixed !important;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%); /* 居中显示 */
-        z-index: 9999 !important;
-        background: #333;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 20px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s;
-    }
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important; 
+            gap: 10px !important;
+            padding: 10px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+    
+        .product-card {
+            width: 100% !important;
+            height: 380px !important; 
+            min-height: unset !important;
+            padding: 10px !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+    
+        .product-card img {
+            width: 100% !important;
+            height: 140px !important;
+            object-fit: contain !important;
+        }
+    
+        .product-card h3 {
+            font-size: 0.9rem !important;
+            min-height: 2.4rem !important;
+        }
+    
+        .product-actions {
+            flex-direction: column !important; 
+            gap: 5px !important;
+        }
+    
+        .product-actions button {
+            padding: 5px 0 !important;
+            font-size: 0.75rem !important;
+        }
+    
+        .toast {
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            bottom: 20px !important;
+            width: 80% !important;
+            text-align: center;
+        }
+    } 
+        
             /*
             .product-container {
             display: grid;
@@ -446,10 +419,10 @@
 
     <p class="price">RM <?php echo number_format($row['price'], 2); ?></p>
 
-    <<div class="product-actions">
-    <button class="review-summary">Summarize Review</button>
-    <button type="button" class="add-compare">Add to Compare List</button>
-    </div>      
+    <div class="product-actions">
+        <button type="button" class="review-summary">Summarize Review</button>
+        <button type="button" class="add-compare">Add to Compare List</button>
+    </div>     
 
 <div id="review-modal" class="modal">
     <div class="modal-content">
@@ -487,26 +460,31 @@ document.querySelectorAll('.review-summary').forEach(btn=>{
             .catch(err => { reviewText.innerHTML = 'Error fetching summary.'; });
     });
 });
-
-document.querySelectorAll('.add-compare').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    
+document.querySelectorAll('.add-compare').forEach(button => {
+    button.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        const card = e.target.closest('.product-card');
+        const btn = e.currentTarget; 
+        const card = btn.closest('.product-card');
         const productId = card.dataset.id;
 
         fetch(`add_to_compare.php?id=${productId}`)
             .then(res => {
                 if (res.status === 200) {
                     showToast("✅ Added to compare list!");
+                    btn.innerText = "In List"; 
+                    btn.style.opacity = "0.6";
+                    btn.style.pointerEvents = "none"; 
                 } else if (res.status === 409) {
                     showToast("⚠️ Already in list!");
                 } else {
-                    showToast("❌ Something went wrong.");
+                    showToast("❌ Error occurred.");
                 }
             })
             .catch(err => {
+                console.error(err);
                 showToast("❌ Server connection error");
             });
     });
@@ -530,6 +508,7 @@ function showToast(message) {
     }, 2000);
 }
 </script>
+
 
 
 
