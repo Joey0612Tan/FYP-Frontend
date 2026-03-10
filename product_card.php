@@ -2,6 +2,26 @@
     <style>
         .product-container {
             display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 450px; 
+            transition: transform 0.2s;
+        } /*
+        .product-container {
+            display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
             gap: 50px;
             padding: 40px;
@@ -24,7 +44,7 @@
             cursor: pointer; 
             transition: border 0.3s, transform 0.2s;
             position: relative;
-        }
+        } */
 
         .product-card:hover {
         border: 2px solid #947b54ff; 
@@ -282,6 +302,21 @@
         padding: 6px 0 !important;
         white-space: nowrap; 
     }
+
+    .toast {
+        position: fixed !important;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%); /* 居中显示 */
+        z-index: 9999 !important;
+        background: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+    }
             /*
             .product-container {
             display: grid;
@@ -501,13 +536,17 @@ document.querySelectorAll('.add-compare').forEach(btn => {
         e.stopPropagation();
 
         const card = e.target.closest('.product-card');
-        if (!card) {
-            console.error("Unable to find parent product card");
-            return;
-        }
+        if (!card) return;
 
         const productId = card.dataset.id;
-        showToast('✅ Product successfully added!');
+        fetch(`add_to_compare.php?id=${productId}`)
+            .then(res => res.text())
+            .then(data => {
+                showToast('✅ Product added to compare!');
+            })
+            .catch(err => {
+                showToast('❌ Failed to add product.');
+            });
     });
 });
 
@@ -521,25 +560,5 @@ function showToast(message) {
 }
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
