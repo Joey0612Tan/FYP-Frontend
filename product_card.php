@@ -1,109 +1,5 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-    /* 基础容器 */
-    .product-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-        gap: 30px;
-        padding: 40px;
-        margin-left: 90px;
-        max-width: 1400px;
-    }
-
-    /* 修复卡片：去掉固定 height: 550px，改用 min-height */
-    .product-card {
-        border: 1px solid #ddd;
-        padding: 20px;
-        text-align: center;
-        background: #fff;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start; 
-        width: 100%;
-        min-height: 550px; /* 保证高度对齐 */
-        height: auto !important; /* 允许内容多时自动长高，防止重叠 */
-        cursor: pointer; 
-        transition: border 0.3s, transform 0.2s;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .product-card:hover {
-        border: 2px solid #947b54ff; 
-        transform: translateY(-3px); 
-    }
-
-    .product-card img {
-        width: 100%;
-        height: 250px;    
-        object-fit: contain;
-        margin-bottom: 10px;
-    }
-
-    /* 按钮容器修复 */
-    .product-actions {
-        display: flex;
-        flex-direction: column; /* 改为上下排，手机电脑都整齐 */
-        gap: 10px;
-        margin-top: auto; /* 关键：把按钮推到底部 */
-        width: 100%;
-    }
-
-    .product-actions button {
-        width: 100% !important;
-        padding: 10px 0;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border: none;
-        border-radius: 25px;       
-        cursor: pointer;
-        color: #fff;
-    }
-
-    /* --- Toast 必须写在 @media 外面，保证全平台有效 --- */
-    .toast {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%) translateY(20px);
-        background: rgba(0, 0, 0, 0.85);
-        color: #fff;
-        padding: 12px 30px;
-        border-radius: 50px;
-        font-size: 1.2rem;
-        z-index: 10000;
-        opacity: 0; /* 默认隐藏 */
-        pointer-events: none;
-        transition: all 0.3s ease;
-    }
-
-    .toast.show {
-        opacity: 1; /* 显示 */
-        transform: translateX(-50%) translateY(0);
-    }
-
-    /* 手机端适配 */
-    @media (max-width: 768px) {
-        .product-container {
-            grid-template-columns: 1fr 1fr;
-            margin-left: 0;
-            padding: 10px;
-            gap: 15px;
-        }
-        .product-card {
-            min-height: 400px;
-            padding: 10px;
-        }
-        .product-card img {
-            height: 150px;
-        }
-        .product-card h3 { font-size: 1rem !important; }
-        .product-actions button { font-size: 0.8rem !important; }
-    }
-</style>
-
-   /*
         .product-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
@@ -277,6 +173,27 @@
         color: #E53935;
         }
 
+        .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px); 
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 1rem;
+        z-index: 10000;
+        opacity: 0; 
+        pointer-events: none; 
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    } 
+         
         @keyframes fadeIn {
         from {opacity:0;}
         to {opacity:1;}
@@ -301,90 +218,8 @@
         overflow-y: auto; 
         padding-right: 5px;
         }
-
-        .toast {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background: #4CAF50;
-        color: #fff;
-        padding: 12px 20px;
-        border-radius: 25px;
-        font-size: 1.5rem;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.4s ease;
-        z-index: 9999 !important;
-        }
-
-        .toast.show {
-        opacity: 1;
-        transform: translateY(-10px);
-        pointer-events: auto;
-        }
     
-    @media (max-width: 768px) {
-            /* 1. 修复卡片重叠：去掉固定高度，改用 min-height */
-    .product-card {
-        border: 1px solid #ddd;
-        padding: 20px;
-        text-align: center;
-        background: #fff;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start; /* 改为从上往下排 */
-        width: 100%;
-        min-height: 580px; /* 最小高度，给按钮留空间 */
-        height: auto !important; /* 让它根据内容自动长高，不再重叠 */
-        cursor: pointer;
-        transition: all 0.3s;
-        position: relative;
-        box-sizing: border-box;
-    }
-    
-    /* 2. 修复按钮：强制撑满宽度 */
-    .product-actions {
-        display: flex;
-        flex-direction: column; /* 手机端和电脑端都建议上下排，更整齐 */
-        gap: 10px;
-        margin-top: auto; /* 关键：把按钮推到卡片最底部 */
-        width: 100%;
-    }
-    
-    .product-actions button {
-        width: 100% !important; /* 强制按钮占满一行 */
-        padding: 10px 0;
-        border-radius: 25px;
-        font-size: 1rem;
-        border: none;
-        cursor: pointer;
-    }
-    
-    /* 3. 修复 Toast：默认必须隐藏 */
-    .toast {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%) translateY(20px); /* 默认向下位移 */
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        padding: 12px 30px;
-        border-radius: 50px;
-        font-size: 1rem;
-        z-index: 10000;
-        opacity: 0; /* 默认透明 */
-        pointer-events: none; /* 默认不可点击 */
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .toast.show {
-        opacity: 1; /* 显示时透明度为 1 */
-        transform: translateX(-50%) translateY(0);
-    } 
-            
-            /*
+    @media (max-width: 768px) { 
             .product-container {
             display: grid;
             gap: 10px;
@@ -495,7 +330,7 @@
         justify-content: center;
         gap: 3px;                 
         box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-        } */
+        }
 
         .review-summary {
         background: linear-gradient(135deg, #FFC107, #FFB300);
@@ -519,7 +354,7 @@
         .add-compare   { background-color: #2196F3; }
         .review-summary { background-color: #FFC107; color: #333; }
     }
-     */
+    </style>
 
     <body>
         
@@ -641,6 +476,7 @@ function showToast(message) {
     }, 2000);
 } */
 </script>
+
 
 
 
