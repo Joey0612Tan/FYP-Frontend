@@ -311,9 +311,26 @@ window.addEventListener('click', (e) => {
         }
     });
 });
+
+function removeFromCompare(productId, btn) {
+    fetch(`remove_from_compare.php?id=${productId}`)
+        .then(res => res.text())
+        .then(data => {
+            if (data.trim() === "success") {
+                const card = btn.closest('.product-card');
+                if (card) card.remove();
+                
+                showToast("✅ Removed from compare list!");
+            }
+        })
+        .catch(err => {
+            showToast("❌ Error occurred.");
+        });
+}
 </script>
 <?php include('footer.php'); ?>
 </body>
 
 </html>
+
 
