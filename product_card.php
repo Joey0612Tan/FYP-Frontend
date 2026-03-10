@@ -536,20 +536,17 @@ document.querySelectorAll('.add-compare').forEach(btn => {
         e.stopPropagation();
 
         const card = e.target.closest('.product-card');
-        if (!card) return;
-
         const productId = card.dataset.id;
+
         fetch(`add_to_compare.php?id=${productId}`)
-            .then(res => res.text())
+            .then(res => res.json())
             .then(data => {
-                showToast('✅ Product added to compare!');
-            })
-            .catch(err => {
-                showToast('❌ Failed to add product.');
+                showToast(data.status === 'success' ? '✅ ' + data.message : '⚠️ ' + data.message);
             });
     });
 });
 
+    
 function showToast(message) {
     const toast = document.getElementById('toast');
     toast.innerText = message;
@@ -560,5 +557,6 @@ function showToast(message) {
 }
 
 </script>
+
 
 
