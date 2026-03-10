@@ -221,54 +221,65 @@
         }
     
     @media (max-width: 768px) {
-        .product-container {
-            display: grid !important;
-            grid-template-columns: 1fr 1fr !important; 
-            gap: 10px !important;
-            padding: 10px !important;
-            margin: 0 auto !important;
-            width: 100% !important;
-        }
+            /* 1. 修复卡片重叠：去掉固定高度，改用 min-height */
+    .product-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        text-align: center;
+        background: #fff;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* 改为从上往下排 */
+        width: 100%;
+        min-height: 580px; /* 最小高度，给按钮留空间 */
+        height: auto !important; /* 让它根据内容自动长高，不再重叠 */
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        box-sizing: border-box;
+    }
     
-        .product-card {
-            width: 100% !important;
-            height: 380px !important; 
-            min-height: unset !important;
-            padding: 10px !important;
-            display: flex !important;
-            flex-direction: column !important;
-        }
+    /* 2. 修复按钮：强制撑满宽度 */
+    .product-actions {
+        display: flex;
+        flex-direction: column; /* 手机端和电脑端都建议上下排，更整齐 */
+        gap: 10px;
+        margin-top: auto; /* 关键：把按钮推到卡片最底部 */
+        width: 100%;
+    }
     
-        .product-card img {
-            width: 100% !important;
-            height: 140px !important;
-            object-fit: contain !important;
-        }
+    .product-actions button {
+        width: 100% !important; /* 强制按钮占满一行 */
+        padding: 10px 0;
+        border-radius: 25px;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+    }
     
-        .product-card h3 {
-            font-size: 0.9rem !important;
-            min-height: 2.4rem !important;
-        }
+    /* 3. 修复 Toast：默认必须隐藏 */
+    .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px); /* 默认向下位移 */
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 1rem;
+        z-index: 10000;
+        opacity: 0; /* 默认透明 */
+        pointer-events: none; /* 默认不可点击 */
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
     
-        .product-actions {
-            flex-direction: column !important; 
-            gap: 5px !important;
-        }
-    
-        .product-actions button {
-            padding: 5px 0 !important;
-            font-size: 0.75rem !important;
-        }
-    
-        .toast {
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            bottom: 20px !important;
-            width: 80% !important;
-            text-align: center;
-        }
+    .toast.show {
+        opacity: 1; /* 显示时透明度为 1 */
+        transform: translateX(-50%) translateY(0); /* 回到原位 */
     } 
-        
+            
             /*
             .product-container {
             display: grid;
@@ -460,36 +471,53 @@ document.querySelectorAll('.review-summary').forEach(btn=>{
             .catch(err => { reviewText.innerHTML = 'Error fetching summary.'; });
     });
 });
-    
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    toast.classList.remove('show');
+
+    void toast.offsetWidth; 
+
+    toast.innerText = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
+}
+
 document.querySelectorAll('.add-compare').forEach(button => {
     button.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        const btn = e.currentTarget; 
+        const btn = e.currentTarget;
         const card = btn.closest('.product-card');
         const productId = card.dataset.id;
+
+        if (btn.classList.contains('processing')) return;
+        btn.classList.add('processing');
 
         fetch(`add_to_compare.php?id=${productId}`)
             .then(res => {
                 if (res.status === 200) {
                     showToast("✅ Added to compare list!");
-                    btn.innerText = "In List"; 
-                    btn.style.opacity = "0.6";
-                    btn.style.pointerEvents = "none"; 
+                    btn.innerText = "In List";
+                    btn.style.background = "#ccc";
+                    btn.style.pointerEvents = "none";
                 } else if (res.status === 409) {
                     showToast("⚠️ Already in list!");
                 } else {
-                    showToast("❌ Error occurred.");
+                    showToast("❌ Server Error");
                 }
             })
-            .catch(err => {
-                console.error(err);
-                showToast("❌ Server connection error");
-            });
+            .catch(() => showToast("❌ Connection error"))
+            .finally(() => btn.classList.remove('processing'));
     });
 });
-
+    
 window.addEventListener('click', (e) => {
     const modalIds = ['review-modal', 'ai-modal', 'compare-modal'];
     modalIds.forEach(id => {
@@ -498,6 +526,7 @@ window.addEventListener('click', (e) => {
     });
 });
 
+    /*
 function showToast(message) {
     const toast = document.getElementById('toast');
     if(!toast) return; 
@@ -506,8 +535,9 @@ function showToast(message) {
     setTimeout(() => {
         toast.classList.remove('show');
     }, 2000);
-}
+} */
 </script>
+
 
 
 
