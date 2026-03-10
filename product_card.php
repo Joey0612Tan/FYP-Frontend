@@ -212,6 +212,7 @@
         opacity: 0;
         pointer-events: none;
         transition: all 0.4s ease;
+        z-index: 9999 !important;
         }
 
         .toast.show {
@@ -223,31 +224,27 @@
         @media (max-width: 768px) {
         .product-container {
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important; /* 平分两列 */
-        gap: 12px !important;     /* 适中的卡片间距 */
-        padding: 10px !important; /* 四周留白一致 */
-        
-        /* 核心修复：强制取消所有偏移并居中 */
+        grid-template-columns: 1fr 1fr !important; 
+        gap: 12px !important;     
+        padding: 10px !important; 
         margin-left: 0 !important; 
         margin-right: 0 !important;
-        margin: 10px auto !important; 
-        
+        margin: 10px auto !important;
         width: 100% !important;
         max-width: 100vw !important;
         box-sizing: border-box !important;
     }
 
-    /* --- 2. 矫正卡片身材（不再细长） --- */
     .product-card {
         width: 100% !important;
-        height: auto !important;    /* 撤销电脑端 550px 的高度 */
+        height: auto !important;    
         min-height: 350px !important; 
         padding: 8px !important;
         margin: 0 !important;
         border: 1px solid #eee !important;
         box-sizing: border-box !important;
     }
-    /* 图片适配 */
+            
     .product-card img {
         width: 100% !important;
         height: auto !important;
@@ -255,7 +252,6 @@
         object-fit: contain !important;
     }
 
-    /* 4. 按钮优化：垂直排列防止撑宽 */
     .product-actions {
         flex-direction: column !important;
         gap: 4px !important;
@@ -269,9 +265,8 @@
         border-radius: 15px !important;
     }
 
-    /* 5. 文字和按钮：防止文字把卡片撑爆 */
     .product-card h3 {
-        font-size: 0.9rem !important; /* 标题变小 */
+        font-size: 0.9rem !important;
         min-height: auto !important; 
         line-height: 1.2;
     }
@@ -283,9 +278,9 @@
 
     .product-actions button {
         width: 100% !important;
-        font-size: 0.7rem !important; /* 字体一定要小，不然按钮会很厚 */
+        font-size: 0.7rem !important; 
         padding: 6px 0 !important;
-        white-space: nowrap; /* 强制不换行，哪怕溢出一点点也比细长条好看 */
+        white-space: nowrap; 
     }
             /*
             .product-container {
@@ -500,11 +495,19 @@ window.addEventListener('click', (e) => {
     });
 });
 
-document.querySelectorAll('.add-compare').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
+document.querySelectorAll('.add-compare').forEach(btn => {
+    btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        showToast('✅ Product successfully added to compare list!');
+
+        const card = e.target.closest('.product-card');
+        if (!card) {
+            console.error("Unable to find parent product card");
+            return;
+        }
+
+        const productId = card.dataset.id;
+        showToast('✅ Product successfully added!');
     });
 });
 
@@ -518,6 +521,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
