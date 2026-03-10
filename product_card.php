@@ -2,26 +2,6 @@
     <style>
         .product-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-    
-        .product-card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 100%;
-            height: 450px; 
-            transition: transform 0.2s;
-        } /*
-        .product-container {
-            display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
             gap: 50px;
             padding: 40px;
@@ -44,8 +24,7 @@
             cursor: pointer; 
             transition: border 0.3s, transform 0.2s;
             position: relative;
-        } */
-
+        }
         .product-card:hover {
         border: 2px solid #947b54ff; 
         transform: translateY(-3px); 
@@ -556,6 +535,7 @@ function showToast(message) {
 }
 
 </script>
+
 
 
 
