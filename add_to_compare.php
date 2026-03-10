@@ -10,16 +10,17 @@ if ($p_id > 0) {
     $resCompare = $conn->query($checkCompare);
 
     if ($resCompare && $resCompare->num_rows > 0) {
-        echo "<script>alert('Already in compare list!'); window.location.href='HomePage.php';</script>";
+        header("Location: HomePage.php?status=already_exist");
     } else {
         $insertCompareSql = "INSERT INTO compare_list (product_id, user_id) VALUES ($p_id, $u_id)";
         if ($conn->query($insertCompareSql)) {
-            header("Location: HomePage.php?status=compare_added"); 
+            header("Location: HomePage.php?status=added");
         } else {
-            echo "Error: " . $conn->error;
+            header("Location: HomePage.php?status=error");
         }
     }
 } else {
-    echo "Invalid Product ID";
+    header("Location: HomePage.php?status=invalid");
 }
+exit(); 
 ?>
