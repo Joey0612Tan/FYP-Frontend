@@ -465,44 +465,26 @@
 document.querySelectorAll('.product-card').forEach(card=>{
     card.addEventListener('click', (e)=>{
         if(e.target.closest('.review-summary') || e.target.closest('.add-compare')) return;
-
         const productId = card.dataset.id;
         window.location.href = `Product_details.php?id=${productId}`;
     });
 });
-
 
 document.querySelectorAll('.review-summary').forEach(btn=>{
     btn.addEventListener('click',(e)=>{
         e.stopPropagation(); 
         const card = e.target.closest('.product-card');
         const productId = card.dataset.id;
-
         const modal = document.getElementById('review-modal');
         const reviewText = document.getElementById('review-text');
 
-        reviewText.innerHTML = '<div class="spinner">🌀 <b>Gemma 3</b>  is analyzing reviews...</div>';
+        reviewText.innerHTML = '<div class="spinner">🌀 <b>Gemma 3</b> is analyzing reviews...</div>';
         modal.style.display = 'block';
 
         fetch(`get_review_summary.php?id=${productId}`)
             .then(res => res.text())
-            .then(data => {
-                reviewText.innerHTML = data;
-            })
-            .catch(err => {
-                reviewText.innerHTML = 'Error fetching summary.';
-            });
-    });
-});
-
-window.addEventListener('click', (e) => {
-    const modalIds = ['review-modal', 'ai-modal', 'compare-modal'];
-
-    modalIds.forEach(id => {
-        const modal = document.getElementById(id);
-        if (modal && e.target === modal) {
-            modal.style.display = 'none';
-        }
+            .then(data => { reviewText.innerHTML = data; })
+            .catch(err => { reviewText.innerHTML = 'Error fetching summary.'; });
     });
 });
 
@@ -515,25 +497,38 @@ document.querySelectorAll('.add-compare').forEach(btn => {
         const productId = card.dataset.id;
 
         fetch(`add_to_compare.php?id=${productId}`)
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.status === 'success' ? '✅ ' + data.message : '⚠️ ' + data.message);
+            .then(res => {
+                if (res.status === 200) {
+                    showToast("✅ Added to compare list!");
+                } else if (res.status === 409) {
+                    showToast("⚠️ Already in list!");
+                } else {
+                    showToast("❌ Something went wrong.");
+                }
             })
             .catch(err => {
-                showToast("❌ Connection error");
+                showToast("❌ Server connection error");
             });
+    });
+});
+
+window.addEventListener('click', (e) => {
+    const modalIds = ['review-modal', 'ai-modal', 'compare-modal'];
+    modalIds.forEach(id => {
+        const modal = document.getElementById(id);
+        if (modal && e.target === modal) modal.style.display = 'none';
     });
 });
 
 function showToast(message) {
     const toast = document.getElementById('toast');
+    if(!toast) return; 
     toast.innerText = message;
     toast.classList.add('show');
     setTimeout(() => {
         toast.classList.remove('show');
     }, 2000);
 }
-
 </script>
 
 
