@@ -119,22 +119,35 @@ $js_ai_data = json_encode($ai_data_list);
             z-index: 5; 
         }
        
-
-        .btn-remove-action { 
-            display: block; 
-            padding: 12px; 
-            background: #ff4d4d; 
-            color: #fff; 
-            border-radius: 10px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            margin-top: 18px; 
+        .btn-common {
+            display: block;
+            width: 100%;
+            padding: 12px 0; 
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center; 
+            cursor: pointer;
+            border: none; 
             transition: 0.3s;
+            font-size: 1rem;
+            box-sizing: border-box; 
         }
         
-        .btn-remove-action:hover { 
-            background: #cc0000; 
+        .btn-view {
+            background: #ceb9a0;
+            color: #fff;
+            margin-bottom: 8px;
         }
+        .btn-view:hover { 
+            background: #b8a58e; 
+        }
+        
+        .btn-remove {
+            background: #ff4d4d;
+            color: #fff;
+        }
+        .btn-remove:hover { background: #cc0000; }
 
         #ai-btn { 
             position: fixed; 
@@ -221,10 +234,10 @@ $js_ai_data = json_encode($ai_data_list);
 
             <div style="margin-top: 15px;">
                 <a href="Product_details.php?id=<?php echo $p['product_id']; ?>" 
-                   style="display: block; padding: 12px; background: #ceb9a0; color: #fff; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 8px;">
+                   class="btn-common btn-view">
                    View Details
                 </a>
-                
+
                 <button type="button" class="btn-remove-action" 
                         onclick="removeFromCompare(<?php echo $p['product_id']; ?>, this)">
                     Remove Product
@@ -332,6 +345,7 @@ function removeFromCompare(productId, btn) {
 </body>
 
 </html>
+
 
 
 
