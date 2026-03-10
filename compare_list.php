@@ -118,6 +118,7 @@ $js_ai_data = json_encode($ai_data_list);
             cursor: pointer; 
             z-index: 5; 
         }
+       
 
         .btn-remove-action { 
             display: block; 
@@ -184,7 +185,7 @@ $js_ai_data = json_encode($ai_data_list);
         }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 50px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 50px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-        
+    
         @media (max-width: 768px) {
         .compare-container { 
             max-width: 95%; 
@@ -315,29 +316,23 @@ window.addEventListener('click', (e) => {
 
 function removeFromCompare(productId, btn) {
     const card = btn.closest('.compare-card');
-    card.style.opacity = "0.5";
-    btn.disabled = true;
-
+    
     fetch(`remove_from_compare.php?id=${productId}`)
         .then(response => {
             if (response.ok) {
-                card.remove();
+                card.remove(); 
+                syncSelection(document.querySelector('.compare-checkbox'));
                 showToast("✅ Removed from compare list!");
-            } else {
-                throw new Error('Server error');
             }
-        })
-        .catch(err => {
-            card.style.opacity = "1";
-            btn.disabled = false;
-            showToast("❌ Failed to remove.");
         });
 }
+    
 </script>
 <?php include('footer.php'); ?>
 </body>
 
 </html>
+
 
 
 
