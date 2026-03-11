@@ -223,17 +223,22 @@
 
         @media (max-width: 768px) {
         .product-container {
-            grid-template-columns: 1fr; 
-            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
             gap: 20px;
+            padding: 20px;
         }
+        
         .product-card {
-            height: auto;
-            min-height: 450px;
+            height: auto; 
+            min-height: 400px;
+            padding: 15px;
         }
-        .product-card img { 
-            width: 100%; 
-            height: 250px; 
+        
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1; 
+            object-fit: cover;
         }
     }
     </style>
@@ -310,19 +315,13 @@ document.querySelectorAll('.review-summary').forEach(btn=>{
 });
 
 function handleCompare(btn, productId) {
-    if (btn.disabled) {
-        showToast('⚠️ Product is already in list!');
-        return;
-    }
-
     fetch(`add_to_compare.php?id=${productId}`)
         .then(res => {
             if (res.status === 200) {
                 btn.innerText = "In List";
                 btn.style.background = "#ccc";
-                btn.disabled = true;
                 showToast('✅ Added to compare list!');
-            } else {
+            } else if (res.status === 409) {
                 showToast('⚠️ Already in list!');
             }
         });
@@ -335,4 +334,16 @@ function showToast(message) {
     setTimeout(() => { toast.classList.remove('show'); }, 2000);
 }
 
+window.addEventListener('click', (e) => {
+    const modalIds = ['review-modal', 'deep-analysis-modal', 'compare-modal', 'ai-modal'];
+
+    modalIds.forEach(id => {
+        const modal = document.getElementById(id);
+        if (modal && e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+    
 </script>
+
