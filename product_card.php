@@ -10,7 +10,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     .product-container{
    display:grid;
    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-   gap:20px;
+   gap:40px;
    padding:20px;
    margin:0 auto;
    max-width:1200px;
@@ -73,6 +73,10 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
    font-size:0.95rem;
    margin:4px 0;
    color:#555;
+   display:-webkit-box;
+   -webkit-line-clamp:2;
+   -webkit-box-orient:vertical;
+   overflow:hidden;
    }
    
    .seller-rating{
@@ -228,14 +232,16 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 @media (max-width: 768px) {
     .product-container {
         grid-template-columns: repeat(2, 1fr);/
-        gap: 12px;
+        gap: 20px;
         padding: 10px;
+        justify-content: start;  
+        justify-items: start;
     }
 
     .product-card {
         min-height: 320px;
         padding: 10px;
-        border-radius: 10px;
+        border-radius: 10px;        
     }
 
     .product-card h3 {
@@ -366,4 +372,5 @@ window.addEventListener('click', (e) => {
 });
     
 </script>
+
 
