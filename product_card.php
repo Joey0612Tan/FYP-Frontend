@@ -262,13 +262,16 @@ $is_in_list = in_array($row['product_id'], $compare_list ?? []);
 
     <div class="product-actions">
         <button class="review-summary">Summarize Review</button>
+        
         <button class="add-compare" 
-                <?php if($is_in_list) echo 'disabled style="background:#ccc; cursor:not-allowed;"'; ?>
+                id="compare-btn-<?php echo $row['product_id']; ?>"
+                <?php if($is_in_list): ?> 
+                    style="background:#ccc; cursor:not-allowed;" disabled
+                <?php endif; ?>
                 onclick="handleCompare(this, <?php echo $row['product_id']; ?>)">
             <?php echo $is_in_list ? 'In List' : 'Add to Compare List'; ?>
         </button>
-    </div>
-</div>      
+    </div>      
 
 <div id="review-modal" class="modal">
     <div class="modal-content">
@@ -315,18 +318,27 @@ document.querySelectorAll('.review-summary').forEach(btn=>{
 });
 
 function handleCompare(btn, productId) {
+    if (btn.disabled) {
+        showToast('⚠️ Already in list!');
+        return;
+    }
+
     fetch(`add_to_compare.php?id=${productId}`)
         .then(res => {
             if (res.status === 200) {
                 btn.innerText = "In List";
                 btn.style.background = "#ccc";
+                btn.style.cursor = "not-allowed";
+                btn.disabled = true; 
                 showToast('✅ Added to compare list!');
-            } else if (res.status === 409) {
+            } else {
                 showToast('⚠️ Already in list!');
+                btn.innerText = "In List";
+                btn.style.background = "#ccc";
+                btn.disabled = true;
             }
         });
 }
-
 function showToast(message) {
     const toast = document.getElementById('toast');
     toast.innerText = message;
@@ -346,4 +358,5 @@ window.addEventListener('click', (e) => {
 });
     
 </script>
+
 
