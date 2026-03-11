@@ -1,369 +1,183 @@
 <?php
-session_start();
-include('ConnectDB.php');
-$current_compare_ids = isset($_SESSION['compare']) ? $_SESSION['compare'] : [];
+// 安全启动 Session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+// 获取当前已在对比列表中的 ID，默认为空数组
+$compare_list = $_SESSION['compare'] ?? [];
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        <style>
-        .product-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-            gap: 70px;
-            padding: 40px;
-            margin: 0 auto;
-            max-width: 1400px;
-        }
+<style>
+    /* 基础布局 */
+    .product-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-        .product-card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            text-align: center;
-            background: #fff;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 100%;
-            height: 550px; 
-            cursor: pointer; 
-            transition: border 0.3s, transform 0.2s;
-            position: relative;
-        }
-
-        .product-card:hover {
-        border: 2px solid #947b54ff; 
-        transform: translateY(-3px); 
-        }
-
-        .product-card img {
-            width: 300px;       
-            height: 300px;    
-            object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 1px;
-            flex-shrink: 0;
-        }
-
-        .product-card h3 {
-            font-size: 1.8rem;  
-            font-weight: bold;
-            margin: 1px 0 5px;
-            color: #333;
-            -webkit-line-clamp: 2;
-            min-height: 3.2rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;         
-            -webkit-box-orient: vertical;   
-            overflow: hidden;               
-            text-overflow: ellipsis;
-        }
-
-        .product-card p {
-            font-size: 1.3rem;
-            margin: 4px 0;
-            color: #555; 
-        }
-
-        .card-actions {
-        margin-top: auto; 
-        padding-top: 20px;
+    .product-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        min-height: 500px; /* 改用 min-height */
+        transition: all 0.3s;
+        cursor: pointer;
     }
 
-        .seller-rating {
-        display: flex;
-        justify-content: space-between; 
-        align-items: center;
-        width: 250;
-        font-size: 1.3rem;
-        color: #555;
-        margin: 5px 0;
-        }
+    .product-card:hover { border: 2px solid #947b54; transform: translateY(-3px); }
 
-        .rating {
-        color: #ecd53aff;
-        font-weight: 600;
-        }
+    .product-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
 
-
-        .product-card .price {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #E53935; 
-        }
-
-        .product-actions {
-        display: flex;
-        justify-content: space-between;
-        gap: 25px;
+    .product-actions {
         margin-top: auto;
-        }
+        display: flex;
+        gap: 10px;
+        padding-top: 15px;
+    }
 
-        .product-actions button {
+    .product-actions button {
         flex: 1;
-        padding: 8px 0;
-        font-size: 1.3rem;
-        font-weight: 600;
+        padding: 10px;
         border: none;
-        border-radius: 25px;       
+        border-radius: 20px;
         cursor: pointer;
         color: #fff;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;                 
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-        }
-
-        .review-summary {
-        background: linear-gradient(135deg, #FFC107, #FFB300);
-        color: #333;
-        }
-        .review-summary:hover {
-        background: linear-gradient(135deg, #FFB300, #FFA000);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-        }
-
-        .add-compare  {
-        background: linear-gradient(135deg, #2196F3, #1E88E5);
-        }
-        .add-compare:hover  {
-        background: linear-gradient(135deg, #1E88E5, #1976D2);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-        }
-
-        .add-compare   { background-color: #2196F3; }
-        .review-summary { background-color: #FFC107; color: #333; }
-
-        .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0; top: 0;
-        width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.6); 
-        backdrop-filter: blur(2px); 
-        animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-        background: #fff;
-        margin: 5% auto;
-        padding: 25px 30px;
-        border-radius: 12px; 
-        width: 60%; 
-        max-width: 700px; 
-        position: relative;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        transform: scale(0.8);
-        animation: scaleIn 0.3s forwards;
-        }
-
-        .close {
-        position: absolute; 
-        top: 12px; 
-        right: 15px; 
-        cursor: pointer; 
-        font-size: 1.6rem; 
-        font-weight: bold;
-        color: #555;
-        transition: color 0.2s ease;
-        }
-
-        .close:hover {
-        color: #E53935;
-        }
-
-        @keyframes fadeIn {
-        from {opacity:0;}
-        to {opacity:1;}
-        }
-
-        @keyframes scaleIn {
-        from {transform: scale(0.8);}
-        to {transform: scale(1);}
-        }
-
-        .modal-content h3 {
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 15px;
+        font-weight: 600;
     }
 
-        #review-text {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #555;
-        max-height: 400px;
-        overflow-y: auto; 
-        padding-right: 5px;
-        }
-
-        .toast {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background: #4CAF50;
-        color: #fff;
-        padding: 12px 20px;
-        border-radius: 25px;
-        font-size: 1.5rem;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-        opacity: 0;
+    /* 已添加的禁用样式 */
+    .btn-added {
+        background: #ccc !important;
+        cursor: not-allowed !important;
         pointer-events: none;
-        transition: all 0.4s ease;
-        }
+    }
+</style>
 
-        .toast.show {
-        opacity: 1;
-        transform: translateY(-10px);
-        pointer-events: auto;
-        }
-       
-        @media (max-width: 768px) {
-            .product-container { 
-               grid-template-columns: repeat(2, 1fr); 
-               padding: 15px; 
-               gap: 15px; 
-            }
-           
-            .product-card { 
-               min-height: 450px; 
-               padding: 12px; 
-            }
-           
-            .product-card img { 
-               height: 150px; 
-            }
-           
-           .product-card h3 { 
-              font-size: 1rem; 
-              height: 2.4rem; 
-           }
-           
-           .price { 
-              font-size: 1.2rem; 
-            }
-           
-           .product-actions button { 
-              font-size: 0.85rem; 
-              padding: 8px; 
-           }
-        }
-    </style>
-</head>
-<body>
-
-<div class="product-container">
-    <?php
+<?php 
     $p_id = intval($row['product_id']);
-    $isInList = in_array($p_id, $current_compare_ids);
-    ?>
+    $isAdded = in_array($p_id, $compare_list);
+?>
+<div class="product-card" data-id="<?php echo $p_id; ?>">
+    <img src="<?php echo htmlspecialchars($row['image_main']); ?>">
+    <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
+    
+    <div class="seller-rating">
+        <span>Seller: <?php echo htmlspecialchars($row['seller_name']); ?></span>
+        <span class="rating">⭐ <?php echo htmlspecialchars($row['rating']); ?></span>
+    </div>
 
-    <div class="product-card" data-id="<?php echo $p_id; ?>">
-        <img src="<?php echo htmlspecialchars($row['image_main']); ?>" alt="product">
+    <p class="price">RM <?php echo number_format($row['price'], 2); ?></p>
+
+    <div class="product-actions">
+        <button type="button" class="review-summary">Summary</button>
         
-        <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
-
-        <div class="seller-rating">
-            <span>👤 <?php echo htmlspecialchars($row['seller_name']); ?></span>
-            <span class="rating">⭐ <?php echo htmlspecialchars($row['rating']); ?></span>
-        </div>
-
-        <p class="price">RM <?php echo number_format($row['price'], 2); ?></p>
-
-        <div class="product-actions">
-            <button type="button" class="review-summary">Summarize Review</button>
-        
-            <?php 
-            // 统一变量名为 $isInList
-            $p_id = intval($row['product_id']);
-            $isInList = in_array($p_id, $current_compare_ids); 
-            ?>
-        
-            <button type="button" 
-                    class="add-compare" 
-                    <?php if($isInList) echo 'disabled style="background:#aaa; cursor:not-allowed; opacity:0.8;"'; ?>>
-                <?php echo $isInList ? 'In Compare' : 'Add to Compare List'; ?>
-            </button>
-        </div>
+        <button type="button" 
+                class="add-compare <?php echo $isAdded ? 'btn-added' : ''; ?>">
+            <?php echo $isAdded ? 'In List' : 'Add to Compare'; ?>
+        </button>
     </div>
 </div>
-
-<div id="review-modal" class="modal">
-    <div class="modal-content">
-        <span style="float:right; cursor:pointer; font-size:24px;" onclick="closeModal()">&times;</span>
-        <h3 id="modal-title">AI Review Summary</h3>
-        <hr>
-        <div id="review-text">Loading...</div>
-    </div>
-</div>
-<div id="toast" class="toast"></div>
 
 <script>
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') return;
-            window.location.href = `Product_details.php?id=${card.dataset.id}`;
-        });
+document.querySelectorAll('.product-card').forEach(card=>{
+    card.addEventListener('click', (e)=>{
+        if(e.target.closest('.review-summary') || e.target.closest('.add-compare')) return;
+        const productId = card.dataset.id;
+        window.location.href = `Product_details.php?id=${productId}`;
     });
+});
 
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.innerText = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2500);
-    }
+document.querySelectorAll('.review-summary').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+        e.stopPropagation(); 
+        const card = e.target.closest('.product-card');
+        const productId = card.dataset.id;
+        const modal = document.getElementById('review-modal');
+        const reviewText = document.getElementById('review-text');
 
-    document.querySelectorAll('.review-summary').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const id = btn.closest('.product-card').dataset.id;
-            const modal = document.getElementById('review-modal');
-            const text = document.getElementById('review-text');
-            text.innerHTML = "🌀 <b>Gemma 3</b> is analyzing...";
-            modal.style.display = "block";
-            
-            fetch(`get_review_summary.php?id=${id}`)
-                .then(r => r.text())
-                .then(data => text.innerHTML = data)
-                .catch(() => text.innerHTML = "Error loading summary.");
-        });
+        reviewText.innerHTML = '<div class="spinner">🌀 <b>Gemma 3</b> is analyzing reviews...</div>';
+        modal.style.display = 'block';
+
+        fetch(`get_review_summary.php?id=${productId}`)
+            .then(res => res.text())
+            .then(data => { reviewText.innerHTML = data; })
+            .catch(err => { reviewText.innerHTML = 'Error fetching summary.'; });
     });
+});
 
-    document.querySelectorAll('.add-compare').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const id = btn.closest('.product-card').dataset.id;
-            
-            fetch(`add_to_compare.php?id=${id}`)
-                .then(res => {
-                    if (res.status === 200) {
-                        showToast("✅ Added to Compare List");
-                        btn.innerText = "In Compare";
-                        btn.classList.add('btn-disabled');
-                    } else if (res.status === 409) {
-                        showToast("⚠️ Already in list");
-                        btn.classList.add('btn-disabled');
-                    }
-                });
-        });
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    toast.classList.remove('show');
+
+    void toast.offsetWidth; 
+
+    toast.innerText = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
+}
+
+document.querySelectorAll('.add-compare').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const btn = e.currentTarget;
+        const card = btn.closest('.product-card');
+        const productId = card.dataset.id;
+
+        if (btn.classList.contains('processing')) return;
+        btn.classList.add('processing');
+
+        fetch(`add_to_compare.php?id=${productId}`)
+            .then(res => {
+                if (res.status === 200) {
+                    showToast("✅ Added to compare list!");
+                    btn.innerText = "In List";
+                    btn.style.background = "#ccc";
+                    btn.style.pointerEvents = "none";
+                } else if (res.status === 409) {
+                    showToast("⚠️ Already in list!");
+                } else {
+                    showToast("❌ Server Error");
+                }
+            })
+            .catch(() => showToast("❌ Connection error"))
+            .finally(() => btn.classList.remove('processing'));
     });
+});
+    
+window.addEventListener('click', (e) => {
+    const modalIds = ['review-modal', 'ai-modal', 'compare-modal'];
+    modalIds.forEach(id => {
+        const modal = document.getElementById(id);
+        if (modal && e.target === modal) modal.style.display = 'none';
+    });
+});
 
-    function closeModal() { document.getElementById('review-modal').style.display = "none"; }
-    window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); }
+    /*
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if(!toast) return; 
+    toast.innerText = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
+} */
 </script>
-
-</body>
-</html>
-
