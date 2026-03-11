@@ -2,16 +2,13 @@
 session_start();
 include('ConnectDB.php');
 
-$user_id = 1;
-$cart_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if (isset($_GET['id'])) {
+    $product_id = intval($_GET['id']);
+    $user_id = 1; 
 
-if ($cart_id > 0) {
-    $stmt = $conn->prepare("DELETE FROM cart WHERE id = ? AND user_id = ?");
-    $stmt->bind_param("ii", $cart_id, $user_id);
+    $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ? AND product_id = ?");
+    $stmt->bind_param("ii", $user_id, $product_id);
     $stmt->execute();
-    $stmt->close();
 }
-
-echo "success";
 exit; 
 ?>
