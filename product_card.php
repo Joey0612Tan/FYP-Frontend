@@ -306,19 +306,17 @@
    <p class="price">RM <?php echo number_format($row['price'],2); ?></p>
 
    <div class="product-actions">
-      <button class="review-summary">
-         Summarize Review
-      </button>
+        <button class="review-summary" onclick="handleReview(this, event)">
+            Review
+        </button>
 
-      <button
-         class="add-compare <?php echo (isset($is_in_list) && $is_in_list) ? 'in-list' : ''; ?>"
-         data-inlist="<?php echo (isset($is_in_list) && $is_in_list) ? '1' : '0'; ?>"
-         onclick="handleCompare(this, <?php e
-   
-   echo $row['product_id']; ?>)">
-         <?php echo (isset($is_in_list) && $is_in_list) ? '✔ In List' : '+ Compare'; ?>
-      </button>
-   </div>
+        <button 
+            class="add-compare <?php echo $is_in_list ? 'in-list' : ''; ?>" 
+            data-inlist="<?php echo $is_in_list ? '1' : '0'; ?>"
+            onclick="handleCompare(this, <?php echo $current_id; ?>, event)">
+            <?php echo $is_in_list ? '✔ In List' : '+ Compare'; ?>
+        </button>
+    </div>
 </div>
 
 <div id="review-modal" class="modal">
@@ -406,6 +404,7 @@
    });
 
 </script>
+
 
 
 
