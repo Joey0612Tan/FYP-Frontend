@@ -243,7 +243,6 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         width: 100%;
         min-height: 340px;
     }
-}
 
     .product-card h3 {
         font-size: 0.9rem; 
@@ -373,6 +372,7 @@ window.addEventListener('click', (e) => {
 });
     
 </script>
+
 
 
 
