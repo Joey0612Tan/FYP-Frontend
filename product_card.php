@@ -360,33 +360,31 @@
    });
 
    function handleCompare(btn, productId) {
+    if (btn.dataset.inlist === "1") {
+        showToast("⚠️ Already in compare list");
+        return;
+    }
 
-      if (btn.dataset.inlist === "1") {
-         showToast("⚠️ Already in compare list");
-         return;
-      }
-
-      fetch(`add_to_compare.php?id=${productId}`)
-         .then(res => {
-
+    fetch(`add_to_compare.php?id=${productId}`)
+        .then(res => {
             if (res.status === 200) {
-               showToast("✅ Added to compare list!");
-               btn.innerHTML    = "✔ In List";
-               btn.dataset.inlist = "1";
-               btn.classList.add("in-list");
-            }
+                showToast("✅ Added to compare list!");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } 
             else if (res.status === 409) {
-               showToast("⚠️ Already in compare list");
-               btn.innerHTML    = "✔ In List";
-               btn.dataset.inlist = "1";
-               btn.classList.add("in-list");
-            }
+                showToast("⚠️ Already in compare list");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } 
             else {
-               showToast("❌ Error adding product");
+                showToast("❌ Error adding product");
             }
-         })
-         .catch(() => showToast("❌ Connection error"));
-   }
+        })
+        .catch(() => showToast("❌ Connection error"));
+}
 
    function showToast(message) {
       const toast = document.getElementById("toast");
@@ -405,4 +403,5 @@
    });
 
 </script>
+
 
