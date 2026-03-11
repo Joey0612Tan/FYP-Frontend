@@ -2,32 +2,27 @@
 session_start();
 include('ConnectDB.php');
 
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["error" => "Missing ID"]);
+$p_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$u_id = 1; 
+
+if ($p_id <= 0) {
+    http_response_code(400);
+    echo "Invalid Product ID";
+    exit;
+}
+$checkCompare = "SELECT * FROM compare_list WHERE product_id = $p_id AND user_id = $u_id";
+$resCompare = $conn->query($checkCompare);
+
+if ($resCompare && $resCompare->num_rows > 0) {
+    http_response_code(409); 
     exit;
 }
 
-$id = (int)$_GET['id'];
-
-if (!isset($_SESSION['compare'])) {
-    $_SESSION['compare'] = [];
+$insertCompareSql = "INSERT INTO compare_list (product_id, user_id) VALUES ($p_id, $u_id)";
+if ($conn->query($insertCompareSql)) {
+    http_response_code(200); 
+} else {
+    http_response_code(500); 
+    echo $conn->error;
 }
-
-if (in_array($id, $_SESSION['compare'])) {
-    http_response_code(409); // Conflict
-    exit;
-}
-
-if (count($_SESSION['compare']) >= 4) {
-    http_response_code(403); // Forbidden
-    echo "Limit reached";
-    exit;
-}
-
-$_SESSION['compare'][] = $id;
-
-http_response_code(200);
-echo json_encode(["success" => true, "count" => count($_SESSION['compare'])]);
-exit;
 ?>
