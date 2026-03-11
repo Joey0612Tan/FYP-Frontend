@@ -262,16 +262,16 @@ $is_in_list = in_array($row['product_id'], $compare_list ?? []);
 
     <div class="product-actions">
         <button class="review-summary">Summarize Review</button>
-        
-        <button class="add-compare" 
-                id="compare-btn-<?php echo $row['product_id']; ?>"
-                <?php if($is_in_list): ?> 
-                    style="background:#ccc; cursor:not-allowed;" disabled
-                <?php endif; ?>
-                onclick="handleCompare(this, <?php echo $row['product_id']; ?>)">
+    
+        <button 
+            class="add-compare"
+            data-inlist="<?php echo $is_in_list ? '1' : '0'; ?>"
+            onclick="handleCompare(this, <?php echo $row['product_id']; ?>)">
+    
             <?php echo $is_in_list ? 'In List' : 'Add to Compare List'; ?>
+    
         </button>
-    </div>      
+    </div> 
 
 <div id="review-modal" class="modal">
     <div class="modal-content">
@@ -317,28 +317,32 @@ document.querySelectorAll('.review-summary').forEach(btn=>{
     });
 });
 
-function handleCompare(btn, productId) {
-    if (btn.disabled) {
-        showToast('⚠️ Already in list!');
+function handleCompare(btn, productId){    
+    const inList = btn.dataset.inlist;
+    
+    if(inList === "1"){
+        showToast("⚠️ Product already in compare list");
         return;
     }
-
+    
     fetch(`add_to_compare.php?id=${productId}`)
-        .then(res => {
-            if (res.status === 200) {
-                btn.innerText = "In List";
-                btn.style.background = "#ccc";
-                btn.style.cursor = "not-allowed";
-                btn.disabled = true; 
-                showToast('✅ Added to compare list!');
-            } else {
-                showToast('⚠️ Already in list!');
-                btn.innerText = "In List";
-                btn.style.background = "#ccc";
-                btn.disabled = true;
-            }
-        });
+    .then(res=>{
+    
+    if(res.status === 200){    
+    showToast("✅ Product successfully added to compare list!");
+    
+    btn.innerText = "In List";
+    btn.dataset.inlist = "1";
+    btn.classList.add("in-list");    
+    }
+    else{    
+    showToast("❌ Error adding product");    
+    }
+    
+    })
+    .catch(()=>showToast("❌ Connection error"));
 }
+        
 function showToast(message) {
     const toast = document.getElementById('toast');
     toast.innerText = message;
@@ -358,5 +362,6 @@ window.addEventListener('click', (e) => {
 });
     
 </script>
+
 
 
