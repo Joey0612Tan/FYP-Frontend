@@ -313,7 +313,9 @@
       <button
          class="add-compare <?php echo (isset($is_in_list) && $is_in_list) ? 'in-list' : ''; ?>"
          data-inlist="<?php echo (isset($is_in_list) && $is_in_list) ? '1' : '0'; ?>"
-         onclick="handleCompare(this, <?php echo $row['product_id']; ?>)">
+         onclick="handleCompare(this, <?php e
+   
+   cho $row['product_id']; ?>)">
          <?php echo (isset($is_in_list) && $is_in_list) ? '✔ In List' : '+ Compare'; ?>
       </button>
    </div>
@@ -365,25 +367,26 @@
         return;
     }
 
+    btn.style.pointerEvents = "none";
+
     fetch(`add_to_compare.php?id=${productId}`)
         .then(res => {
-            if (res.status === 200) {
-                showToast("✅ Added to compare list!");
+            if (res.status === 200 || res.status === 409) {
+                const msg = res.status === 200 ? "✅ Added to compare list!" : "⚠️ Already in list";
+                showToast(msg);
+                
                 setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            } 
-            else if (res.status === 409) {
-                showToast("⚠️ Already in compare list");
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            } 
-            else {
+                    window.location.reload(); 
+                }, 800);
+            } else {
                 showToast("❌ Error adding product");
+                btn.style.pointerEvents = "auto";
             }
         })
-        .catch(() => showToast("❌ Connection error"));
+        .catch(() => {
+            showToast("❌ Connection error");
+            btn.style.pointerEvents = "auto";
+        });
 }
 
    function showToast(message) {
@@ -403,5 +406,6 @@
    });
 
 </script>
+
 
 
