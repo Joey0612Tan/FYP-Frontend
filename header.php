@@ -33,7 +33,7 @@
     }
 
     .search-input {
-        width: 800px;
+        width: 100%;
         padding: 11px 18px;
         border: 1px solid #ccc;
         border-radius: 25px;
@@ -104,16 +104,6 @@
         position: absolute;
         left: -100%;
         animation: loading-scan 1.5s infinite;
-    }
-
-    .icon-btn{
-        font-size:16px;
-        padding:6px 8px;
-        width:36px;
-        height:36px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
     }
 
     @keyframes loading-scan {
@@ -327,6 +317,7 @@ function confirmAndSearch() {
 </script>
 
 </head>
+
 
 
 
