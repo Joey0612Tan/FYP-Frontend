@@ -231,9 +231,9 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 @media (max-width: 768px) {
     .product-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 8px;
-        padding: 8px;
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        gap: 12px;
+        padding: 12px;
         margin: 0;
         width: 100%;
         box-sizing: border-box;
@@ -416,6 +416,7 @@ window.addEventListener('click', (e) => {
 });
     
 </script>
+
 
 
 
