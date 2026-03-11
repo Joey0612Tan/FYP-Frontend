@@ -1,16 +1,17 @@
 <style>
    .product-container{
    display:grid;
-   grid-template-columns:repeat(auto-fill,minmax(350px,1fr));
-   gap:70px;
-   padding:40px;
+   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+   gap:20px;
+   padding:20px;
    margin:0 auto;
-   max-width:1400px;
+   max-width:1200px;
+   width:100%;
    }
    
    .product-card{
    border:1px solid #ddd;
-   padding:15px;
+   padding:12px;
    text-align:center;
    background:#fff;
    border-radius:12px;
@@ -19,7 +20,8 @@
    align-items:center;
    justify-content:space-between;
    width:100%;
-   height:550px;
+   height:auto;
+   min-height:480px;
    cursor:pointer;
    transition:border .3s, transform .2s;
    position:relative;
@@ -30,30 +32,37 @@
    transform:translateY(-3px);
    }
    
-   .product-card img{
-   width:300px;
-   height:300px;
-   object-fit:cover;
-   border-radius:4px;
-   margin-bottom:1px;
+   .product-image-wrapper{
+   width:100%;
+   aspect-ratio:1/1;
+   border-radius:8px;
+   overflow:hidden;
+   margin-bottom:8px;
    flex-shrink:0;
+   background:#f5f5f5;
+   }
+   
+   .product-card img{
+   width:100%;
+   height:100%;
+   object-fit:cover;
    }
    
    .product-card h3{
-   font-size:1.8rem;
+   font-size:1.1rem;
    font-weight:bold;
-   margin:1px 0 5px;
+   margin:8px 0 6px;
    color:#333;
    display:-webkit-box;
    -webkit-line-clamp:2;
    -webkit-box-orient:vertical;
    overflow:hidden;
    text-overflow:ellipsis;
-   min-height:3.2rem;
+   min-height:2.5rem;
    }
    
    .product-card p{
-   font-size:1.3rem;
+   font-size:0.95rem;
    margin:4px 0;
    color:#555;
    }
@@ -62,10 +71,11 @@
    display:flex;
    justify-content:space-between;
    align-items:center;
-   width:250px;
-   font-size:1.3rem;
+   width:100%;
+   font-size:0.9rem;
    color:#555;
-   margin:5px 0;
+   margin:6px 0;
+   gap:5px;
    }
    
    .rating{
@@ -74,33 +84,36 @@
    }
    
    .product-card .price{   
-   font-size:2rem;
+   font-size:1.5rem;
    font-weight:bold;   
-   color:#E53935;   
+   color:#E53935;
+   margin:6px 0;
    }
    
    .product-actions{
    display:flex;
-   justify-content:space-between;
-   gap:25px;   
-   margin-top:auto;   
+   justify-content:center;
+   gap:8px;   
+   margin-top:auto;
+   width:100%;
    }
    
    .product-actions button{   
    flex:1;   
-   padding:8px 0;   
-   font-size:1.3rem;
+   padding:8px 6px;   
+   font-size:0.9rem;
    font-weight:600;   
    border:none;
-   border-radius:25px;   
+   border-radius:6px;   
    cursor:pointer;   
    color:#fff;   
    display:flex;
    align-items:center;
    justify-content:center;   
-   gap:5px;   
+   gap:4px;   
    transition:.3s;   
-   box-shadow:0 2px 5px rgba(0,0,0,.2);   
+   box-shadow:0 2px 5px rgba(0,0,0,.15);
+   white-space:nowrap;
    }
    
    .review-summary{   
@@ -122,12 +135,10 @@
    transform:translateY(-2px);   
    }
       
-   /* ✅ in-list 状态样式 */
    .add-compare.in-list{   
    background:linear-gradient(135deg,#9E9E9E,#757575) !important;
    cursor:not-allowed;
    transform:none !important;
-   box-shadow:none;
    }
    
    .modal{   
@@ -147,8 +158,8 @@
    margin:5% auto;
    padding:25px 30px;   
    border-radius:12px;   
-   width:60%;
-   max-width:700px;   
+   width:80%;
+   max-width:600px;   
    position:relative;   
    box-shadow:0 10px 30px rgba(0,0,0,.3);   
    }
@@ -168,13 +179,13 @@
    }
    
    .modal-content h3{
-   font-size:2rem;
+   font-size:1.8rem;
    color:#333;
    margin-bottom:15px;
    }
    
    #review-text{
-   font-size:1.1rem;   
+   font-size:1rem;   
    line-height:1.6;   
    color:#555;   
    max-height:400px;
@@ -190,57 +201,49 @@
    color:#fff;   
    padding:12px 22px;
    border-radius:30px;
-   font-size:1.2rem;   
+   font-size:1rem;   
    opacity:0;
    pointer-events:none;   
    transition:.35s;   
-   z-index:9999;   
-   white-space:nowrap; /* ✅ 防止 toast 文字换行 */
+   z-index:9999;
+   white-space:nowrap;
    }
    
    .toast.show{
    opacity:1;
    transform:translateX(-50%) translateY(0);
    }
-   
-   /* ============================================
-      📱 手机端响应式（核心调整区域）
-   ============================================ */
+
    @media (max-width:768px){
    
    .product-container{
    grid-template-columns:repeat(2,1fr);
-   gap:12px;       /* ✅ 间距稍微宽松一点 */
+   gap:15px;
    padding:10px;
+   max-width:100%;
    }
    
    .product-card{
-   height:auto;
-   min-height:280px;
-   padding:10px 8px;
-   border-radius:10px;
+   min-height:380px;
+   padding:8px;
+   border-radius:8px;
    }
    
-   .product-card img{
-   width:100%;
-   height:120px;   /* ✅ 图片高度略提升，更好看 */
-   object-fit:cover;
-   border-radius:6px;
+   .product-image-wrapper{
+   margin-bottom:6px;
    }
    
    .product-card h3{
    font-size:0.85rem;
-   min-height:2.2rem;
-   margin:6px 0 3px;
+   min-height:2rem;
+   margin:4px 0 2px;
    }
    
    .seller-rating{
-   width:100%;
-   font-size:0.72rem;
-   flex-direction:column;  /* ✅ 竖向排，避免挤压 */
+   font-size:0.7rem;
+   flex-direction:column;
    align-items:flex-start;
    gap:2px;
-   padding:0 2px;
    }
    
    .product-card .price{
@@ -249,34 +252,27 @@
    }
    
    .product-actions{
-   flex-direction:row;    /* ✅ 手机端改为横向排列，两按钮并排 */
    gap:6px;
-   width:100%;
-   margin-top:8px;
+   margin-top:6px;
    }
    
    .product-actions button{
-   font-size:0.65rem;     /* ✅ 字体再小一点适应小屏 */
+   font-size:0.7rem;
    padding:6px 4px;
-   border-radius:20px;
-   gap:3px;
-   box-shadow:0 1px 3px rgba(0,0,0,.15);
+   border-radius:4px;
    }
 
-   /* ✅ 手机端 toast 字体缩小，避免超出屏幕 */
    .toast{
-   font-size:0.85rem;
+   font-size:0.8rem;
    padding:10px 16px;
-   max-width:90vw;
+   max-width:85vw;
    white-space:normal;
-   text-align:center;
    }
 
-   /* ✅ 手机端 modal 更紧凑 */
    .modal-content{
    width:90%;
    padding:16px;
-   margin:15% auto;
+   margin:20% auto;
    }
 
    .modal-content h3{
@@ -284,7 +280,7 @@
    }
 
    #review-text{
-   font-size:0.9rem;
+   font-size:0.85rem;
    }
 
    }
@@ -293,7 +289,11 @@
 <body>
 
 <div class="product-card" data-id="<?php echo $row['product_id']; ?>">
-   <img src="<?php echo htmlspecialchars($row['image_main']); ?>">
+   
+   <div class="product-image-wrapper">
+      <img src="<?php echo htmlspecialchars($row['image_main']); ?>" alt="<?php echo htmlspecialchars($row['product_name']); ?>">
+   </div>
+   
    <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
 
    <div class="seller-rating">
@@ -305,14 +305,14 @@
 
    <div class="product-actions">
       <button class="review-summary">
-         Summarize Review
+         📊 Review
       </button>
 
       <button
-         class="add-compare <?php echo $is_in_list ? 'in-list' : ''; ?>"
-         data-inlist="<?php echo $is_in_list ? '1' : '0'; ?>"
+         class="add-compare <?php echo (isset($is_in_list) && $is_in_list) ? 'in-list' : ''; ?>"
+         data-inlist="<?php echo (isset($is_in_list) && $is_in_list) ? '1' : '0'; ?>"
          onclick="handleCompare(this, <?php echo $row['product_id']; ?>)">
-         <?php echo $is_in_list ? '✔ In List' : '+ Add to Compare'; ?>
+         <?php echo (isset($is_in_list) && $is_in_list) ? '✔ In List' : '+ Compare'; ?>
       </button>
    </div>
 </div>
@@ -329,7 +329,6 @@
 
 <script>
 
-   /* ── 点击卡片跳转（排除按钮区域） ── */
    document.querySelectorAll('.product-card').forEach(card => {
       card.addEventListener('click', (e) => {
          if (e.target.closest('.review-summary') ||
@@ -339,7 +338,7 @@
       });
    });
 
-   /* ── Summarize Review 弹窗 ── */
+   /* ── Summarize Review ── */
    document.querySelectorAll('.review-summary').forEach(btn => {
       btn.addEventListener('click', (e) => {
          e.stopPropagation();
@@ -358,10 +357,8 @@
       });
    });
 
-   /* ── Add to Compare 逻辑（200 / 409 分流） ── */
    function handleCompare(btn, productId) {
 
-      /* 本地已标记 in-list → 直接 toast，不发请求 */
       if (btn.dataset.inlist === "1") {
          showToast("⚠️ Already in compare list");
          return;
@@ -371,27 +368,24 @@
          .then(res => {
 
             if (res.status === 200) {
-               /* ✅ 成功加入 */
-               showToast("✅ Product added to compare list successfully!");
+               showToast("✅ Added to compare list!");
                btn.innerHTML    = "✔ In List";
                btn.dataset.inlist = "1";
                btn.classList.add("in-list");
             }
             else if (res.status === 409) {
-               /* ⚠️ 服务端回报已存在 → 同步本地状态 + toast */
                showToast("⚠️ Already in compare list");
                btn.innerHTML    = "✔ In List";
                btn.dataset.inlist = "1";
                btn.classList.add("in-list");
             }
             else {
-               showToast("❌ Error adding product. Please try again.");
+               showToast("❌ Error adding product");
             }
          })
-         .catch(() => showToast("❌ Connection error. Please try again."));
+         .catch(() => showToast("❌ Connection error"));
    }
 
-   /* ── Toast 工具函数 ── */
    function showToast(message) {
       const toast = document.getElementById("toast");
       toast.innerText = message;
@@ -399,13 +393,11 @@
       setTimeout(() => toast.classList.remove("show"), 2500);
    }
 
-   /* ── 点击 modal 背景关闭 ── */
    window.addEventListener('click', (e) => {
       const modal = document.getElementById('review-modal');
       if (e.target === modal) modal.style.display = "none";
    });
 
-   /* ── 点击 × 关闭 ── */
    document.querySelector('.close').addEventListener('click', () => {
       document.getElementById('review-modal').style.display = "none";
    });
