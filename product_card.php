@@ -1,7 +1,6 @@
 <?php
 session_start();
 include('ConnectDB.php');
-
 $current_compare_ids = isset($_SESSION['compare']) ? $_SESSION['compare'] : [];
 ?>
 
@@ -287,11 +286,17 @@ $current_compare_ids = isset($_SESSION['compare']) ? $_SESSION['compare'] : [];
 
         <div class="product-actions">
             <button type="button" class="review-summary">Summarize Review</button>
-  
-           <button type="button" 
-                  class="add-compare"
-                  <?php if($inCompare) echo 'disabled style="background:#aaa;cursor:not-allowed"'; ?>>
-            <?php echo $inCompare ? 'In Compare' : 'Add to Compare List'; ?>
+        
+            <?php 
+            // 统一变量名为 $isInList
+            $p_id = intval($row['product_id']);
+            $isInList = in_array($p_id, $current_compare_ids); 
+            ?>
+        
+            <button type="button" 
+                    class="add-compare" 
+                    <?php if($isInList) echo 'disabled style="background:#aaa; cursor:not-allowed; opacity:0.8;"'; ?>>
+                <?php echo $isInList ? 'In Compare' : 'Add to Compare List'; ?>
             </button>
         </div>
     </div>
@@ -361,3 +366,4 @@ $current_compare_ids = isset($_SESSION['compare']) ? $_SESSION['compare'] : [];
 
 </body>
 </html>
+
