@@ -230,19 +230,20 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
 
 @media (max-width: 768px) {
+    @media (max-width: 768px) {
     .product-container {
-        grid-template-columns: repeat(2, 1fr);/
-        gap: 20px;
-        padding: 10px;
-        justify-content: start;  
-        justify-items: start;
+        grid-template-columns: repeat(2, minmax(0, 155px));         
+        justify-content: start; 
+        gap: 10px; 
+        padding: 10px;        
+        margin: 0; 
     }
 
     .product-card {
-        min-height: 320px;
-        padding: 10px;
-        border-radius: 10px;        
+        width: 100%;
+        min-height: 340px;
     }
+}
 
     .product-card h3 {
         font-size: 0.9rem; 
@@ -372,5 +373,6 @@ window.addEventListener('click', (e) => {
 });
     
 </script>
+
 
 
