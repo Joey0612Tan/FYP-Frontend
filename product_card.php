@@ -315,7 +315,7 @@
          data-inlist="<?php echo (isset($is_in_list) && $is_in_list) ? '1' : '0'; ?>"
          onclick="handleCompare(this, <?php e
    
-   cho $row['product_id']; ?>)">
+   echo $row['product_id']; ?>)">
          <?php echo (isset($is_in_list) && $is_in_list) ? '✔ In List' : '+ Compare'; ?>
       </button>
    </div>
@@ -406,6 +406,7 @@
    });
 
 </script>
+
 
 
 
