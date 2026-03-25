@@ -143,5 +143,3 @@ document.querySelectorAll('.add-compare').forEach(btn=>{
     });
 });
 </script>
-
-
