@@ -105,7 +105,6 @@ async function handleAICamera(input) {
 
     const file = input.files[0];
     const statusBar = document.getElementById('ai-status-bar');
-    const searchInput = document.getElementById('mainSearchInput');
     const modal = document.getElementById('ai-modal');
     const vectorDisplay = document.getElementById('vector-display');
     const previewBox = document.getElementById('ai-preview-box');
@@ -116,28 +115,49 @@ async function handleAICamera(input) {
     const reader = new FileReader();
     reader.onload = (e) => {
         previewBox.src = e.target.result;
-        modal.style.display = 'flex';
-        vectorDisplay.innerText = "ResNet50: Extracting deep feature vectors...";
+        if(modal) modal.style.display = 'flex';
+        if(vectorDisplay) vectorDisplay.innerText = "ResNet50: Extracting deep feature vectors...";
     };
     reader.readAsDataURL(file);
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     try {
+        const compressedBlob = await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 224;
+                canvas.height = 224;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 224, 224);
+                
+                canvas.toBlob((blob) => {
+                    if (blob) resolve(blob);
+                    else reject(new Error("Canvas to Blob failed"));
+                }, 'image/jpeg', 0.8);
+            };
+            img.onerror = reject;
+        });
+
+        const formData = new FormData();
+        formData.append('image', compressedBlob, 'compressed.jpg');
+
         const response = await fetch('https://fyp-ai-backend.onrender.com/visual_search', {
             method: 'POST',
+            mode: 'cors', 
             body: formData
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`Server Error: ${response.status}`);
+        }
         
         const data = await response.json();
 
         if (data.status === 'success' && data.matches.length > 0) {
             const ids = data.matches.join(',');
             window.location.href = `search.php?ids=${ids}&search_mode=visual&score=${data.top_score}`;
-        } else if (data.status === 'no_match' || data.matches.length === 0) {
+        } else if (data.status === 'no_match' || (data.matches && data.matches.length === 0)) {
             statusBar.innerText = "😓 No close matches found.";
             setTimeout(() => {
                 window.location.href = `search.php?search_mode=visual&ids=none`;
@@ -145,13 +165,18 @@ async function handleAICamera(input) {
         } else {
             throw new Error(data.error || "Unknown AI error");
         }
+
     } catch (err) {
-        statusBar.innerText = "❌ AI Server Error";
-        vectorDisplay.innerText = "Error: " + err.message;
-        console.error("Full Error:", err);
+        statusBar.innerText = "❌ AI Connection Failed";
+        if(vectorDisplay) vectorDisplay.innerText = "Error: " + err.message;
+        console.error("Full Error Debug:", err);
+        
+        if (err.message.includes('403')) {
+            alert("Security Block (403): Please check if Render service is Live and CORS is allowed.");
+        }
     }
 }
-
+    
 document.addEventListener('click', function(e) {
     const menu = document.getElementById('camera-options');
     if (menu && !e.target.closest('.navbar-center')) {
