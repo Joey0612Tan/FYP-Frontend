@@ -31,7 +31,7 @@ if ($row = $result->fetch_assoc()) {
 <div class="navbar-center">
     <form method="GET" action="search.php" id="searchForm" style="display:flex; gap:5px; position: relative;">
         <input type="text" name="keyword" id="mainSearchInput" class="search-input" placeholder="Search products..." required>
-        <button type="submit" class="search-btn">🔍</button>
+        <button type="button" class="search-btn" onclick="confirmAndSearch()">🔍</button>
         
         <button type="button" class="search-btn" onclick="toggleCameraOptions(event)">📸</button>
 
