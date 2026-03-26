@@ -1,4 +1,50 @@
 <?php
+// 在 Search.php 最开头添加
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$search_mode = $_GET['search_mode'] ?? '';
+$ids = $_GET['ids'] ?? '';
+$score = $_GET['score'] ?? 0;
+$keyword = $_GET['keyword'] ?? '';
+
+// 调试输出
+echo "<!-- Debug Info -->";
+echo "<!-- Mode: $search_mode -->";
+echo "<!-- IDs: $ids -->";
+echo "<!-- Score: $score -->";
+echo "<!-- Keyword: $keyword -->";
+
+if ($search_mode === 'visual' && !empty($ids) && $ids !== 'none') {
+    $id_array = explode(',', $ids);
+    echo "<!-- Processing " . count($id_array) . " product IDs -->";
+    
+    // 构建 SQL 查询
+    $placeholders = implode(',', array_fill(0, count($id_array), '?'));
+    $sql = "SELECT * FROM products WHERE product_id IN ($placeholders)";
+    $stmt = $conn->prepare($sql);
+    
+    // 绑定参数
+    $types = str_repeat('i', count($id_array));
+    $stmt->bind_param($types, ...$id_array);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        echo "<!-- Found " . $result->num_rows . " products -->";
+        // 显示产品...
+    } else {
+        echo "<!-- No products found with those IDs -->";
+    }
+} elseif (!empty($keyword)) {
+    // 关键词搜索
+    echo "<!-- Keyword search for: $keyword -->";
+    // 执行关键词搜索...
+} else {
+    echo "<!-- No valid search parameters -->";
+}
+?>
+<?php
 include('ConnectDB.php');
 include('header.php');
 include('navbar.php');
