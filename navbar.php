@@ -34,28 +34,6 @@ if ($row = $result->fetch_assoc()) {
             <button type="button" class="search-btn" onclick="confirmAndSearch()">🔍</button>
             
             <button type="button" class="search-btn" onclick="toggleCameraOptions(event)">📸</button>
-
-            <div id="camera-options" style="
-                display:none; 
-                position: absolute; 
-                top: 45px; 
-                right: 0; 
-                background: white; 
-                border: 1px solid #ceb9a0; 
-                padding: 15px; 
-                border-radius: 12px; 
-                box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
-                z-index: 10001; 
-                width: 250px;
-            ">
-                <div style="text-align: center; margin-bottom: 12px;">
-                    <strong style="color: #4b310b; font-size: 14px;">AI Image Search</strong>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button type="button" onclick="event.stopPropagation(); triggerCamera('camera')" class="btn-ai-primary" style="background: #ceb9a0; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer;">📷 Take a Photo</button>
-                    <button type="button" onclick="event.stopPropagation(); triggerCamera('gallery')" class="btn-ai-secondary" style="background: #f5f5f5; border: 1px solid #ddd; padding: 10px; border-radius: 8px; cursor: pointer;">🖼️ From Gallery</button>
-                </div>
-            </div>
         </form>
         
         <input type="file" id="ai-upload-input" accept="image/*" style="display:none;" onchange="handleAICamera(this)">
@@ -78,6 +56,30 @@ if ($row = $result->fetch_assoc()) {
     </div>
 </nav>
 
+<div id="camera-options" style="
+    display:none; 
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    background: white; 
+    border: 1px solid #ceb9a0; 
+    padding: 20px; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+    z-index: 10001; 
+    width: 280px;
+">
+    <div style="text-align: center; margin-bottom: 15px;">
+        <strong style="color: #4b310b; font-size: 16px;">📸 AI Image Search</strong>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button type="button" onclick="event.stopPropagation(); triggerCamera('camera')" style="background: #ceb9a0; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 16px;">📷 Take a Photo</button>
+        <button type="button" onclick="event.stopPropagation(); triggerCamera('gallery')" style="background: #f5f5f5; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 16px;">🖼️ From Gallery</button>
+        <button type="button" onclick="toggleCameraOptions(event)" style="background: none; border: none; padding: 8px; color: #999; cursor: pointer; margin-top: 5px;">Cancel</button>
+    </div>
+</div>
+
 <script>
 function confirmAndSearch() {
     const kw = document.getElementById('mainSearchInput').value;
@@ -93,7 +95,7 @@ function toggleCameraOptions(event) {
     event.stopPropagation();
     const menu = document.getElementById('camera-options');
     if (menu) {
-        menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
 }
 
@@ -185,8 +187,12 @@ async function handleAICamera(input) {
 
 document.addEventListener('click', function(e) {
     const menu = document.getElementById('camera-options');
-    if (menu && !e.target.closest('.navbar-center')) {
-        menu.style.display = 'none';
+    const cameraBtn = document.querySelector('.search-btn[onclick*="toggleCameraOptions"]');
+    
+    if (menu && menu.style.display === 'block') {
+        if (!menu.contains(e.target) && e.target !== cameraBtn && !cameraBtn.contains(e.target)) {
+            menu.style.display = 'none';
+        }
     }
 });
 </script>
