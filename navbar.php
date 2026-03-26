@@ -125,97 +125,43 @@ async function handleAICamera(input) {
         const compressedBlob = await compressImage(file);
         const formData = new FormData();
         formData.append('image', compressedBlob, 'image.jpg');
-        console.log('Sending request to AI backend...');
-        
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); 
-        
+
         const response = await fetch('https://fyp-ai-backend.onrender.com/visual_search', {
             method: 'POST',
             mode: 'cors',
-            signal: controller.signal,
             body: formData
         });
-        
-        clearTimeout(timeoutId);
 
-        if (!response.ok) {
-            throw new Error(`Server Error: ${response.status}`);
-        }
-        
         const data = await response.json();
-        console.log('AI Response FULL:', JSON.stringify(data, null, 2)); 
-        
-        if (data.status === 'success') {
-            let matches = [];
-            let topScore = 0;
-            let recognizedKeyword = data.keyword || '';
-            
-            if (data.matches && Array.isArray(data.matches)) {
-                matches = data.matches;
-                topScore = data.top_score || data.score || 0;
-                recognizedKeyword = data.keyword || data.label || '';
-            } else if (data.ids && Array.isArray(data.ids)) {
-                matches = data.ids;
-                topScore = data.score || 0;
-            } else if (data.results && Array.isArray(data.results)) {
-                matches = data.results;
-                topScore = data.best_score || 0;
-            } else if (data.product_ids && Array.isArray(data.product_ids)) {
-                matches = data.product_ids;
-                topScore = data.confidence || 0;
-            }
-            
-            console.log('Extracted matches:', matches);
-            console.log('Top score:', topScore);
-            console.log('Recognized keyword:', recognizedKeyword);
-            
-            if (matches.length > 0) {
-                const ids = matches.join(',');
-                const score = topScore || 0;
-                const url = `Search.php?ids=${ids}&search_mode=visual&score=${score}&keyword=${encodeURIComponent(recognizedKeyword)}`;
-                console.log(`Redirecting to: ${url}`);
-                window.location.href = url;
-            } else {
-                console.log('No matches found in response');
-                if (statusBar) {
-                    statusBar.innerHTML = "😓 No matches found. Showing recommendations...";
-                }
-                setTimeout(() => {
-                    window.location.href = `Search.php?search_mode=visual&ids=none`;
-                }, 1500);
-            }
+        console.log('AI Response:', data);
+
+        if (data.status === 'success' && data.matches && data.matches.length > 0) {
+            // 有匹配结果
+            const ids = data.matches.join(',');
+            const score = data.top_score || 0;
+            window.location.href = `Search.php?ids=${ids}&search_mode=visual&score=${score}`;
         } else {
-            console.log('Response status is not success:', data);
-            throw new Error(data.error || data.message || "Unknown AI error");
+            // 没有匹配结果 - 显示提示并推荐热门产品
+            console.log('No matches found, showing popular products');
+            
+            if (statusBar) {
+                statusBar.innerHTML = "😓 No exact matches. Showing popular products instead...";
+            }
+            
+            // 显示热门产品（不带ids参数，让Search.php显示默认产品）
+            setTimeout(() => {
+                window.location.href = `Search.php?search_mode=visual&show_popular=1`;
+            }, 1500);
         }
 
     } catch (err) {
         console.error("AI Search Error:", err);
-        
-        let errorMessage = "❌ AI Connection Failed";
-        if (err.name === 'AbortError') {
-            errorMessage = "⏱️ AI request timeout. Please try again.";
-        } else if (err.message.includes('Failed to fetch')) {
-            errorMessage = "🌐 Cannot reach AI server. Please check your connection.";
-        } else {
-            errorMessage = `❌ ${err.message}`;
-        }
-        
         if (statusBar) {
-            statusBar.innerHTML = errorMessage;
-            setTimeout(() => {
-                statusBar.style.display = 'none';
-            }, 3000);
+            statusBar.innerHTML = "❌ AI Connection Failed. Showing popular products...";
         }
-        
-        const keyword = document.getElementById('mainSearchInput').value;
-        if (keyword.trim()) {
-            alert("AI search failed. Falling back to keyword search.");
-            window.location.href = `Search.php?keyword=${encodeURIComponent(keyword)}`;
-        } else {
-            alert(errorMessage);
-        }
+        setTimeout(() => {
+            window.location.href = `Search.php?show_popular=1`;
+        }, 1500);
     }
 }
 
