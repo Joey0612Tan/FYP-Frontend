@@ -343,6 +343,38 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 </div>
 
 <script>
+document.querySelectorAll('.product-card').forEach(card=>{
+    card.addEventListener('click', (e)=>{
+        if(e.target.closest('.review-summary') || e.target.closest('.add-compare')) return;
+
+        const productId = card.dataset.id;
+        window.location.href = `product_details.php?id=${productId}`;
+    });
+});
+    
+document.querySelectorAll('.review-summary').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+        e.stopPropagation(); 
+        const card = e.target.closest('.product-card');
+        const productId = card.dataset.id;
+
+        const modal = document.getElementById('review-modal');
+        const reviewText = document.getElementById('review-text');
+
+        reviewText.innerHTML = '<div class="spinner">🌀 <b>Gemma 3</b>  is analyzing reviews...</div>';
+        modal.style.display = 'block';
+
+        fetch(`get_review_summary.php?id=${productId}`)
+            .then(res => res.text())
+            .then(data => {
+                reviewText.innerHTML = data;
+            })
+            .catch(err => {
+                reviewText.innerHTML = 'Error fetching summary.';
+            });
+    });
+});
+    
 function handleCompare(btn, productId, e) {
     e.stopPropagation();
 
