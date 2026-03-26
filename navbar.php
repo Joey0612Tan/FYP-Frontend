@@ -65,15 +65,15 @@ if ($row = $result->fetch_assoc()) {
 
     <div class="navbar-right">
         <a href="cart.php" class="cart-btn">
-            🛒 <span class="btn-text">Cart</span> <span class="badge" id="cart-count"><?php echo $cart_count ?? 0; ?></span>
+            🛒 <span class="badge" id="cart-count"><?php echo $cart_count ?? 0; ?></span>
         </a>
 
         <a href="compare_list.php" class="compare-btn">
-            ⚖️ <span class="btn-text">Compare</span> <span class="badge" id="compare-count"><?php echo $compare_count ?? 0; ?></span>
+            ⚖️ <span class="badge" id="compare-count"><?php echo $compare_count ?? 0; ?></span>
         </a>
 
         <button class="profile-btn">
-            👤 <span class="btn-text">Account</span>
+            👤
         </button>
     </div>
 </nav>
@@ -108,7 +108,81 @@ function triggerCamera(type) {
     }
 }
 
-// Close camera options when clicking outside
+async function handleAICamera(input) {
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    const statusBar = document.getElementById('ai-status-bar');
+    
+    if (statusBar) {
+        statusBar.style.display = 'block';
+        statusBar.innerHTML = `✨ AI Vision is analyzing... <div class="ai-progress-line"></div>`;
+    }
+
+    try {
+        const compressedBlob = await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 224;
+                canvas.height = 224;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 224, 224);
+                
+                canvas.toBlob((blob) => {
+                    if (blob) resolve(blob);
+                    else reject(new Error("Canvas to Blob failed"));
+                }, 'image/jpeg', 0.8);
+                
+                URL.revokeObjectURL(img.src);
+            };
+            img.onerror = reject;
+        });
+
+        const formData = new FormData();
+        formData.append('image', compressedBlob, 'compressed.jpg');
+
+        const response = await fetch('https://fyp-ai-backend.onrender.com/visual_search', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server Error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+
+        if (data.status === 'success' && data.matches && data.matches.length > 0) {
+            const ids = data.matches.join(',');
+            window.location.href = `search.php?ids=${ids}&search_mode=visual&score=${data.top_score}`;
+        } else if (data.status === 'no_match' || (data.matches && data.matches.length === 0)) {
+            if (statusBar) {
+                statusBar.innerHTML = "😓 No close matches found.";
+                setTimeout(() => {
+                    window.location.href = `search.php?search_mode=visual&ids=none`;
+                }, 1500);
+            }
+        } else {
+            throw new Error(data.error || "Unknown AI error");
+        }
+
+    } catch (err) {
+        if (statusBar) {
+            statusBar.innerHTML = "❌ AI Connection Failed";
+        }
+        console.error("Full Error Debug:", err);
+        
+        if (err.message.includes('403')) {
+            alert("Security Block (403): Please check if Render service is Live and CORS is allowed.");
+        } else {
+            alert("AI Search failed: " + err.message);
+        }
+    }
+}
+
 document.addEventListener('click', function(e) {
     const menu = document.getElementById('camera-options');
     if (menu && !e.target.closest('.navbar-center')) {
