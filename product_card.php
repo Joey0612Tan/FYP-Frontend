@@ -235,7 +235,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
         padding: 16px;
-        margin: 0;
+        margin: 0 auto;
         width: 100%;
         box-sizing: border-box;
     }
