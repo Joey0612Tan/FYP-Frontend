@@ -29,7 +29,7 @@ if ($row = $result->fetch_assoc()) {
     </div>
 
     <div class="navbar-center">
-        <form method="GET" action="search.php" id="searchForm" style="display:flex; gap:5px; position: relative;">
+        <form method="GET" action="Search.php" id="searchForm" style="display:flex; gap:5px; position: relative;">
             <input type="text" name="keyword" id="mainSearchInput" class="search-input" placeholder="Search products..." required>
             <button type="button" class="search-btn" onclick="confirmAndSearch()">🔍</button>
             
@@ -65,15 +65,15 @@ if ($row = $result->fetch_assoc()) {
 
     <div class="navbar-right">
         <a href="cart.php" class="cart-btn">
-            🛒 <span class="badge" id="cart-count"><?php echo $cart_count ?? 0; ?></span>
+            🛒 <span class="btn-text">Cart</span> <span class="badge" id="cart-count"><?php echo $cart_count ?? 0; ?></span>
         </a>
-
+    
         <a href="compare_list.php" class="compare-btn">
-            ⚖️ <span class="badge" id="compare-count"><?php echo $compare_count ?? 0; ?></span>
+            ⚖️ <span class="btn-text">Compare</span> <span class="badge" id="compare-count"><?php echo $compare_count ?? 0; ?></span>
         </a>
-
+    
         <button class="profile-btn">
-            👤
+            👤 <span class="btn-text">Account</span>
         </button>
     </div>
 </nav>
@@ -82,7 +82,7 @@ if ($row = $result->fetch_assoc()) {
 function confirmAndSearch() {
     const kw = document.getElementById('mainSearchInput').value;
     if (kw.trim() !== '') {
-        window.location.href = `search.php?keyword=${encodeURIComponent(kw)}&search_mode=visual`;
+        window.location.href = `Search.php?keyword=${encodeURIComponent(kw)}&search_mode=visual`;
     } else {
         alert('Please enter a search keyword');
     }
@@ -157,12 +157,12 @@ async function handleAICamera(input) {
 
         if (data.status === 'success' && data.matches && data.matches.length > 0) {
             const ids = data.matches.join(',');
-            window.location.href = `search.php?ids=${ids}&search_mode=visual&score=${data.top_score}`;
+            window.location.href = `Search.php?ids=${ids}&search_mode=visual&score=${data.top_score}`;
         } else if (data.status === 'no_match' || (data.matches && data.matches.length === 0)) {
             if (statusBar) {
                 statusBar.innerHTML = "😓 No close matches found.";
                 setTimeout(() => {
-                    window.location.href = `search.php?search_mode=visual&ids=none`;
+                    window.location.href = `Search.php?search_mode=visual&ids=none`;
                 }, 1500);
             }
         } else {
