@@ -29,7 +29,7 @@ if ($row = $result->fetch_assoc()) {
     </div>
 
 <div class="navbar-center">
-    <form method="GET" action="search.php" id="searchForm" style="display:flex; gap:5px; position: relative;">
+    <form method="GET" action="Search.php" id="searchForm" style="display:flex; gap:5px; position: relative;">
         <input type="text" name="keyword" id="mainSearchInput" class="search-input" placeholder="Search products..." required>
         <button type="button" class="search-btn" onclick="confirmAndSearch()">🔍</button>
         
@@ -81,7 +81,7 @@ if ($row = $result->fetch_assoc()) {
 <script>
 function confirmAndSearch() {
     const kw = document.getElementById('mainSearchInput').value;
-    window.location.href = `search.php?keyword=${kw}&search_mode=visual`;
+    window.location.href = `Search.php?keyword=${kw}&search_mode=visual`;
 }
 
 function toggleCameraOptions(event) {
@@ -156,11 +156,11 @@ async function handleAICamera(input) {
 
         if (data.status === 'success' && data.matches.length > 0) {
             const ids = data.matches.join(',');
-            window.location.href = `search.php?ids=${ids}&search_mode=visual&score=${data.top_score}`;
+            window.location.href = `Search.php?ids=${ids}&search_mode=visual&score=${data.top_score}`;
         } else if (data.status === 'no_match' || (data.matches && data.matches.length === 0)) {
             statusBar.innerText = "😓 No close matches found.";
             setTimeout(() => {
-                window.location.href = `search.php?search_mode=visual&ids=none`;
+                window.location.href = `Search.php?search_mode=visual&ids=none`;
             }, 1500);
         } else {
             throw new Error(data.error || "Unknown AI error");
