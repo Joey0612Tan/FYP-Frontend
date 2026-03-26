@@ -65,15 +65,15 @@ if ($row = $result->fetch_assoc()) {
 
     <div class="navbar-right">
         <a href="cart.php" class="cart-btn">
-            🛒 <span class="btn-text">Cart</span> <span class="badge" id="cart-count"><?php echo $cart_count ?? 0; ?></span>
+            🛒 <span class="btn-text hide-text">Cart</span> <span class="badge" id="cart-count"><?php echo $cart_count ?? 0; ?></span>
         </a>
     
         <a href="compare_list.php" class="compare-btn">
-            ⚖️ <span class="btn-text">Compare</span> <span class="badge" id="compare-count"><?php echo $compare_count ?? 0; ?></span>
+            ⚖️ <span class="btn-text hide-text">Compare</span> <span class="badge" id="compare-count"><?php echo $compare_count ?? 0; ?></span>
         </a>
     
         <button class="profile-btn">
-            👤 <span class="btn-text">Account</span>
+            👤 <span class="btn-text hide-text">Account</span>
         </button>
     </div>
 </nav>
