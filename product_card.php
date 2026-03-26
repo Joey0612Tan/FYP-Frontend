@@ -7,7 +7,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 ?>
 
 <style>
-    .product-container {
+.product-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 40px;
@@ -15,6 +15,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     margin: 0 auto;
     max-width: 1200px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .product-card {
@@ -227,13 +228,13 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     bottom: 50px;
     transform: translateX(-50%) translateY(0);
 }
-    
+
 @media (max-width: 768px) {
     .product-container {
         display: grid;
-        grid-template-columns: repeat(2, minmax(140px, 1fr));
-        gap: 12px;
-        padding: 12px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 16px;
         margin: 0;
         width: 100%;
         box-sizing: border-box;
@@ -241,9 +242,9 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
     .product-card {
         width: 100%;
-        min-height: auto; 
+        min-height: auto;
         height: auto;
-        padding: 8px;
+        padding: 12px;
         margin: 0;
         display: flex;
         flex-direction: column;
@@ -254,7 +255,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     .product-image-wrapper {
         width: 100%;
         aspect-ratio: 1/1;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         flex-shrink: 0;
     }
 
@@ -265,73 +266,116 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     }
 
     .product-card h3 {
-        font-size: 0.85rem;
-        margin: 4px 0 2px;
+        font-size: 0.95rem;
+        margin: 6px 0 4px;
         line-height: 1.3;
-        min-height: 2.2em;
+        min-height: 2.4em;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         word-break: break-word;
+        font-weight: 600;
     }
 
-    .product-card p:not(.price) {
-        display: none;
+    .product-card .seller-info {
+        font-size: 0.7rem;
+        margin: 2px 0;
+        color: #777;
     }
 
     .seller-rating {
-        font-size: 0.7rem;
-        margin: 2px 0;
-        flex-direction: row; 
+        font-size: 0.75rem;
+        margin: 4px 0;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        gap: 2px;
+        gap: 4px;
     }
 
     .product-card .price {
-        font-size: 1rem;
-        margin: 4px 0;
+        font-size: 1.2rem;
+        margin: 6px 0;
         color: #E53935;
         font-weight: bold;
     }
 
     .product-actions {
         display: flex;
-        flex-direction: column;
-        gap: 4px;
-        margin-top: 4px;
+        flex-direction: row;
+        gap: 8px;
+        margin-top: 8px;
     }
 
     .product-actions button {
-        width: 100%;
-        padding: 6px 4px;
-        font-size: 0.7rem;
+        flex: 1;
+        padding: 8px 4px;
+        font-size: 0.75rem;
         margin: 0;
-        white-space: normal; 
-        word-break: break-word;
+        white-space: nowrap;
         line-height: 1.2;
-        min-height: 28px;
+        min-height: 36px;
+    }
+    
+    .product-card .product-description {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-container {
+        gap: 12px;
+        padding: 12px;
+    }
+    
+    .product-card {
+        padding: 10px;
+    }
+    
+    .product-card h3 {
+        font-size: 0.85rem;
+    }
+    
+    .product-card .price {
+        font-size: 1rem;
+    }
+    
+    .product-actions button {
+        font-size: 0.7rem;
+        padding: 6px 2px;
+        min-height: 32px;
     }
 }
 </style>
 
+<div id="review-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('review-modal').style.display='none'">&times;</span>
+        <h3>📊 AI Review Summary</h3>
+        <div id="review-text">
+            <div class="spinner">🔄 Loading reviews...</div>
+        </div>
+    </div>
+</div>
+
 <div class="product-card" data-id="<?php echo $current_id; ?>" onclick="if(!event.target.closest('button')) window.location.href='Product_details.php?id=<?php echo $current_id; ?>'">
     <div class="product-image-wrapper">
-        <img src="<?php echo htmlspecialchars($row['image_main']); ?>" alt="Product">
+        <img src="<?php echo htmlspecialchars($row['image_main']); ?>" alt="Product" loading="lazy">
     </div>
     
     <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
 
-    <div style="display:flex; justify-content:space-between; font-size:0.9rem; color:#555;">
-        <span>Seller: <?php echo htmlspecialchars($row['seller_name']); ?></span>
-        <span style="color:#ecd53a;">⭐ <?php echo htmlspecialchars($row['rating']); ?></span>
+    <div class="seller-rating">
+        <span class="seller-info">Seller: <?php echo htmlspecialchars($row['seller_name']); ?></span>
+        <span class="rating">⭐ <?php echo htmlspecialchars($row['rating']); ?></span>
     </div>
 
-    <p style="font-size:1.4rem; font-weight:bold; color:#E53935; margin:8px 0;">RM <?php echo number_format($row['price'], 2); ?></p>
+    <p class="price">RM <?php echo number_format($row['price'], 2); ?></p>
 
     <div class="product-actions">
-        <button class="review-summary" onclick="event.stopPropagation();">📊 Review</button>
+        <button class="review-summary" onclick="event.stopPropagation(); showReviewSummary(<?php echo $current_id; ?>)">
+            📊 Review
+        </button>
 
         <button 
             class="add-compare <?php echo $is_in_list ? 'in-list' : ''; ?>" 
@@ -343,38 +387,38 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 </div>
 
 <script>
-document.querySelectorAll('.product-card').forEach(card=>{
-    card.addEventListener('click', (e)=>{
-        if(e.target.closest('.review-summary') || e.target.closest('.add-compare')) return;
-
-        const productId = card.dataset.id;
-        window.location.href = `product_details.php?id=${productId}`;
-    });
-});
+function showReviewSummary(productId) {
+    const modal = document.getElementById('review-modal');
+    const reviewText = document.getElementById('review-text');
     
-document.querySelectorAll('.review-summary').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-        e.stopPropagation(); 
-        const card = e.target.closest('.product-card');
-        const productId = card.dataset.id;
-
-        const modal = document.getElementById('review-modal');
-        const reviewText = document.getElementById('review-text');
-
-        reviewText.innerHTML = '<div class="spinner">🌀 <b>Gemma 3</b>  is analyzing reviews...</div>';
-        modal.style.display = 'block';
-
-        fetch(`get_review_summary.php?id=${productId}`)
-            .then(res => res.text())
-            .then(data => {
-                reviewText.innerHTML = data;
-            })
-            .catch(err => {
-                reviewText.innerHTML = 'Error fetching summary.';
-            });
-    });
-});
+    if (!modal) {
+        console.error('Review modal not found');
+        showToast('Error: Review modal not found');
+        return;
+    }
     
+    modal.style.display = 'block';
+    reviewText.innerHTML = '<div class="spinner">🌀 <b>Gemma 3</b> is analyzing reviews...</div>';
+    
+    const url = `get_review_summary.php?id=${productId}`;
+    
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(data => {
+            reviewText.innerHTML = data;
+        })
+        .catch(err => {
+            console.error('Fetch error:', err);
+            reviewText.innerHTML = '❌ Error fetching review summary. Please try again later.<br><small>' + err.message + '</small>';
+            showToast('Failed to load reviews');
+        });
+}
+
 function handleCompare(btn, productId, e) {
     e.stopPropagation();
 
@@ -384,40 +428,31 @@ function handleCompare(btn, productId, e) {
     }
 
     btn.style.pointerEvents = "none";
+    btn.style.opacity = "0.7";
 
     fetch(`add_to_compare.php?id=${productId}`)
-        .then(res => {
-            if (res.status === 200 || res.status === 409) {
-                showToast(res.status === 200 ? "✅ Added to list!" : "⚠️ Already in list");
-
-                setTimeout(() => { window.location.reload(); }, 800);
-            } else {
-                showToast("❌ Error adding");
+        .then(response => {
+            if (response.status === 200) {
+                showToast("✅ Added to compare list!");
+                setTimeout(() => { 
+                    window.location.reload(); 
+                }, 800);
+            } else if (response.status === 409) {
+                showToast("⚠️ Already in compare list");
                 btn.style.pointerEvents = "auto";
+                btn.style.opacity = "1";
+            } else {
+                throw new Error(`Server returned ${response.status}`);
             }
         })
-        .catch(() => {
-            showToast("❌ Connection error");
+        .catch(error => {
+            console.error('Compare error:', error);
+            showToast("❌ Error adding to compare list");
             btn.style.pointerEvents = "auto";
+            btn.style.opacity = "1";
         });
 }
 
-document.querySelectorAll('.product-card').forEach(card => {
-    let touchStartTime = 0;
-
-    card.addEventListener('touchstart', () => {
-        touchStartTime = Date.now();
-    });
-
-    card.addEventListener('click', (e) => {
-        if (e.target.closest('button')) return;
-        if (Date.now() - touchStartTime > 200 && touchStartTime !== 0) return;
-
-        const id = card.dataset.id;
-        window.location.href = `Product_details.php?id=${id}`;
-    });
-});
-    
 function showToast(message) {
     let toast = document.getElementById("toast");
     
@@ -446,13 +481,17 @@ window.addEventListener('click', (e) => {
         }
     });
 });
-    
+
+document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+        if (e.target.closest('button')) {
+            return;
+        }
+        
+        const productId = card.dataset.id;
+        if (productId) {
+            window.location.href = `Product_details.php?id=${productId}`;
+        }
+    });
+});
 </script>
-
-
-
-
-
-
-
-
