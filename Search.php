@@ -1,57 +1,21 @@
 <?php
-// 在 Search.php 最开头添加
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$search_mode = $_GET['search_mode'] ?? '';
-$ids = $_GET['ids'] ?? '';
-$score = $_GET['score'] ?? 0;
-$keyword = $_GET['keyword'] ?? '';
-
-// 调试输出
-echo "<!-- Debug Info -->";
-echo "<!-- Mode: $search_mode -->";
-echo "<!-- IDs: $ids -->";
-echo "<!-- Score: $score -->";
-echo "<!-- Keyword: $keyword -->";
-
-if ($search_mode === 'visual' && !empty($ids) && $ids !== 'none') {
-    $id_array = explode(',', $ids);
-    echo "<!-- Processing " . count($id_array) . " product IDs -->";
-    
-    // 构建 SQL 查询
-    $placeholders = implode(',', array_fill(0, count($id_array), '?'));
-    $sql = "SELECT * FROM products WHERE product_id IN ($placeholders)";
-    $stmt = $conn->prepare($sql);
-    
-    // 绑定参数
-    $types = str_repeat('i', count($id_array));
-    $stmt->bind_param($types, ...$id_array);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        echo "<!-- Found " . $result->num_rows . " products -->";
-        // 显示产品...
-    } else {
-        echo "<!-- No products found with those IDs -->";
-    }
-} elseif (!empty($keyword)) {
-    // 关键词搜索
-    echo "<!-- Keyword search for: $keyword -->";
-    // 执行关键词搜索...
-} else {
-    echo "<!-- No valid search parameters -->";
-}
-?>
-<?php
 include('ConnectDB.php');
 include('header.php');
 include('navbar.php');
 
 $keyword = isset($_GET['keyword']) ? mysqli_real_escape_string($conn, $_GET['keyword']) : '';
 $is_visual = (isset($_GET['search_mode']) && $_GET['search_mode'] === 'visual');
-$ids = isset($_GET['ids']) ? mysqli_real_escape_string($conn, $_GET['ids']) : '';
+$ids = isset($_GET['ids']) ? $_GET['ids'] : '';
+$score = isset($_GET['score']) ? $_GET['score'] : 0;
+
+echo "<!-- Debug Info -->";
+echo "<!-- Mode: " . ($is_visual ? 'visual' : 'keyword') . " -->";
+echo "<!-- IDs: $ids -->";
+echo "<!-- Score: $score -->";
+echo "<!-- Keyword: $keyword -->";
 
 if ($is_visual) {
     if (!empty($ids) && $ids !== 'none' && preg_match('/^[0-9,]+$/', $ids)) {
@@ -60,11 +24,13 @@ if ($is_visual) {
                 LEFT JOIN sellers sel ON p.seller_id = sel.seller_id
                 WHERE p.product_id IN ($ids)
                 ORDER BY FIELD(p.product_id, $ids)";
+        echo "<!-- Processing visual search with IDs: $ids -->";
     } else {
         $sql = "SELECT p.*, sel.seller_name 
                 FROM products p 
                 LEFT JOIN sellers sel ON p.seller_id = sel.seller_id 
                 WHERE 1=0";
+        echo "<!-- No valid IDs provided for visual search -->";
     }
 } 
 elseif ($keyword != '') {
@@ -87,13 +53,15 @@ elseif ($keyword != '') {
             WHERE $finalCondition
             GROUP BY p.product_id
             ORDER BY (p.product_name LIKE '%$keyword%') DESC";
+    echo "<!-- Keyword search for: $keyword -->";
 } 
 else {
     $sql = "SELECT p.*, sel.seller_name 
             FROM products p 
             LEFT JOIN sellers sel ON p.seller_id = sel.seller_id";
+    echo "<!-- No search parameters, showing all products -->";
 }
-$score = $_GET['score'] ?? 0;
+
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -122,8 +90,12 @@ $result = mysqli_query($conn, $sql);
         echo 'Search results for "' . htmlspecialchars($keyword) . '"';
     }
     ?>
-</h2>
-<p>Debug Score: <?php echo $score; ?></p>
+    </h2>
+    
+    <?php if ($is_visual): ?>
+        <p>Similarity Score: <?php echo round($score * 100, 2); ?>%</p>
+    <?php endif; ?>
+    
     <div class="product-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 20px;">
         <?php if ($result && $result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
@@ -132,60 +104,12 @@ $result = mysqli_query($conn, $sql);
         <?php else: ?>
             <div style="text-align: center; padding: 50px 0; width: 100%; grid-column: 1/-1;">
                 <p style="font-size: 1.2rem; color: #999;">🧸 No products found matching that keyword/image. Try a new input!</p>
+                <?php if ($is_visual && !empty($ids) && $ids !== 'none'): ?>
+                    <p style="font-size: 0.9rem; color: #ceb9a0;">Debug: IDs received: <?php echo htmlspecialchars($ids); ?></p>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>
 </section>
 
 <?php include('footer.php'); ?>
-
-<script>
-document.querySelectorAll('.product-card').forEach(card=>{
-    card.addEventListener('click', (e)=>{
-        if(e.target.closest('.review-summary') || e.target.closest('.add-compare')) return;
-        const productId = card.dataset.id;
-        window.location.href = `./Product_details.php?id=${productId}`;
-    });
-});
-
-document.querySelectorAll('.review-summary').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        const card = e.target.closest('.product-card');
-        const productId = card.dataset.id;
-        const modal = document.getElementById('review-modal');
-        const reviewText = document.getElementById('review-text');
-
-        fetch(`get_review_summary.php?id=${productId}`)
-            .then(res => res.text())
-            .then(data => {
-                reviewText.innerHTML = data.trim() ? data : 'No review exists yet.';
-            });
-
-        modal.style.display = 'block';
-    });
-});
-
-document.querySelector('.close')?.addEventListener('click', ()=>{
-    document.getElementById('review-modal').style.display = 'none';
-});
-
-window.addEventListener('click', (e)=>{
-    const modal = document.getElementById('review-modal');
-    if(e.target === modal) modal.style.display = 'none';
-});
-
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.innerText = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-document.querySelectorAll('.add-compare').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        showToast('✅ Product successfully added to compare list!');
-    });
-});
-</script>
