@@ -122,29 +122,12 @@ async function handleAICamera(input) {
     }
 
     try {
-        const compressedBlob = await new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = URL.createObjectURL(file);
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 224;
-                canvas.height = 224;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, 224, 224);
-                
-                canvas.toBlob((blob) => {
-                    if (blob) resolve(blob);
-                    else reject(new Error("Canvas to Blob failed"));
-                }, 'image/jpeg', 0.8);
-                
-                URL.revokeObjectURL(img.src);
-            };
-            img.onerror = reject;
-        });
-
+        const compressedBlob = await compressImage(file);
+        
         const formData = new FormData();
-        formData.append('image', compressedBlob, 'compressed.jpg');
+        formData.append('image', compressedBlob, 'image.jpg');
 
+        console.log('Sending request to AI backend...');
         const response = await fetch('https://fyp-ai-backend.onrender.com/visual_search', {
             method: 'POST',
             mode: 'cors',
@@ -156,33 +139,86 @@ async function handleAICamera(input) {
         }
         
         const data = await response.json();
-
-        if (data.status === 'success' && data.matches && data.matches.length > 0) {
-            const ids = data.matches.join(',');
-            window.location.href = `Search.php?ids=${ids}&search_mode=visual&score=${data.top_score}`;
-        } else if (data.status === 'no_match' || (data.matches && data.matches.length === 0)) {
-            if (statusBar) {
-                statusBar.innerHTML = "😓 No close matches found.";
+        console.log('AI Response FULL:', data); 
+        
+        if (data.status === 'success') {
+            let matches = [];
+            let topScore = 0;
+            
+            if (data.matches && Array.isArray(data.matches)) {
+                matches = data.matches;
+                topScore = data.top_score || 0;
+            } else if (data.ids && Array.isArray(data.ids)) {
+                matches = data.ids;
+                topScore = data.score || 0;
+            } else if (data.results && Array.isArray(data.results)) {
+                matches = data.results;
+                topScore = data.best_score || 0;
+            }
+            
+            console.log('Extracted matches:', matches);
+            console.log('Top score:', topScore);
+            
+            if (matches.length > 0) {
+                const ids = matches.join(',');
+                const score = topScore || data.top_score || data.score || 0;
+                console.log(`Redirecting to: Search.php?ids=${ids}&search_mode=visual&score=${score}`);
+                window.location.href = `Search.php?ids=${ids}&search_mode=visual&score=${score}`;
+            } else {
+                console.log('No matches found in response');
+                if (statusBar) {
+                    statusBar.innerHTML = "😓 No matches found.";
+                }
                 setTimeout(() => {
                     window.location.href = `Search.php?search_mode=visual&ids=none`;
                 }, 1500);
             }
         } else {
+            console.log('Response status is not success:', data.status);
             throw new Error(data.error || "Unknown AI error");
         }
 
     } catch (err) {
+        console.error("AI Search Error:", err);
         if (statusBar) {
-            statusBar.innerHTML = "❌ AI Connection Failed";
+            statusBar.innerHTML = "❌ AI Connection Failed. Please try again.";
         }
-        console.error("Full Error Debug:", err);
-        
-        if (err.message.includes('403')) {
-            alert("Security Block (403): Please check if Render service is Live and CORS is allowed.");
-        } else {
-            alert("AI Search failed: " + err.message);
-        }
+        alert("AI Search failed: " + err.message);
     }
+}
+
+function compressImage(file) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            const maxSize = 512;
+            
+            if (width > height && width > maxSize) {
+                height = (height * maxSize) / width;
+                width = maxSize;
+            } else if (height > maxSize) {
+                width = (width * maxSize) / height;
+                height = maxSize;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            canvas.toBlob((blob) => {
+                if (blob) resolve(blob);
+                else reject(new Error("Canvas to Blob failed"));
+            }, 'image/jpeg', 0.85);
+            
+            URL.revokeObjectURL(img.src);
+        };
+        img.onerror = reject;
+    });
 }
 
 document.addEventListener('click', function(e) {
