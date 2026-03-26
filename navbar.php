@@ -63,20 +63,36 @@ if ($row = $result->fetch_assoc()) {
     <div id="ai-status-bar" style="display:none; position: absolute; margin-top: 5px;"></div>
     
 </div>
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="HomePage.php" class="logo">🧸MyShop</a>
+    </div>
 
-    <div class="navbar-right">
-    <a href="cart.php" class="cart-btn">
-        <span class="emoji">🛒</span> <span class="hide-text">Cart</span>
-        <span class="badge"><?php echo $cart_count ?? 0; ?></span>
-    </a>
-    <a href="compare_list.php" class="compare-btn">
-        <span class="emoji">⚖️</span> <span class="hide-text">Compare</span>
-        <span class="badge"><?php echo $compare_count ?? 0; ?></span>
-    </a>
-    <button class="profile-btn">
-        <span class="emoji">👤</span> <span class="hide-text">Account</span>
-    </button>
-</div>
+    <div class="navbar-center">
+        <form method="GET" action="Search.php" id="searchForm" style="display:flex; gap:5px; position: relative;">
+            <input type="text" name="keyword" id="mainSearchInput" class="search-input" 
+                   placeholder="Search products..." 
+                   value="<?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?>" required>
+            
+            <button type="submit" class="search-btn">🔍</button>
+            
+            <button type="button" class="search-btn" onclick="toggleCameraOptions(event)">📸</button>
+
+            <div id="camera-options" style="display:none; position: absolute; top: 45px; right: 0; background: white; border: 1px solid #ceb9a0; padding: 15px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 10001; width: 250px;">
+                <div style="text-align: center; margin-bottom: 12px;">
+                    <strong style="color: #4b310b; font-size: 14px;">AI Image Search</strong>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button type="button" onclick="triggerCamera('camera')" class="btn-ai-primary" style="background: #ceb9a0; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer;">📷 Take a Photo</button>
+                    <button type="button" onclick="triggerCamera('gallery')" class="btn-ai-secondary" style="background: #f5f5f5; border: 1px solid #ddd; padding: 10px; border-radius: 8px; cursor: pointer;">🖼️ From Gallery</button>
+                </div>
+            </div>
+        </form>
+        
+        <input type="file" id="ai-upload-input" accept="image/*" style="display:none;" onchange="handleAICamera(this)">
+        <input type="file" id="ai-camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handleAICamera(this)">
+        <div id="ai-status-bar" style="display:none; position: absolute; margin-top: 5px; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 5px; font-size: 12px;"></div>
+    </div>
 </nav>
 <script>
 function confirmAndSearch() {
