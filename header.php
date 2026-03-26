@@ -187,51 +187,6 @@
         padding: 1px 4px !important;
     }
 }
-
-        /*
-        .navbar {
-            padding: 8px 10px;
-            gap: 5px;        
-        }
-
-        .navbar-left .logo {
-            font-size: 1.5rem !important; 
-        }
-    
-        .navbar-center {
-            flex: 1;
-            margin: 0 10px; 
-        }
-        
-        .search-input {
-            width: 100% !important; 
-            padding: 6px 12px !important;
-            font-size: 1rem !important;
-        }
-
-        .search-input{
-            width:120px;
-            font-size:14px;
-        }
-    
-        .icon-btn{
-            font-size:1.6px;
-            padding:1.8px;
-        }
-    
-        .navbar-right a, .navbar-right button {
-            font-size: 0 !important;
-            margin-left: 8px !important; 
-        }
-    
-        .navbar-right a::before, .navbar-right button::before {
-            font-size: 1.4rem !important;
-        }
-        
-        .navbar-right .emoji-icon {
-            font-size: 1.4rem !important;
-        }
-     }*/
     </style>
 
     <div id="ai-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center;">
