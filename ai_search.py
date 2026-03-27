@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 print("Loading ONNX model...")
-session = ort.InferenceSession('resnet50.onnx')
+session = ort.InferenceSession('resnet50_final.onnx')
 
 def preprocess_image(image):
     img = image.resize((224, 224))
