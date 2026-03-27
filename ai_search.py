@@ -4,9 +4,7 @@ import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from PIL import Image
-import torch
-import torchvision.models as models
-import torchvision.transforms as transforms
+import onnxruntime as ort
 from sklearn.metrics.pairwise import cosine_similarity
 import requests
 from io import BytesIO
@@ -14,16 +12,19 @@ from io import BytesIO
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-print("Loading ResNet50 model...")
-model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
-model = torch.nn.Sequential(*list(model.children())[:-1])
-model.eval()
+print("Loading ONNX model...")
+session = ort.InferenceSession('resnet50.onnx')
 
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-])
+def preprocess_image(image):
+    img = image.resize((224, 224))
+    img_array = np.array(img).astype(np.float32)
+    img_array = img_array / 255.0
+    mean = np.array([0.485, 0.456, 0.406])
+    std = np.array([0.229, 0.224, 0.225])
+    img_array = (img_array - mean) / std
+    img_array = img_array.transpose(2, 0, 1)
+    img_array = np.expand_dims(img_array, axis=0)
+    return img_array
 
 def extract_features(image_source):
     try:
@@ -33,19 +34,17 @@ def extract_features(image_source):
         else:
             img = Image.open(image_source).convert('RGB')
         
-        img_tensor = transform(img).unsqueeze(0)
+        input_tensor = preprocess_image(img)
+        outputs = session.run(None, {'input': input_tensor})
+        features = outputs[0].squeeze()
         
-        with torch.no_grad():
-            features = model(img_tensor)
-        
-        features = features.squeeze().numpy()
         norm = np.linalg.norm(features)
         if norm > 0:
             features = features / norm
         return features
         
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error extracting features: {e}")
         return None
 
 print("Loading product images...")
@@ -78,10 +77,8 @@ for item in items:
 
 print(f"Loaded {len(product_dict)} unique products")
 
-# 预计算特征
 print("Pre-computing features...")
 product_ids = list(product_dict.keys())
-product_urls = list(product_dict.values())
 product_features = []
 
 for i, (pid, url) in enumerate(product_dict.items()):
