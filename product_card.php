@@ -374,14 +374,14 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
     <div class="product-actions">
         <button class="review-summary" onclick="event.stopPropagation(); showReviewSummary(<?php echo $current_id; ?>)">
-            📊 Review
+            📊 Review Summary
         </button>
-
+    
         <button 
             class="add-compare <?php echo $is_in_list ? 'in-list' : ''; ?>" 
             data-inlist="<?php echo $is_in_list ? '1' : '0'; ?>"
             onclick="handleCompare(this, <?php echo $current_id; ?>, event)">
-            <?php echo $is_in_list ? '✔ In List' : '+ Compare'; ?>
+            <?php echo $is_in_list ? '✔ In Compare List' : '+ Compare'; ?>
         </button>
     </div>
 </div>
