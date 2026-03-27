@@ -84,7 +84,7 @@ if ($row = $result->fetch_assoc()) {
 function confirmAndSearch() {
     const kw = document.getElementById('mainSearchInput').value;
     if (kw.trim() !== '') {
-        window.location.href = `Search.php?keyword=${encodeURIComponent(kw)}&search_mode=visual`;
+        window.location.href = `Search.php?keyword=${encodeURIComponent(kw)}`;
     } else {
         alert('Please enter a search keyword');
     }
@@ -136,19 +136,16 @@ async function handleAICamera(input) {
         console.log('AI Response:', data);
 
         if (data.status === 'success' && data.matches && data.matches.length > 0) {
-            // 有匹配结果
             const ids = data.matches.join(',');
             const score = data.top_score || 0;
             window.location.href = `Search.php?ids=${ids}&search_mode=visual&score=${score}`;
         } else {
-            // 没有匹配结果 - 显示提示并推荐热门产品
             console.log('No matches found, showing popular products');
             
             if (statusBar) {
                 statusBar.innerHTML = "😓 No exact matches. Showing popular products instead...";
             }
             
-            // 显示热门产品（不带ids参数，让Search.php显示默认产品）
             setTimeout(() => {
                 window.location.href = `Search.php?search_mode=visual&show_popular=1`;
             }, 1500);
