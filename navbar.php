@@ -126,7 +126,7 @@ async function handleAICamera(input) {
         const formData = new FormData();
         formData.append('image', compressedBlob, 'image.jpg');
 
-        const response = await fetch('https://fyp-ai-backend-1.onrender.com/visual_search', {
+        const response = await fetch('https://unacted-rae-unregretted.ngrok-free.dev/visual_search', {
             method: 'POST',
             mode: 'cors',
             body: formData
