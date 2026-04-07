@@ -355,7 +355,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
     <div class="product-actions">
         <button class="review-summary" onclick="event.stopPropagation(); showReviewSummary(<?php echo $current_id; ?>)">
-            <i class="fa-solid fa-robot"></i> Summarize Review
+            <i class="fa-solid fa-robot"></i> AI Summary
         </button>
     
         <button 
@@ -379,9 +379,7 @@ function showReviewSummary(productId) {
     }
     
     modal.style.display = 'block';
-    
-    reviewText.innerHTML = '<div class="loading-spinner"><i class="fa-solid fa-spinner fa-pulse"></i><br>AI is analyzing reviews...</div>';
-    
+    body.innerHTML = '<div style="text-align: center; padding: 40px;"><i class="fa-solid fa-spinner fa-pulse"></i> AI is analyzing reviews...</div>';
     fetch(`get_review_summary.php?id=${productId}`)
         .then(response => {
             if (!response.ok) {
