@@ -324,32 +324,54 @@ $deleted_msg = isset($_GET['deleted']) ? true : false;
                 border-radius: 20px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.05);
                 background: #fff;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-direction: row !important;
+                padding: 20px 30px;
             }
             
             .cart-page-wrapper {
                 padding-bottom: 50px;
             }
             
-            .cart-footer {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex-direction: row !important;
-            }
-            
             .cart-footer > div:first-child {
-                flex: 1;
+                flex: 0 0 auto;
             }
             
             .cart-footer > div:last-child {
+                display: flex;
                 flex-direction: row !important;
+                align-items: center;
                 gap: 20px !important;
                 width: auto !important;
             }
             
+            .cart-footer .total-section {
+                display: flex;
+                align-items: baseline;
+                gap: 12px;
+            }
+            
+            .cart-footer .total-label {
+                font-size: 1rem;
+                color: #666;
+            }
+            
+            .cart-footer .total-amount {
+                font-size: 1.5rem;
+            }
+            
+            .cart-footer .button-group {
+                display: flex;
+                flex-direction: row;
+                gap: 12px;
+            }
+            
             .btn-checkout, .btn-update {
                 width: auto !important;
-                min-width: 150px;
+                min-width: 130px;
+                padding: 12px 24px;
             }
         }
 
@@ -655,7 +677,6 @@ function showToast(message, isError = false) {
     toast.classList.add('show');
     setTimeout(() => {
         toast.classList.remove('show');
-        toast.style.background = '#4CAF50';
     }, 2500);
 }
 
@@ -684,14 +705,6 @@ function showConfirmToast(message, onConfirm, onCancel) {
         confirmToast.style.pointerEvents = 'none';
         if (onCancel) onCancel();
     };
-}
-
-function hideConfirmToast() {
-    const confirmToast = document.getElementById('confirm-toast');
-    if (confirmToast) {
-        confirmToast.style.opacity = '0';
-        confirmToast.style.pointerEvents = 'none';
-    }
 }
 
 function confirmRemoveItem(cartId) {
@@ -725,7 +738,7 @@ async function updateQuantity(cartId, price, delta) {
     
     const row = document.querySelector(`.cart-row[data-id="${cartId}"]`);
     const checkbox = row.querySelector('.item-checkbox');
-    if (checkbox.checked) {
+    if (checkbox && checkbox.checked) {
         checkbox.setAttribute('data-subtotal', newSubtotal);
         updateSelection();
     }
@@ -735,13 +748,25 @@ async function removeItem(cartId) {
     try {
         const response = await fetch('remove_from_cart.php?id=' + cartId, {
             method: 'GET',
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            headers: { 
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
         });
-        const data = await response.json();
+        
+        const text = await response.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch(e) {
+            console.error('Parse error:', text);
+            showToast('Server error', true);
+            return;
+        }
         
         if (data.success) {
             const row = document.querySelector(`.cart-row[data-id="${cartId}"]`);
-            row.remove();
+            if (row) row.remove();
             showToast('Item removed from cart!');
             
             const remainingRows = document.querySelectorAll('.cart-row');
@@ -752,7 +777,7 @@ async function removeItem(cartId) {
             }
             updateSelection();
         } else {
-            showToast('Failed to remove item', true);
+            showToast(data.message || 'Failed to remove item', true);
         }
     } catch (err) {
         console.error('Error:', err);
@@ -807,13 +832,27 @@ async function ajaxUpdateCart() {
         updates.push({ id: id, quantity: qty });
     });
     
+    if (updates.length === 0) return;
+    
     try {
         const response = await fetch('update_cart_batch.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
             body: JSON.stringify({ updates: updates })
         });
-        const data = await response.json();
+        
+        const text = await response.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch(e) {
+            console.error('Parse error:', text);
+            showToast('Server error', true);
+            return;
+        }
         
         if (data.success) {
             showToast('Cart updated successfully!');
@@ -826,13 +865,13 @@ async function ajaxUpdateCart() {
                 document.getElementById('subtotal-' + id).innerText = 'RM ' + newSubtotal.toFixed(2);
                 
                 const checkbox = row.querySelector('.item-checkbox');
-                if (checkbox.checked) {
+                if (checkbox && checkbox.checked) {
                     checkbox.setAttribute('data-subtotal', newSubtotal);
                 }
             });
             updateSelection();
         } else {
-            showToast('Failed to update cart', true);
+            showToast(data.message || 'Failed to update cart', true);
         }
     } catch (err) {
         console.error('Error:', err);
@@ -846,7 +885,9 @@ document.querySelectorAll('.cart-row').forEach(row => {
     const priceText = row.querySelector('.price-text').innerText;
     const price = parseFloat(priceText.replace('RM ', ''));
     const checkbox = row.querySelector('.item-checkbox');
-    checkbox.setAttribute('data-subtotal', price * qty);
+    if (checkbox) {
+        checkbox.setAttribute('data-subtotal', price * qty);
+    }
 });
 </script>
 
