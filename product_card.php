@@ -195,20 +195,20 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 .modal-content {
     background: #fff;
     margin: 10% auto;
-    padding: 25px 30px;
+    padding: 20px 24px;
     border-radius: 16px;
     width: 90%;
-    max-width: 550px;
+    max-width: 500px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .close {
     position: absolute;
-    top: 12px;
+    top: 10px;
     right: 15px;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
     color: #999;
     transition: 0.2s;
@@ -219,29 +219,29 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .modal-content h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #4b310b;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    padding-right: 20px;
 }
 
 #review-text {
     font-size: 0.9rem;
     line-height: 1.6;
     color: #555;
-    max-height: 400px;
+    max-height: 350px;
     overflow-y: auto;
 }
 
 .loading-spinner {
     text-align: center;
     padding: 40px;
-    color: #4b310b;
 }
 
 .loading-spinner i {
     font-size: 2rem;
-    margin-bottom: 12px;
     color: #ceb9a0;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
@@ -293,24 +293,30 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
     .modal-content {
         margin: 25% auto;
-        padding: 18px;
-        width: 95%;
+        padding: 15px 18px;
+        width: 85%;
+        max-width: 350px;
     }
     
     .modal-content h3 {
         font-size: 1rem;
+        margin-bottom: 10px;
     }
     
-    .toast {
-        bottom: 80px;
-        font-size: 0.75rem;
-        white-space: normal;
-        text-align: center;
-        max-width: 80%;
+    .close {
+        top: 8px;
+        right: 12px;
+        font-size: 1.2rem;
+    }
+    
+    #review-text {
+        font-size: 0.8rem;
+        max-height: 280px;
+        line-height: 1.5;
     }
     
     .loading-spinner {
-        padding: 30px;
+        padding: 25px;
     }
     
     .loading-spinner i {
@@ -323,7 +329,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 <div id="review-modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="document.getElementById('review-modal').style.display='none'">&times;</span>
-        <h3><i class="fa-solid fa-chart-simple"></i> 📊 Summarize Review</h3>
+        <h3><i class="fa-solid fa-robot"></i> AI Review Summary</h3>
         <div id="review-text">
             <div class="loading-spinner">
                 <i class="fa-solid fa-spinner fa-pulse"></i><br>
@@ -349,7 +355,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
     <div class="product-actions">
         <button class="review-summary" onclick="event.stopPropagation(); showReviewSummary(<?php echo $current_id; ?>)">
-            <i class="fa-solid fa-robot"></i> AI Review
+            <i class="fa-solid fa-robot"></i> Summarize Review
         </button>
     
         <button 
@@ -451,14 +457,10 @@ function showToast(message, isError = false) {
 }
 
 window.addEventListener('click', (e) => {
-    const modalIds = ['review-modal', 'deep-analysis-modal', 'compare-modal', 'ai-modal'];
-
-    modalIds.forEach(id => {
-        const modal = document.getElementById(id);
-        if (modal && e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+    const modal = document.getElementById('review-modal');
+    if (modal && e.target === modal) {
+        modal.style.display = 'none';
+    }
 });
 
 document.querySelectorAll('.product-card').forEach(card => {
