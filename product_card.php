@@ -9,18 +9,18 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 <style>
 .product-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
     padding: 20px;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1400px;
     width: 100%;
     box-sizing: border-box;
 }
 
 .product-card {
     border: 1px solid #eee;
-    padding: 12px;
+    padding: 14px;
     text-align: center;
     background: #fff;
     border-radius: 12px;
@@ -30,10 +30,11 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     justify-content: space-between;
     width: 100%;
     height: auto;
-    min-height: 380px;
+    min-height: 420px;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
+    box-sizing: border-box;
 }
 
 .product-card:hover {
@@ -45,9 +46,9 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 .product-image-wrapper {
     width: 100%;
     aspect-ratio: 1/1;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     flex-shrink: 0;
     background: #f5f5f5;
 }
@@ -59,17 +60,17 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .product-card h3 {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
-    margin: 6px 0 4px;
+    margin: 8px 0 6px;
     color: #333;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    min-height: 2.2rem;
-    line-height: 1.3;
+    min-height: 2.4rem;
+    line-height: 1.4;
 }
 
 .seller-rating {
@@ -77,17 +78,17 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    font-size: 0.7rem;
-    color: #777;
-    margin: 4px 0;
-    gap: 5px;
+    font-size: 0.8rem;
+    color: #666;
+    margin: 6px 0;
+    gap: 8px;
 }
 
 .seller-info {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 60%;
+    max-width: 65%;
 }
 
 .rating {
@@ -97,24 +98,24 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .product-card .price {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: bold;
     color: #E53935;
-    margin: 6px 0;
+    margin: 8px 0;
 }
 
 .product-actions {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 8px;
+    gap: 10px;
+    margin-top: 10px;
     width: 100%;
 }
 
 .product-actions button {
     flex: 1;
-    padding: 8px 6px;
-    font-size: 0.75rem;
+    padding: 10px 8px;
+    font-size: 0.85rem;
     font-weight: 600;
     border: none;
     border-radius: 8px;
@@ -123,7 +124,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
     transition: all 0.2s;
     white-space: nowrap;
 }
@@ -194,20 +195,20 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 .modal-content {
     background: #fff;
     margin: 10% auto;
-    padding: 25px 30px;
+    padding: 20px 24px;
     border-radius: 16px;
     width: 90%;
-    max-width: 550px;
+    max-width: 500px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .close {
     position: absolute;
-    top: 12px;
+    top: 10px;
     right: 15px;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
     color: #999;
     transition: 0.2s;
@@ -218,23 +219,43 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .modal-content h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #4b310b;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    padding-right: 20px;
 }
 
 #review-text {
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-size: 0.85rem;
+    line-height: 1.5;
     color: #555;
-    max-height: 400px;
+    max-height: 350px;
     overflow-y: auto;
 }
 
-.spinner {
+.loading-spinner {
     text-align: center;
-    padding: 30px;
+    padding: 30px 20px;
     color: #4b310b;
+}
+
+.loading-spinner i {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ceb9a0;
+}
+
+
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: #4b310b;
+}
+
+.loading-spinner i {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: #ceb9a0;
 }
 
 @media (max-width: 768px) {
@@ -246,16 +267,16 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
     .product-card {
         padding: 10px;
-        min-height: 340px;
+        min-height: 360px;
     }
 
     .product-card h3 {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         min-height: 2rem;
     }
 
     .seller-rating {
-        font-size: 0.65rem;
+        font-size: 0.7rem;
         flex-wrap: wrap;
         gap: 4px;
     }
@@ -267,8 +288,8 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     }
 
     .product-card .price {
-        font-size: 1rem;
-        margin: 4px 0;
+        font-size: 1.1rem;
+        margin: 6px 0;
     }
 
     .product-actions {
@@ -276,23 +297,22 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     }
 
     .product-actions button {
-        padding: 6px 4px;
-        font-size: 0.65rem;
-        white-space: nowrap;
+        padding: 8px 4px;
+        font-size: 0.7rem;
     }
     
     .product-actions button i {
-        font-size: 0.65rem;
+        font-size: 0.7rem;
     }
 
     .modal-content {
-        margin: 20% auto;
-        padding: 20px;
+        margin: 25% auto;
+        padding: 18px;
         width: 95%;
     }
     
     .modal-content h3 {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     
     .toast {
@@ -302,9 +322,49 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         text-align: center;
         max-width: 80%;
     }
+    
+    .loading-spinner {
+        padding: 30px;
+    }
+    
+    .loading-spinner i {
+        font-size: 1.5rem;
+    }
 }
 
 @media (max-width: 480px) {
+    .modal-content {
+        margin: 25% auto;
+        padding: 15px 18px;
+        width: 92%;
+        max-width: 400px;
+    }
+    
+    .modal-content h3 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .close {
+        top: 8px;
+        right: 12px;
+        font-size: 1.2rem;
+    }
+    
+    #review-text {
+        font-size: 0.8rem;
+        max-height: 280px;
+        line-height: 1.4;
+    }
+    
+    .loading-spinner {
+        padding: 20px;
+    }
+    
+    .loading-spinner i {
+        font-size: 1.3rem;
+    }
+
     .product-container {
         gap: 10px;
         padding: 10px;
@@ -312,7 +372,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     
     .product-card {
         padding: 8px;
-        min-height: 310px;
+        min-height: 330px;
     }
     
     .product-card h3 {
@@ -320,12 +380,12 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     }
     
     .product-card .price {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     
     .product-actions button {
-        font-size: 0.6rem;
-        padding: 5px 3px;
+        font-size: 0.65rem;
+        padding: 6px 3px;
     }
 }
 </style>
@@ -333,9 +393,12 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 <div id="review-modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="document.getElementById('review-modal').style.display='none'">&times;</span>
-        <h3><i class="fa-solid fa-chart-simple"></i> AI Review Summary</h3>
+        <h3><i class="fa-solid fa-chart-simple"></i> Summarize Review</h3>
         <div id="review-text">
-            <div class="spinner"><i class="fa-solid fa-spinner fa-pulse"></i> Loading reviews...</div>
+            <div class="loading-spinner">
+                <i class="fa-solid fa-spinner fa-pulse"></i><br>
+                Loading reviews...
+            </div>
         </div>
     </div>
 </div>
@@ -380,7 +443,8 @@ function showReviewSummary(productId) {
     }
     
     modal.style.display = 'block';
-    reviewText.innerHTML = '<div class="spinner"><i class="fa-solid fa-spinner fa-pulse"></i> AI is analyzing reviews...</div>';
+    
+    reviewText.innerHTML = '<div class="loading-spinner"><i class="fa-solid fa-spinner fa-pulse"></i><br>AI is analyzing reviews...</div>';
     
     fetch(`get_review_summary.php?id=${productId}`)
         .then(response => {
@@ -394,7 +458,7 @@ function showReviewSummary(productId) {
         })
         .catch(err => {
             console.error('Fetch error:', err);
-            reviewText.innerHTML = '<div style="color: #E53935; text-align: center;">❌ Error fetching review summary<br><small>Please try again later</small></div>';
+            reviewText.innerHTML = '<div style="color: #E53935; text-align: center; padding: 40px;"><i class="fa-solid fa-circle-exclamation"></i><br>Error fetching review summary<br><small>Please try again later</small></div>';
             showToast('Failed to load reviews', true);
         });
 }
