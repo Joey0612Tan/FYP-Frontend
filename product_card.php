@@ -243,7 +243,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         width: 100%;
         min-height: auto;     
         height: auto;
-        padding: 6px;        
+        padding: 4px;        
         margin: 0;
         display: flex;
         flex-direction: column;
@@ -301,6 +301,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         display: none;
     }
 }
+</style>
     
 </style>
 
