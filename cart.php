@@ -205,6 +205,175 @@ $result = $conn->query($sql);
             font-weight: bold;
             margin-left: 20px;
         }
+        
+    @media screen and (max-width: 768px) {
+        .cart-page-wrapper {
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+    
+        .cart-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+    
+        .modern-cart-table thead {
+            display: none;
+        }
+    
+        .modern-cart-table {
+            border-spacing: 0 15px;
+        }
+    
+        .cart-row {
+            display: block;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+    
+        .cart-row td {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+    
+        .cart-row td:first-child {
+            border-radius: 0;
+            justify-content: center;
+            background: #faf6f0;
+        }
+    
+        .cart-row td:last-child {
+            border-radius: 0;
+            border-bottom: none;
+        }
+    
+        .cart-row td:nth-child(2) {
+            display: block;
+            padding: 15px;
+        }
+    
+        .product-cell {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+    
+        .cart-img {
+            width: 100px;
+            height: 100px;
+        }
+    
+        .product-name {
+            font-size: 1.1rem;
+        }
+    
+        .product-color {
+            font-size: 0.85rem;
+        }
+    
+        .cart-row td:nth-child(3)::before {
+            content: "💰 Price:";
+            font-weight: bold;
+            color: #4b310b;
+            margin-right: 10px;
+        }
+    
+        .cart-row td:nth-child(4)::before {
+            content: "📦 Qty:";
+            font-weight: bold;
+            color: #4b310b;
+            margin-right: 10px;
+        }
+    
+        .cart-row td:nth-child(5)::before {
+            content: "💵 Subtotal:";
+            font-weight: bold;
+            color: #4b310b;
+            margin-right: 10px;
+        }
+    
+        .cart-row td:nth-child(6)::before {
+            content: "🗑️ Action:";
+            font-weight: bold;
+            color: #4b310b;
+            margin-right: 10px;
+        }
+    
+        .remove-link {
+            font-size: 1.3rem;
+        }
+    
+        .cart-row td:nth-child(4) > div {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+    
+        .cart-footer {
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px 16px;
+            position: static;
+            margin-top: 20px;
+            bottom: auto;
+        }
+    
+        .cart-footer > div:first-child {
+            align-self: flex-start;
+        }
+    
+        .cart-footer > div:last-child {
+            flex-direction: column;
+            width: 100%;
+            gap: 12px;
+        }
+    
+        .cart-footer .total-amount {
+            font-size: 2rem;
+            margin-left: 0;
+        }
+    
+        .btn-checkout, .btn-update {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 20px;
+            font-size: 1rem;
+        }
+    
+        .cart-row td:first-child {
+            justify-content: center;
+        }
+    
+        .cart-checkbox {
+            width: 22px;
+            height: 22px;
+        }
+    
+        .empty-cart-message {
+            padding: 60px 20px;
+        }
+    
+        .empty-cart-message i {
+            font-size: 3rem;
+        }
+    
+        .empty-cart-message h2 {
+            font-size: 1.3rem;
+        }
+    
+        .subtotal-text {
+            font-size: 1.1rem;
+        }
+    
+        .unit-price {
+            font-size: 1rem !important;
+        }
+    }
+
     </style>
 </head>
 <body>
