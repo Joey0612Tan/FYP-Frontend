@@ -11,7 +11,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
-    padding: 20px;
+    padding: 20px 16px;  
     margin: 0 auto;
     max-width: 1400px;
     width: 100%;
@@ -242,18 +242,29 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     font-size: 2rem;
     color: #ceb9a0;
     margin-bottom: 10px;
+    animation: spin 1s linear infinite;  
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {
     .product-container {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        padding: 12px;
+        padding: 12px 12px;  
+        margin: 0;
+        width: 100%;
     }
 
     .product-card {
         padding: 10px;
         min-height: 360px;
+        margin: 0;  
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .product-card h3 {
@@ -379,7 +390,9 @@ function showReviewSummary(productId) {
     }
     
     modal.style.display = 'block';
-    body.innerHTML = '<div style="text-align: center; padding: 40px;"><i class="fa-solid fa-spinner fa-pulse"></i> AI is analyzing reviews...</div>';
+    
+    reviewText.innerHTML = '<div class="loading-spinner"><i class="fa-solid fa-spinner fa-pulse"></i><br>🤖 AI is analyzing reviews...</div>';
+    
     fetch(`get_review_summary.php?id=${productId}`)
         .then(response => {
             if (!response.ok) {
@@ -392,7 +405,7 @@ function showReviewSummary(productId) {
         })
         .catch(err => {
             console.error('Fetch error:', err);
-            reviewText.innerHTML = '<div style="color: #E53935; text-align: center; padding: 40px;"><i class="fa-solid fa-circle-exclamation"></i><br>Error fetching review summary<br><small>Please try again later</small></div>';
+            reviewText.innerHTML = '<div style="color: #E53935; text-align: center; padding: 40px;"><i class="fa-solid fa-circle-exclamation"></i><br>❌ Error fetching review summary<br><small>Please try again later</small></div>';
             showToast('Failed to load reviews', true);
         });
 }
