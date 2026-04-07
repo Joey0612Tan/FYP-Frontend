@@ -19,6 +19,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .product-card {
+    gap: 1px;
     border: 1px solid #eee;
     padding: 12px;
     text-align: center;
