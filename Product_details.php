@@ -68,12 +68,11 @@ while($img = $img_res->fetch_assoc()) { $additional_images[] = $img['image_path'
     }
 
     .container {
-        max-width: 1400px;
-        margin: 20px auto;
-        padding: 0 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 60px;
     }
 
     .product-image-section {
@@ -262,12 +261,16 @@ while($img = $img_res->fetch_assoc()) { $additional_images[] = $img['image_path'
     }
 
     .section-title {
-        font-size: 1.4rem;
-        color: #222;
+    font-size: 1.4rem;
+    color: #222;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ceb9a0ff;
+    padding-left: 15px;
+    }
+    
+    .section-title:first-of-type {
         margin-top: 0;
-        margin-bottom: 20px;
-        border-left: 4px solid #ceb9a0ff;
-        padding-left: 15px;
     }
 
     .spec-table {
@@ -407,9 +410,10 @@ while($img = $img_res->fetch_assoc()) { $additional_images[] = $img['image_path'
 
     @media screen and (max-width: 768px) {
         .container {
-            margin: 12px auto;
-            padding: 0 12px;
-            gap: 12px;
+        margin: 12px auto;
+        padding: 0 12px;
+        gap: 12px;
+        flex-direction: column;
         }
 
         .product-image-section {
@@ -455,8 +459,13 @@ while($img = $img_res->fetch_assoc()) { $additional_images[] = $img['image_path'
         }
 
         .section-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        }
+        
+        .section-title:first-of-type {
+            margin-top: 0;
         }
 
         .spec-table {
@@ -499,29 +508,6 @@ while($img = $img_res->fetch_assoc()) { $additional_images[] = $img['image_path'
         }
     }
 
-    @media screen and (max-width: 480px) {
-        .container {
-            padding: 0 10px;
-        }
-
-        .product-info h1 {
-            font-size: 1.2rem;
-        }
-
-        .price {
-            font-size: 1.4rem;
-        }
-
-        .thumb-container img {
-            width: 50px;
-            height: 50px;
-        }
-
-        .btn {
-            padding: 10px;
-            font-size: 0.85rem;
-        }
-    }
     </style>
 </head>
 <body>
