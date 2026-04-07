@@ -9,5 +9,5 @@ footer {
 </style>
 
 <footer>
-    © 2026 Lifestyle E-commerce Platform (FYP Project)
+    © 2026 AI-Enhanced E-commerce Assistant (FYP Project)
 </footer>
