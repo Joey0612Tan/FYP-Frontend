@@ -6,6 +6,13 @@ footer {
     color: #463a2d;
     font-size: 1.4rem;
 }
+    
+@media (max-width: 768px) {
+footer {
+    padding: 8px; 
+    font-size: 1rem;
+}
+}
 </style>
 
 <footer>
