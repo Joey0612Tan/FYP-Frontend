@@ -230,75 +230,25 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 
 @media (max-width: 768px) {
     .product-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;           
-        padding: 8px;     
-        margin: 0 auto;
-        width: 100%;
-        box-sizing: border-box;
+        grid-template-columns: repeat(3, 1fr);  /* 2列 → 3列 */
+        gap: 5px;
+        padding: 5px;
     }
-
     .product-card {
-        width: 100%;
-        min-height: auto;     
-        height: auto;
-        padding: 4px;        
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        border: 1px solid #ddd;
-        border-radius: 8px;  
+        padding: 4px;
     }
-
-    .product-image-wrapper {
-        width: 100%;
-        aspect-ratio: 1/1;
-        margin-bottom: 4px;
-        flex-shrink: 0;
-        border-radius: 6px;  
-    }
-
     .product-card h3 {
-        font-size: 0.7rem;   
-        margin: 3px 0 2px;
-        line-height: 1.2;
-        min-height: 2em;
-        font-weight: 600;
+        font-size: 0.6rem;
     }
-
-    .product-card .seller-info {
-        font-size: 0.55rem;  
-        margin: 0;
-    }
-
     .seller-rating {
-        font-size: 0.6rem;   
-        margin: 2px 0;
-        gap: 3px;
+        font-size: 0.5rem;
     }
-
     .product-card .price {
-        font-size: 0.85rem; 
-        margin: 3px 0;
-        font-weight: bold;
+        font-size: 0.65rem;
     }
-
-    .product-actions {
-        gap: 4px;           
-        margin-top: 4px;
-    }
-
     .product-actions button {
-        padding: 4px 2px;    
-        font-size: 0.6rem;  
-        min-height: 28px;    
-        border-radius: 4px; 
-    }
-    
-    .product-card p {
-        display: none;
+        font-size: 0.45rem;
+        padding: 2px 1px;
     }
 }
 </style>
