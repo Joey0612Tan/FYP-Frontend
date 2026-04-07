@@ -19,8 +19,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .product-card {
-    border: 1px solid #ddd;
-    padding: 12px;
+    border: 1px solid #ddd;    padding: 12px;
     text-align: center;
     background: #fff;
     border-radius: 12px;
@@ -302,6 +301,7 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         display: none;
     }
 }
+</style>
 </style>
 
 <div id="review-modal" class="modal">
