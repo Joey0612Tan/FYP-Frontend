@@ -10,17 +10,17 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 .product-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 20px 16px;  
+    gap: 40px;
+    padding: 20px;
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: 1200px;
     width: 100%;
     box-sizing: border-box;
 }
 
 .product-card {
-    border: 1px solid #eee;
-    padding: 14px;
+    border: 1px solid #ddd;
+    padding: 12px;
     text-align: center;
     background: #fff;
     border-radius: 12px;
@@ -30,25 +30,23 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     justify-content: space-between;
     width: 100%;
     height: auto;
-    min-height: 420px;
+    min-height: 480px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border .3s, transform .2s;
     position: relative;
-    box-sizing: border-box;
 }
 
 .product-card:hover {
-    border-color: #ceb9a0;
+    border: 2px solid #947b54ff;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
 .product-image-wrapper {
     width: 100%;
     aspect-ratio: 1/1;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     flex-shrink: 0;
     background: #f5f5f5;
 }
@@ -60,8 +58,8 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .product-card h3 {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: bold;
     margin: 8px 0 6px;
     color: #333;
     display: -webkit-box;
@@ -69,8 +67,17 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    min-height: 2.4rem;
-    line-height: 1.4;
+    min-height: 2.5rem;
+}
+
+.product-card p {
+    font-size: 0.95rem;
+    margin: 4px 0;
+    color: #555;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .seller-rating {
@@ -78,54 +85,47 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: #555;
     margin: 6px 0;
-    gap: 8px;
-}
-
-.seller-info {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 65%;
+    gap: 5px;
 }
 
 .rating {
-    color: #f5b342;
+    color: #ecd53a;
     font-weight: 600;
-    white-space: nowrap;
 }
 
 .product-card .price {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #E53935;
-    margin: 8px 0;
+    margin: 6px 0;
 }
 
 .product-actions {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 8px;
+    margin-top: auto;
     width: 100%;
 }
 
 .product-actions button {
     flex: 1;
-    padding: 10px 8px;
-    font-size: 0.85rem;
+    padding: 8px 6px;
+    font-size: 0.9rem;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    transition: all 0.2s;
+    gap: 4px;
+    transition: .3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .15);
     white-space: nowrap;
 }
 
@@ -154,32 +154,6 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     transform: none !important;
 }
 
-.toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-size: 0.85rem;
-    opacity: 0;
-    transition: 0.3s;
-    z-index: 10001;
-    white-space: nowrap;
-    pointer-events: none;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-10px);
-}
-
-.toast.error {
-    background: #f44336;
-}
-
 .modal {
     display: none;
     position: fixed;
@@ -188,30 +162,29 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, .6);
     backdrop-filter: blur(2px);
 }
 
 .modal-content {
     background: #fff;
-    margin: 10% auto;
-    padding: 20px 24px;
-    border-radius: 16px;
-    width: 90%;
-    max-width: 500px;
+    margin: 5% auto;
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 600px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
 }
 
 .close {
     position: absolute;
-    top: 10px;
+    top: 12px;
     right: 15px;
     cursor: pointer;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     font-weight: bold;
-    color: #999;
-    transition: 0.2s;
+    color: #555;
 }
 
 .close:hover {
@@ -219,133 +192,113 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .modal-content h3 {
-    font-size: 1.2rem;
-    color: #4b310b;
-    margin-bottom: 12px;
-    padding-right: 20px;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
 }
 
 #review-text {
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: #555;
-    max-height: 350px;
+    max-height: 400px;
     overflow-y: auto;
 }
 
-.loading-spinner {
-    text-align: center;
-    padding: 40px;
+.toast {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    white-space: nowrap;
 }
 
-.loading-spinner i {
-    font-size: 2rem;
-    color: #ceb9a0;
-    margin-bottom: 10px;
-    animation: spin 1s linear infinite;  
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.toast.show {
+    opacity: 1;
+    bottom: 50px;
+    transform: translateX(-50%) translateY(0);
 }
 
 @media (max-width: 768px) {
     .product-container {
+        display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 12px 12px;  
-        margin: 0;
-        width: 100%;
-    }
-
-    .product-card {
-        padding: 10px;
-        min-height: 360px;
-        margin: 0;  
+        gap: 10px;         
+        padding: 10px;     
+        margin: 0 auto;
         width: 100%;
         box-sizing: border-box;
     }
 
+    .product-card {
+        width: 100%;
+        min-height: auto;     
+        height: auto;
+        padding: 8px;        
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+    }
+
+    .product-image-wrapper {
+        width: 100%;
+        aspect-ratio: 1/1;
+        margin-bottom: 6px; 
+        flex-shrink: 0;
+    }
+
     .product-card h3 {
-        font-size: 0.85rem;
-        min-height: 2rem;
+        font-size: 0.85rem;   
+        margin: 4px 0 3px;
+        line-height: 1.3;
+        min-height: 2.2em;
+    }
+
+    .product-card .seller-info {
+        font-size: 0.65rem;   
     }
 
     .seller-rating {
-        font-size: 0.7rem;
-        flex-wrap: wrap;
-        gap: 4px;
-    }
-    
-    .seller-info {
-        max-width: 100%;
-        white-space: normal;
-        word-break: break-word;
+        font-size: 0.7rem;    
+        margin: 3px 0;
     }
 
     .product-card .price {
-        font-size: 1.1rem;
-        margin: 6px 0;
+        font-size: 1rem;      
+        margin: 4px 0;
     }
 
     .product-actions {
-        gap: 6px;
+        gap: 6px;             
+        margin-top: 6px;
     }
 
     .product-actions button {
-        padding: 8px 4px;
-        font-size: 0.7rem;
-    }
-    
-    .product-actions button i {
-        font-size: 0.7rem;
-    }
-
-    .modal-content {
-        margin: 25% auto;
-        padding: 15px 18px;
-        width: 85%;
-        max-width: 350px;
-    }
-    
-    .modal-content h3 {
-        font-size: 1rem;
-        margin-bottom: 10px;
-    }
-    
-    .close {
-        top: 8px;
-        right: 12px;
-        font-size: 1.2rem;
-    }
-    
-    #review-text {
-        font-size: 0.8rem;
-        max-height: 280px;
-        line-height: 1.5;
-    }
-    
-    .loading-spinner {
-        padding: 25px;
-    }
-    
-    .loading-spinner i {
-        font-size: 1.5rem;
+        padding: 6px 3px;     
+        font-size: 0.7rem;    
+        min-height: 32px;     
     }
 }
-
 </style>
 
 <div id="review-modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="document.getElementById('review-modal').style.display='none'">&times;</span>
-        <h3><i class="fa-solid fa-robot"></i> AI Review Summary</h3>
+        <h3>📊 AI Review Summary</h3>
         <div id="review-text">
-            <div class="loading-spinner">
-                <i class="fa-solid fa-spinner fa-pulse"></i><br>
-                Loading reviews...
-            </div>
+            <div class="spinner">🔄 Loading reviews...</div>
         </div>
     </div>
 </div>
@@ -358,23 +311,22 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
 
     <div class="seller-rating">
-        <span class="seller-info"><i class="fa-solid fa-store"></i> <?php echo htmlspecialchars($row['seller_name']); ?></span>
-        <span class="rating"><i class="fa-solid fa-star"></i> <?php echo htmlspecialchars($row['rating']); ?></span>
+        <span class="seller-info">Seller: <?php echo htmlspecialchars($row['seller_name']); ?></span>
+        <span class="rating">⭐ <?php echo htmlspecialchars($row['rating']); ?></span>
     </div>
 
     <p class="price">RM <?php echo number_format($row['price'], 2); ?></p>
 
     <div class="product-actions">
         <button class="review-summary" onclick="event.stopPropagation(); showReviewSummary(<?php echo $current_id; ?>)">
-            <i class="fa-solid fa-robot"></i> AI Summary
+            📊 Review Summary
         </button>
     
         <button 
             class="add-compare <?php echo $is_in_list ? 'in-list' : ''; ?>" 
             data-inlist="<?php echo $is_in_list ? '1' : '0'; ?>"
             onclick="handleCompare(this, <?php echo $current_id; ?>, event)">
-            <i class="fa-solid <?php echo $is_in_list ? 'fa-check' : 'fa-plus'; ?>"></i>
-            <?php echo $is_in_list ? ' Compare' : ' Compare'; ?>
+            <?php echo $is_in_list ? '✔ In Compare List' : '+ Compare'; ?>
         </button>
     </div>
 </div>
@@ -385,15 +337,17 @@ function showReviewSummary(productId) {
     const reviewText = document.getElementById('review-text');
     
     if (!modal) {
-        showToast('Error: Review modal not found', true);
+        console.error('Review modal not found');
+        showToast('Error: Review modal not found');
         return;
     }
     
     modal.style.display = 'block';
+    reviewText.innerHTML = '<div class="spinner">🌀 <b>Gemma 3</b> is analyzing reviews...</div>';
     
-    reviewText.innerHTML = '<div class="loading-spinner"><i class="fa-solid fa-spinner fa-pulse"></i><br>🤖 AI is analyzing reviews...</div>';
+    const url = `get_review_summary.php?id=${productId}`;
     
-    fetch(`get_review_summary.php?id=${productId}`)
+    fetch(url)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -405,8 +359,8 @@ function showReviewSummary(productId) {
         })
         .catch(err => {
             console.error('Fetch error:', err);
-            reviewText.innerHTML = '<div style="color: #E53935; text-align: center; padding: 40px;"><i class="fa-solid fa-circle-exclamation"></i><br>❌ Error fetching review summary<br><small>Please try again later</small></div>';
-            showToast('Failed to load reviews', true);
+            reviewText.innerHTML = '❌ Error fetching review summary. Please try again later.<br><small>' + err.message + '</small>';
+            showToast('Failed to load reviews');
         });
 }
 
@@ -414,25 +368,22 @@ function handleCompare(btn, productId, e) {
     e.stopPropagation();
 
     if (btn.dataset.inlist === "1") {
-        showToast("Already in compare list", true);
+        showToast("⚠️ Already in compare list");
         return;
     }
 
-    const originalHTML = btn.innerHTML;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-pulse"></i> Adding...';
     btn.style.pointerEvents = "none";
     btn.style.opacity = "0.7";
 
     fetch(`add_to_compare.php?id=${productId}`)
         .then(response => {
             if (response.status === 200) {
-                showToast("Added to compare list!");
+                showToast("✅ Added to compare list!");
                 setTimeout(() => { 
                     window.location.reload(); 
                 }, 800);
             } else if (response.status === 409) {
-                showToast("Already in compare list", true);
-                btn.innerHTML = originalHTML;
+                showToast("⚠️ Already in compare list");
                 btn.style.pointerEvents = "auto";
                 btn.style.opacity = "1";
             } else {
@@ -441,14 +392,13 @@ function handleCompare(btn, productId, e) {
         })
         .catch(error => {
             console.error('Compare error:', error);
-            showToast("Error adding to compare list", true);
-            btn.innerHTML = originalHTML;
+            showToast("❌ Error adding to compare list");
             btn.style.pointerEvents = "auto";
             btn.style.opacity = "1";
         });
 }
 
-function showToast(message, isError = false) {
+function showToast(message) {
     let toast = document.getElementById("toast");
     
     if (!toast) {
@@ -459,7 +409,6 @@ function showToast(message, isError = false) {
     }
 
     toast.innerHTML = message;
-    toast.className = "toast" + (isError ? " error" : "");
     toast.classList.add("show");
 
     setTimeout(() => {
@@ -468,10 +417,14 @@ function showToast(message, isError = false) {
 }
 
 window.addEventListener('click', (e) => {
-    const modal = document.getElementById('review-modal');
-    if (modal && e.target === modal) {
-        modal.style.display = 'none';
-    }
+    const modalIds = ['review-modal', 'deep-analysis-modal', 'compare-modal', 'ai-modal'];
+
+    modalIds.forEach(id => {
+        const modal = document.getElementById(id);
+        if (modal && e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
 });
 
 document.querySelectorAll('.product-card').forEach(card => {
