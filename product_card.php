@@ -195,20 +195,20 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 .modal-content {
     background: #fff;
     margin: 10% auto;
-    padding: 20px 24px;
+    padding: 25px 30px;
     border-radius: 16px;
     width: 90%;
-    max-width: 500px;
+    max-width: 550px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .close {
     position: absolute;
-    top: 10px;
+    top: 12px;
     right: 15px;
     cursor: pointer;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #999;
     transition: 0.2s;
@@ -219,32 +219,18 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
 }
 
 .modal-content h3 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: #4b310b;
-    margin-bottom: 12px;
-    padding-right: 20px;
+    margin-bottom: 15px;
 }
 
 #review-text {
-    font-size: 0.85rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: #555;
-    max-height: 350px;
+    max-height: 400px;
     overflow-y: auto;
 }
-
-.loading-spinner {
-    text-align: center;
-    padding: 30px 20px;
-    color: #4b310b;
-}
-
-.loading-spinner i {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #ceb9a0;
-}
-
 
 .loading-spinner {
     text-align: center;
@@ -332,68 +318,12 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     }
 }
 
-@media (max-width: 480px) {
-    .modal-content {
-        margin: 25% auto;
-        padding: 15px 18px;
-        width: 92%;
-        max-width: 400px;
-    }
-    
-    .modal-content h3 {
-        font-size: 1rem;
-        margin-bottom: 10px;
-    }
-    
-    .close {
-        top: 8px;
-        right: 12px;
-        font-size: 1.2rem;
-    }
-    
-    #review-text {
-        font-size: 0.8rem;
-        max-height: 280px;
-        line-height: 1.4;
-    }
-    
-    .loading-spinner {
-        padding: 20px;
-    }
-    
-    .loading-spinner i {
-        font-size: 1.3rem;
-    }
-
-    .product-container {
-        gap: 10px;
-        padding: 10px;
-    }
-    
-    .product-card {
-        padding: 8px;
-        min-height: 330px;
-    }
-    
-    .product-card h3 {
-        font-size: 0.75rem;
-    }
-    
-    .product-card .price {
-        font-size: 1rem;
-    }
-    
-    .product-actions button {
-        font-size: 0.65rem;
-        padding: 6px 3px;
-    }
-}
 </style>
 
 <div id="review-modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="document.getElementById('review-modal').style.display='none'">&times;</span>
-        <h3><i class="fa-solid fa-chart-simple"></i> Summarize Review</h3>
+        <h3><i class="fa-solid fa-chart-simple"></i> 📊 Summarize Review</h3>
         <div id="review-text">
             <div class="loading-spinner">
                 <i class="fa-solid fa-spinner fa-pulse"></i><br>
