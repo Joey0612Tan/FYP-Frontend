@@ -286,26 +286,6 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         font-size: 0.65rem;
     }
 
-    .modal {
-        padding: 16px;
-    }
-
-    .modal-content {
-        margin: 20% auto; 
-        padding: 18px;    
-        border-radius: 20px;
-        width: 100%;      
-    }
-
-    .modal-content h3 {
-        font-size: 1.2rem; 
-        margin-bottom: 15px;
-    }
-
-    #review-text {
-        font-size: 0.9rem; 
-    }
-    
     .toast {
         bottom: 70px;
         font-size: 0.8rem;
@@ -314,30 +294,6 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     }
 }
 
-@media (max-width: 480px) {
-    .product-container {
-        gap: 10px;
-        padding: 10px;
-    }
-    
-    .product-card {
-        padding: 8px;
-        min-height: 310px;
-    }
-    
-    .product-card h3 {
-        font-size: 0.75rem;
-    }
-    
-    .product-card .price {
-        font-size: 0.9rem;
-    }
-    
-    .product-actions button {
-        font-size: 0.6rem;
-        padding: 5px 3px;
-    }
-}
 </style>
 
 <div id="review-modal" class="modal">
