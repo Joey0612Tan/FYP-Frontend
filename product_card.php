@@ -237,26 +237,26 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     padding: 30px;
     color: #4b310b;
 }
-
+    
 @media (max-width: 768px) {
     .product-container {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 12px;
+        gap: 12px;    
+        padding: 12px;  
     }
 
     .product-card {
-        padding: 10px;
-        min-height: 340px;
+        padding: 10px;         
+        min-height: 340px;    
     }
 
     .product-card h3 {
-        font-size: 0.8rem;
+        font-size: 0.8rem;      
         min-height: 2rem;
     }
 
     .seller-rating {
-        font-size: 0.65rem;
+        font-size: 0.65rem;     
         flex-wrap: wrap;
         gap: 4px;
     }
@@ -268,29 +268,40 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
     }
 
     .product-card .price {
-        font-size: 1rem;
+        font-size: 1rem;        
         margin: 4px 0;
     }
 
     .product-actions {
-        gap: 6px;
+        gap: 6px;               
     }
 
     .product-actions button {
-        padding: 6px 4px;
-        font-size: 0.65rem;
+        padding: 6px 4px;       
+        font-size: 0.65rem;    
         white-space: nowrap;
     }
     
     .product-actions button i {
-        font-size: 0.65rem;
+        font-size: 0.65rem;      
     }
 
+    .modal-content {
+        margin: 20% auto;       
+        padding: 20px;           
+        width: 95%;             
+    }
+    
+    .modal-content h3 {
+        font-size: 1.1rem;       
+    }
+    
     .toast {
-        bottom: 70px;
-        font-size: 0.8rem;
-        padding: 8px 16px;
-        border-radius: 25px;
+        bottom: 80px;           
+        font-size: 0.75rem;    
+        white-space: normal;    
+        text-align: center;
+        max-width: 80%;
     }
 }
 
