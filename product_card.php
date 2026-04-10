@@ -286,22 +286,31 @@ $is_in_list = ($db_check && $db_check->num_rows > 0);
         font-size: 0.65rem;
     }
 
-    .modal-content {
-        margin: 20% auto;
-        padding: 20px;
-        width: 95%;
+    .modal {
+        padding: 16px;
     }
-    
+
+    .modal-content {
+        margin: 20% auto; 
+        padding: 18px;    
+        border-radius: 20px;
+        width: 100%;      
+    }
+
     .modal-content h3 {
-        font-size: 1.1rem;
+        font-size: 1.2rem; 
+        margin-bottom: 15px;
+    }
+
+    #review-text {
+        font-size: 0.9rem; 
     }
     
     .toast {
-        bottom: 80px;
-        font-size: 0.75rem;
-        white-space: normal;
-        text-align: center;
-        max-width: 80%;
+        bottom: 70px;
+        font-size: 0.8rem;
+        padding: 8px 16px;
+        border-radius: 25px;
     }
 }
 
