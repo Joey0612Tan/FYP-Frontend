@@ -135,22 +135,22 @@ $result = mysqli_query($conn, $sql);
         }
 
        #ai-chat-trigger {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: #8e5c12;
-            color: white;
-            width: 48px;  
-            height: 48px; 
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-            z-index: 999999;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        }
+        position: fixed;
+        bottom: 80px;
+        right: 16px;
+        background: #4b310b;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        z-index: 999999;
+        transition: 0.3s;
+    }
         
         #ai-chat-trigger:hover {
             transform: scale(1.1); 
