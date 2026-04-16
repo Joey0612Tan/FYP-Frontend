@@ -475,7 +475,7 @@ async function sendMessage() {
                 🔍 Redirecting you to products for: <b>${data.search_keyword}</b>...
             </div>`;
             setTimeout(() => {
-                window.location.href = `SearchResults.php?query=${encodeURIComponent(data.search_keyword)}`;
+                window.location.href = `Search.php?query=${encodeURIComponent(data.search_keyword)}`;
             }, 2000);
         }
         
