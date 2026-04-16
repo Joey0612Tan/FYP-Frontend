@@ -150,6 +150,7 @@ $result = mysqli_query($conn, $sql);
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         z-index: 999999;
         transition: 0.3s;
+        font-size: 0.9rem; 
     }
         
         #ai-chat-trigger:hover {
