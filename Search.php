@@ -43,26 +43,29 @@ elseif (!empty($keyword)) {
     $searchConditions = [];
     
     foreach ($words as $word) {
-        $word = trim($word);
-        if (!empty($word)) {
-            $escaped_word = mysqli_real_escape_string($conn, $word);
-            $searchConditions[] = "(p.product_name LIKE '%$escaped_word%' 
-                                   OR p.description LIKE '%$escaped_word%' 
-                                   OR sel.seller_name LIKE '%$escaped_word%')";
-        }
+    $word = trim($word);
+    if (!empty($word)) {
+        $escaped_word = mysqli_real_escape_string($conn, $word);
+        $searchConditions[] = "(p.product_name LIKE '%$escaped_word%' 
+                               OR p.description LIKE '%$escaped_word%' 
+                               OR sel.seller_name LIKE '%$escaped_word%'
+                               OR EXISTS (
+                                   SELECT 1 FROM product_specifications spec 
+                                   WHERE spec.product_id = p.product_id 
+                                   AND spec.spec_value LIKE '%$escaped_word%'
+                               ))";
     }
-    
-    if (count($searchConditions) > 0) {
-        $finalCondition = implode(' OR ', $searchConditions);
-        $sql = "SELECT p.*, sel.seller_name 
-                FROM products p
-                LEFT JOIN sellers sel ON p.seller_id = sel.seller_id
-                WHERE $finalCondition
-                GROUP BY p.product_id
-                ORDER BY (p.product_name LIKE '%$escaped_keyword%') DESC,
-                         p.rating DESC";
-        echo "<!-- Keyword search: $keyword -->\n";
-    } else {
+}
+
+if (count($searchConditions) > 0) {
+    $finalCondition = implode(' AND ', $searchConditions); 
+    $sql = "SELECT p.*, sel.seller_name 
+            FROM products p 
+            LEFT JOIN sellers sel ON p.seller_id = sel.seller_id 
+            WHERE $finalCondition
+            GROUP BY p.product_id
+            ORDER BY (p.product_name LIKE '%$escaped_keyword%') DESC, p.rating DESC";
+} else {
         $sql = "SELECT p.*, sel.seller_name 
                 FROM products p 
                 LEFT JOIN sellers sel ON p.seller_id = sel.seller_id 
