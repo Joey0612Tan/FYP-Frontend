@@ -424,12 +424,19 @@ $result = mysqli_query($conn, $sql);
     
     <div id="ai-chat-modal">
         <div class="chat-header">
-            <span><i class="fa-solid fa-robot"></i> AI Shopping Assistant</span>
-            <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+            <span><i class="fa-solid fa-robot"></i> AI Assistant</span>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <i class="fa-solid fa-trash" onclick="clearChat()" style="cursor:pointer; font-size: 0.8rem;" title="Clear Chat"></i>
+                <span onclick="toggleChat()" style="cursor:pointer; font-size: 1.2rem;">&times;</span>
+            </div>
         </div>
         <div id="chat-box">
-            <div class="msg ai-msg">Hello! I'm your AI assistant. Describe what you're looking for or your scenario (e.g., "I need a gift for a coffee lover"), and I'll help you find it!</div>
+            </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type your needs..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button id="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
+    </div>
         <div class="chat-input-area">
             <input type="text" id="user-input" placeholder="Type your needs here..." onkeypress="if(event.key==='Enter') sendMessage()">
             <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
@@ -443,64 +450,13 @@ $result = mysqli_query($conn, $sql);
 <script>
 function toggleChat() {
     const modal = document.getElementById('ai-chat-modal');
-    if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-    } else {
-        modal.style.display = 'flex';
-    }
-}
-    
-function appendMessageAndSave(sender, text, isRawHtml = false) {
-    const box = document.getElementById('chat-box');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `msg ${sender === 'user' ? 'user-msg' : 'ai-msg'}`;
-    
-    if (isRawHtml) {
-        msgDiv.innerHTML = text;
-    } else {
-        msgDiv.textContent = text;
-    }
-    
-    box.appendChild(msgDiv);
-    box.scrollTop = box.scrollHeight;
-    localStorage.setItem('chat_history', box.innerHTML);
+    modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
 }
 
-async function sendMessage() {
-    const input = document.getElementById('user-input');
-    const text = input.value.trim();
-    if (!text) return;
-
-    appendMessageAndSave('user', text);
-    input.value = '';
-
-    const box = document.getElementById('chat-box');
-    const loadingId = 'loading-' + Date.now();
-    box.innerHTML += `<div class="msg ai-msg" id="${loadingId}">AI is thinking...</div>`;
-    box.scrollTop = box.scrollHeight;
-    
-    try {
-        const response = await fetch('https://fyp-ai-backend.onrender.com/chat_and_search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: text })
-        });
-        const data = await response.json();
-        const loadingEl = document.getElementById(loadingId);
-        if (loadingEl) loadingEl.remove();
-        appendMessageAndSave('ai', data.reply);
-        
-        if (data.search_keyword) {
-            const redirectMsg = `🔍 Finding products for: <b>${data.search_keyword}</b>...`;
-            appendMessageAndSave('ai', redirectMsg, true);
-            
-            setTimeout(() => {
-                window.location.href = `Search.php?keyword=${encodeURIComponent(data.search_keyword)}`;
-            }, 1500);
-        }
-    } catch (err) {
-        const loadingEl = document.getElementById(loadingId);
-        if (loadingEl) loadingEl.innerText = "❌ Connection error.";
+function clearChat() {
+    if(confirm("Start a new conversation?")) {
+        localStorage.removeItem('chat_history');
+        document.getElementById('chat-box').innerHTML = '<div class="msg ai-msg">Hello! I\'m your AI assistant. Describe what you\'re looking for!</div>';
     }
 }
 
@@ -508,15 +464,75 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedChat = localStorage.getItem('chat_history');
     if (savedChat) {
         document.getElementById('chat-box').innerHTML = savedChat;
-        const box = document.getElementById('chat-box');
-        box.scrollTop = box.scrollHeight; 
+    } else {
+        document.getElementById('chat-box').innerHTML = '<div class="msg ai-msg">Hello! I\'m your AI assistant. Describe what you\'re looking for!</div>';
     }
+    const box = document.getElementById('chat-box');
+    box.scrollTop = box.scrollHeight;
 });
 
-function clearChat() {
-    if(confirm("Clear chat history?")) {
-        localStorage.removeItem('chat_history');
-        location.reload(); 
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const btn = document.getElementById('send-btn');
+    const box = document.getElementById('chat-box');
+    const text = input.value.trim();
+    
+    if (!text || input.disabled) return;
+
+    input.disabled = true;
+    btn.style.opacity = '0.5';
+
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg user-msg';
+    userMsg.textContent = text;
+    box.appendChild(userMsg);
+    
+    input.value = '';
+    box.scrollTop = box.scrollHeight;
+    localStorage.setItem('chat_history', box.innerHTML);
+    const loadingId = 'loading-' + Date.now();
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'msg ai-msg';
+    loadingDiv.id = loadingId;
+    loadingDiv.textContent = 'AI is thinking...';
+    box.appendChild(loadingDiv);
+    box.scrollTop = box.scrollHeight;
+
+    try {
+        const response = await fetch('https://fyp-ai-backend.onrender.com/chat_and_search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text })
+        });
+        const data = await response.json();
+        
+        document.getElementById(loadingId).remove();
+
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'msg ai-msg';
+        aiMsg.textContent = data.reply;
+        box.appendChild(aiMsg);
+
+        if (data.search_keyword) {
+            const redirectDiv = document.createElement('div');
+            redirectDiv.className = 'msg ai-msg';
+            redirectDiv.style.background = '#fff3e0';
+            redirectDiv.innerHTML = `🔍 Finding: <b>${data.search_keyword}</b>...`;
+            box.appendChild(redirectDiv);
+            
+            localStorage.setItem('chat_history', box.innerHTML);
+            setTimeout(() => {
+                window.location.href = `Search.php?keyword=${encodeURIComponent(data.search_keyword)}`;
+            }, 1500);
+        } else {
+            localStorage.setItem('chat_history', box.innerHTML);
+        }
+    } catch (err) {
+        document.getElementById(loadingId).innerText = "❌ Connection error. Please try again.";
+    } finally {
+        input.disabled = false;
+        btn.style.opacity = '1';
+        box.scrollTop = box.scrollHeight;
     }
 }
 </script>
