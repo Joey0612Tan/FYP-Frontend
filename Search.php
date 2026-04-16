@@ -140,9 +140,121 @@ if ($sql) {
             </div>
         <?php endif; ?>
     </div>
+
+    <div id="ai-chat-trigger" onclick="toggleChat()" style="position: fixed; bottom: 80px; right: 16px; background: #4b310b; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 999999;">
+        <span>🤖</span>
+    </div>
+    
+    <div id="ai-chat-modal" style="display: none; position: fixed; z-index: 10001; right: 20px; bottom: 100px; width: 380px; max-width: 90vw; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; flex-direction: column;">
+        <div class="chat-header" style="background: #4b310b; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-robot"></i> AI Shopping Assistant</span>
+            <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+        </div>
+        <div id="chat-box" style="height: 350px; overflow-y: auto; padding: 15px; background: #fdfaf7; display: flex; flex-direction: column; gap: 10px;">
+            <div class="msg ai-msg" style="background: #eee; padding: 8px 12px; border-radius: 15px; align-self: flex-start; font-size: 0.9rem;">Hello again! How can I help you with these results?</div>
+        </div>
+        <div class="chat-input-area" style="display: flex; padding: 10px; border-top: 1px solid #eee; gap: 8px;">
+            <input type="text" id="user-input" placeholder="Type your needs..." style="flex: 1; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; outline: none;" onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()" style="background: #4b310b; border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer;"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
 </section>
 
 <style>
+#ai-chat-trigger {
+    position: fixed;
+    bottom: 80px;
+    right: 16px;
+    background: #4b310b;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 999999;
+    transition: 0.3s;
+}
+
+#ai-chat-trigger:hover {
+    transform: scale(1.1);
+}
+
+#ai-chat-modal {
+    display: none;
+    position: fixed;
+    z-index: 10001;
+    right: 20px;
+    bottom: 100px;
+    width: 380px;
+    max-width: 90vw;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+    flex-direction: column;
+}
+
+#chat-box {
+    height: 350px;
+    overflow-y: auto;
+    padding: 15px;
+    background: #fdfaf7;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.msg {
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    max-width: 80%;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.ai-msg {
+    background: #eee;
+    align-self: flex-start;
+    color: #333;
+}
+
+.user-msg {
+    background: #ceb9a0;
+    align-self: flex-end;
+    color: white;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    gap: 8px;
+    background: white;
+}
+
+.chat-input-area input {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 20px;
+    outline: none;
+}
+
+.chat-input-area button {
+    background: #4b310b;
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+    
 @media (max-width: 768px) {
     section {
         padding: 15px !important;
@@ -153,5 +265,57 @@ if ($sql) {
     }
 }
 </style>
+
+<script>
+function toggleChat() {
+    const modal = document.getElementById('ai-chat-modal');
+    modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedChat = localStorage.getItem('chat_history');
+    if (savedChat) {
+        document.getElementById('chat-box').innerHTML = savedChat;
+        const box = document.getElementById('chat-box');
+        box.scrollTop = box.scrollHeight;
+    }
+});
+
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const box = document.getElementById('chat-box');
+    const text = input.value.trim();
+    if (!text) return;
+
+    box.innerHTML += `<div class="msg user-msg" style="background: #ceb9a0; color: white; padding: 8px 12px; border-radius: 15px; align-self: flex-end; font-size: 0.9rem; max-width: 80%;">${text}</div>`;
+    localStorage.setItem('chat_history', box.innerHTML);
+    input.value = '';
+    box.scrollTop = box.scrollHeight;
+
+    const loadingId = 'loading-' + Date.now();
+    box.innerHTML += `<div class="msg ai-msg" id="${loadingId}" style="background: #eee; padding: 8px 12px; border-radius: 15px; align-self: flex-start; font-size: 0.9rem;">AI is thinking...</div>`;
+    
+    try {
+        const response = await fetch('https://fyp-ai-backend.onrender.com/chat_and_search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text })
+        });
+        const data = await response.json();
+        
+        document.getElementById(loadingId).remove();
+        box.innerHTML += `<div class="msg ai-msg" style="background: #eee; padding: 8px 12px; border-radius: 15px; align-self: flex-start; font-size: 0.9rem; max-width: 80%;">${data.reply}</div>`;
+        
+        if (data.search_keyword) {
+             window.location.href = `Search.php?keyword=${encodeURIComponent(data.search_keyword)}`;
+        }
+        
+        localStorage.setItem('chat_history', box.innerHTML);
+        box.scrollTop = box.scrollHeight;
+    } catch (err) {
+        document.getElementById(loadingId).innerText = "❌ Error connecting AI.";
+    }
+}
+</script>
 
 <?php include('footer.php'); ?>
