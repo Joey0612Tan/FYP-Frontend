@@ -134,6 +134,107 @@ $result = mysqli_query($conn, $sql);
             margin-top: 5px;
         }
 
+        #ai-chat-trigger {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            background: #4b310b;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 999999;
+            transition: 0.3s;
+            font-size: 28px;
+        }
+        
+        #ai-chat-trigger:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        #ai-chat-modal {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            right: 20px;
+            bottom: 100px; 
+            width: 380px;
+            max-width: 90vw;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: #4b310b;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #chat-box {
+            height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #fdfaf7;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .msg { 
+            padding: 8px 12px; 
+            border-radius: 15px; 
+            font-size: 0.9rem; 
+            max-width: 80%; 
+            line-height: 1.4; 
+        }
+        
+        .ai-msg { 
+            background: #eee; 
+            align-self: flex-start; 
+            color: #333; 
+        }
+        
+        .user-msg { 
+            background: #ceb9a0; 
+            align-self: flex-end; 
+            color: white; 
+        }
+        
+        .chat-input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+            gap: 8px;
+        }
+        
+        .chat-input-area input {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        .chat-input-area button {
+            background: #4b310b;
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
         @keyframes shine {
             to { background-position: 200% center; }
         }
@@ -305,10 +406,73 @@ $result = mysqli_query($conn, $sql);
     </div>
 </section>
 
+    <div id="ai-chat-trigger" onclick="toggleChat()">
+    <span>✨</span>
+</div>
+
+<div id="ai-chat-modal">
+    <div class="chat-header">
+        <span><i class="fa-solid fa-robot"></i> AI Shopping Assistant</span>
+        <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+    </div>
+    <div id="chat-box">
+        <div class="msg ai-msg">Hello! I'm your AI assistant. Describe what you're looking for or your scenario (e.g., "I need a gift for a coffee lover"), and I'll help you find it!</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Type your needs here..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
 <?php include('footer.php'); ?>
 </body>
 </html>
 
+<script>
+function toggleChat() {
+    const modal = document.getElementById('ai-chat-modal');
+    modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+}
+
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const box = document.getElementById('chat-box');
+    const text = input.value.trim();
+    if (!text) return;
+
+    box.innerHTML += `<div class="msg user-msg">${text}</div>`;
+    input.value = '';
+    box.scrollTop = box.scrollHeight;
+
+    const loadingId = 'loading-' + Date.now();
+    box.innerHTML += `<div class="msg ai-msg" id="${loadingId}">AI is thinking...</div>`;
+    
+    try {
+        const response = await fetch('https://fyp-ai-backend.onrender.com/chat_and_search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text })
+        });
+        const data = await response.json();
+        
+        document.getElementById(loadingId).remove();
+        box.innerHTML += `<div class="msg ai-msg">${data.reply}</div>`;
+        
+        if (data.search_keyword) {
+            box.innerHTML += `<div class="msg ai-msg" style="background:#fff3e0; border:1px solid #ffe0b2;">
+                🔍 Redirecting you to products for: <b>${data.search_keyword}</b>...
+            </div>`;
+            setTimeout(() => {
+                window.location.href = `SearchResults.php?query=${encodeURIComponent(data.search_keyword)}`;
+            }, 2000);
+        }
+        
+        box.scrollTop = box.scrollHeight;
+    } catch (err) {
+        document.getElementById(loadingId).innerText = "❌ Connection error.";
+    }
+}
+</script>
 
 
 
