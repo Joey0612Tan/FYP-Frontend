@@ -441,23 +441,34 @@ $result = mysqli_query($conn, $sql);
 </html>
 
 <script>
-function toggleChat() {
-    const modal = document.getElementById('ai-chat-modal');
-    modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+function appendMessageAndSave(sender, text, isRawHtml = false) {
+    const box = document.getElementById('chat-box');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `msg ${sender === 'user' ? 'user-msg' : 'ai-msg'}`;
+    
+    if (isRawHtml) {
+        msgDiv.innerHTML = text;
+    } else {
+        msgDiv.textContent = text;
+    }
+    
+    box.appendChild(msgDiv);
+    box.scrollTop = box.scrollHeight;
+    localStorage.setItem('chat_history', box.innerHTML);
 }
 
 async function sendMessage() {
     const input = document.getElementById('user-input');
-    const box = document.getElementById('chat-box');
     const text = input.value.trim();
     if (!text) return;
 
-    box.innerHTML += `<div class="msg user-msg">${text}</div>`;
+    appendMessageAndSave('user', text);
     input.value = '';
-    box.scrollTop = box.scrollHeight;
 
+    const box = document.getElementById('chat-box');
     const loadingId = 'loading-' + Date.now();
     box.innerHTML += `<div class="msg ai-msg" id="${loadingId}">AI is thinking...</div>`;
+    box.scrollTop = box.scrollHeight;
     
     try {
         const response = await fetch('https://fyp-ai-backend.onrender.com/chat_and_search', {
@@ -466,29 +477,37 @@ async function sendMessage() {
             body: JSON.stringify({ message: text })
         });
         const data = await response.json();
-        
-        document.getElementById(loadingId).remove();
-        box.innerHTML += `<div class="msg ai-msg">${data.reply}</div>`;
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+        appendMessageAndSave('ai', data.reply);
         
         if (data.search_keyword) {
-            box.innerHTML += `<div class="msg ai-msg" style="background:#fff3e0; border:1px solid #ffe0b2;">
-                🔍 Redirecting you to products for: <b>${data.search_keyword}</b>...
-            </div>`;
+            const redirectMsg = `🔍 Finding products for: <b>${data.search_keyword}</b>...`;
+            appendMessageAndSave('ai', redirectMsg, true);
+            
             setTimeout(() => {
                 window.location.href = `Search.php?query=${encodeURIComponent(data.search_keyword)}`;
-            }, 2000);
+            }, 1500);
         }
-        
-        box.scrollTop = box.scrollHeight;
     } catch (err) {
-        document.getElementById(loadingId).innerText = "❌ Connection error.";
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.innerText = "❌ Connection error.";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedChat = localStorage.getItem('chat_history');
+    if (savedChat) {
+        document.getElementById('chat-box').innerHTML = savedChat;
+        const box = document.getElementById('chat-box');
+        box.scrollTop = box.scrollHeight; 
+    }
+});
+
+function clearChat() {
+    if(confirm("Clear chat history?")) {
+        localStorage.removeItem('chat_history');
+        location.reload(); 
     }
 }
 </script>
-
-
-
-
-
-
-
