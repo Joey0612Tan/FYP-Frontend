@@ -486,7 +486,7 @@ async function sendMessage() {
             appendMessageAndSave('ai', redirectMsg, true);
             
             setTimeout(() => {
-                window.location.href = `Search.php?query=${encodeURIComponent(data.search_keyword)}`;
+                window.location.href = `Search.php?keyword=${encodeURIComponent(data.search_keyword)}`;
             }, 1500);
         }
     } catch (err) {
