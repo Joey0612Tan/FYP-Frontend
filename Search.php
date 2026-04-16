@@ -281,19 +281,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function clearChat() {
+    if(confirm("Clear chat history?")) {
+        localStorage.removeItem('chat_history');
+        location.reload(); 
+    }
+}
+
 async function sendMessage() {
     const input = document.getElementById('user-input');
     const box = document.getElementById('chat-box');
+    if (!input || !box || input.disabled) return; 
+
     const text = input.value.trim();
     if (!text) return;
 
-    box.innerHTML += `<div class="msg user-msg" style="background: #ceb9a0; color: white; padding: 8px 12px; border-radius: 15px; align-self: flex-end; font-size: 0.9rem; max-width: 80%;">${text}</div>`;
+    input.disabled = true;
+    box.innerHTML += `<div class="msg user-msg">${text}</div>`;
     localStorage.setItem('chat_history', box.innerHTML);
     input.value = '';
     box.scrollTop = box.scrollHeight;
 
     const loadingId = 'loading-' + Date.now();
-    box.innerHTML += `<div class="msg ai-msg" id="${loadingId}" style="background: #eee; padding: 8px 12px; border-radius: 15px; align-self: flex-start; font-size: 0.9rem;">AI is thinking...</div>`;
+    box.innerHTML += `<div class="msg ai-msg" id="${loadingId}">AI is thinking...</div>`;
+    box.scrollTop = box.scrollHeight;
     
     try {
         const response = await fetch('https://fyp-ai-backend.onrender.com/chat_and_search', {
@@ -301,19 +312,36 @@ async function sendMessage() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text })
         });
-        const data = await response.json();
+
+        if (!response.ok) throw new Error('Backend error');
         
-        document.getElementById(loadingId).remove();
-        box.innerHTML += `<div class="msg ai-msg" style="background: #eee; padding: 8px 12px; border-radius: 15px; align-self: flex-start; font-size: 0.9rem; max-width: 80%;">${data.reply}</div>`;
+        const data = await response.json();
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+
+        box.innerHTML += `<div class="msg ai-msg">${data.reply}</div>`;
         
         if (data.search_keyword) {
-             window.location.href = `Search.php?keyword=${encodeURIComponent(data.search_keyword)}`;
+            box.innerHTML += `<div class="msg ai-msg" style="background:#fff3e0; border:1px solid #ffe0b2;">🔍 Refreshing results for: <b>${data.search_keyword}</b>...</div>`;
+            localStorage.setItem('chat_history', box.innerHTML);
+            
+            setTimeout(() => {
+                window.location.href = `Search.php?keyword=${encodeURIComponent(data.search_keyword)}`;
+            }, 1500);
+        } else {
+            localStorage.setItem('chat_history', box.innerHTML);
         }
         
-        localStorage.setItem('chat_history', box.innerHTML);
         box.scrollTop = box.scrollHeight;
     } catch (err) {
-        document.getElementById(loadingId).innerText = "❌ Error connecting AI.";
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) {
+            loadingEl.style.color = "red";
+            loadingEl.innerHTML = "❌ Connection busy. <span onclick='location.reload()' style='text-decoration:underline;cursor:pointer;'>Retry</span>";
+        }
+    } finally {
+        input.disabled = false;
+        input.focus();
     }
 }
 </script>
