@@ -134,27 +134,38 @@ $result = mysqli_query($conn, $sql);
             margin-top: 5px;
         }
 
-        #ai-chat-trigger {
+       #ai-chat-trigger {
             position: fixed;
-            bottom: 30px;
-            right: 20px;
-            background: #4b310b;
+            bottom: 25px;
+            right: 25px;
+            background: #8e5c12;
             color: white;
-            width: 60px;
-            height: 60px;
+            width: 48px;  
+            height: 48px; 
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
             z-index: 999999;
-            transition: 0.3s;
-            font-size: 28px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         
         #ai-chat-trigger:hover {
-            transform: scale(1.1) rotate(10deg);
+            transform: scale(1.1); 
+            background: #4b310b;  
+        }
+        
+        .ai-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid white;
         }
         
         #ai-chat-modal {
@@ -407,22 +418,22 @@ $result = mysqli_query($conn, $sql);
 </section>
 
     <div id="ai-chat-trigger" onclick="toggleChat()">
-    <span>✨</span>
-</div>
-
-<div id="ai-chat-modal">
-    <div class="chat-header">
-        <span><i class="fa-solid fa-robot"></i> AI Shopping Assistant</span>
-        <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+        <span>🤖</span>
     </div>
-    <div id="chat-box">
-        <div class="msg ai-msg">Hello! I'm your AI assistant. Describe what you're looking for or your scenario (e.g., "I need a gift for a coffee lover"), and I'll help you find it!</div>
+    
+    <div id="ai-chat-modal">
+        <div class="chat-header">
+            <span><i class="fa-solid fa-robot"></i> AI Shopping Assistant</span>
+            <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+        </div>
+        <div id="chat-box">
+            <div class="msg ai-msg">Hello! I'm your AI assistant. Describe what you're looking for or your scenario (e.g., "I need a gift for a coffee lover"), and I'll help you find it!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type your needs here..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
     </div>
-    <div class="chat-input-area">
-        <input type="text" id="user-input" placeholder="Type your needs here..." onkeypress="if(event.key==='Enter') sendMessage()">
-        <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-    </div>
-</div>
 
 <?php include('footer.php'); ?>
 </body>
