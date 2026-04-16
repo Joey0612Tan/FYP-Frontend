@@ -423,11 +423,11 @@ $result = mysqli_query($conn, $sql);
     </div>
     
     <div id="ai-chat-modal">
-        <div class="chat-header">
+        <div class="chat-header" style="background: #4b310b; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
             <span><i class="fa-solid fa-robot"></i> AI Assistant</span>
-            <div style="display: flex; gap: 12px; align-items: center;">
-                <i class="fa-solid fa-trash" onclick="clearChat()" style="cursor:pointer; font-size: 0.8rem;" title="Clear Chat"></i>
-                <span onclick="toggleChat()" style="cursor:pointer; font-size: 1.2rem;">&times;</span>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <i class="fa-solid fa-trash" onclick="clearChat()" style="cursor:pointer; font-size: 1rem;" title="Clear Chat"></i>
+                <span onclick="toggleChat()" style="cursor:pointer; font-size: 1.5rem; line-height: 1;">&times;</span>
             </div>
         </div>
         <div id="chat-box">
