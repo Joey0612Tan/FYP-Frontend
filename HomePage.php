@@ -441,6 +441,15 @@ $result = mysqli_query($conn, $sql);
 </html>
 
 <script>
+function toggleChat() {
+    const modal = document.getElementById('ai-chat-modal');
+    if (modal.style.display === 'flex') {
+        modal.style.display = 'none';
+    } else {
+        modal.style.display = 'flex';
+    }
+}
+    
 function appendMessageAndSave(sender, text, isRawHtml = false) {
     const box = document.getElementById('chat-box');
     const msgDiv = document.createElement('div');
