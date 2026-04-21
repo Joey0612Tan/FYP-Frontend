@@ -34,6 +34,9 @@ while ($row = $result->fetch_assoc()) {
         'name' => $row['product_name'],
         'specs' => $row['description'],
         'category' => $row['category'],
+        'seller_name' => $row['seller_name'],
+        'price' => $row['price'],
+        'rating' => $row['rating'], 
         'reviews' => implode(" | ", $reviews) ?: "No reviews yet."
     ];
 }
